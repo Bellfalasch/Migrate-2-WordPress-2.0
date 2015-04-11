@@ -26,7 +26,7 @@
 	<!--<link rel="shortcut icon" href="<?= $SYS_root ?>/favicon.ico">-->
 	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.css" />
 	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/admin.css?v=<?php if (DEV_ENV) echo rand(); ?>" />
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.js"></script>
 	<script src="<?= $SYS_root . $SYS_folder ?>/assets/admin.js"></script>
 </head>

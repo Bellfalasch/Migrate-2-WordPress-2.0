@@ -53,7 +53,6 @@ $(function() {
 		)
 			.done(function() {
 				//alert( "second success" );
-				// <p class="text-success">
 				message.removeClass("text-info");
 				message.show();
 				message.addClass("text-success");
@@ -66,7 +65,6 @@ $(function() {
 			})
 			.fail(function() {
 				//alert( "error" );
-				// <p class="text-error">
 				message.removeClass("text-info");
 				message.show();
 				message.addClass("text-error");
@@ -79,7 +77,6 @@ $(function() {
 			})
 			.always(function() {
 				//alert( "finished" );
-				// <p class="text-info">
 				message.show();
 				message.addClass("text-info");
 				message.text("Saving");
