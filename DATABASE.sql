@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `migrate_content` (
   `page` varchar(1000) NOT NULL,
   `html` longtext NOT NULL,
   `site` int(11) NOT NULL,
+  `crawled` tinyint NOT NULL DEFAULT '1',
   `content` longtext DEFAULT NULL,
   `wash` longtext DEFAULT NULL,
   `tidy` longtext DEFAULT NULL,
