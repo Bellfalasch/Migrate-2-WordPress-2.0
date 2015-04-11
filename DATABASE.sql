@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `migrate_sites` (
 
 CREATE TABLE IF NOT EXISTS `migrate_content` (
   `id` int(11) NOT NULL auto_increment,
+  `title` varchar(1000) NULL,
   `page` varchar(1000) NOT NULL,
   `html` longtext NOT NULL,
   `site` int(11) NOT NULL,

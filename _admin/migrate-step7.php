@@ -42,8 +42,8 @@
 			<div class="alert alert-block alert-success">
 				<h4>No Save-button!?</h4>
 				<p>
-					When you're ready with all pages you wanna move, manually <a href="<?= $SYS_pageroot ?>migrate-step8.php">go to Step 8</a>.
-					Pages left unconnected on the left side in this step will not be moved to Wordpress!
+					When you're ready with all pages you wanna export, manually <a href="<?= $SYS_pageroot ?>migrate-step8.php">go to Step 8</a>.
+					All the pages under here, and their cleaned and washed html-code, will be exported to XML in the next step.
 				</p>
 			</div>
 
@@ -69,6 +69,8 @@
 
 	<div class="row">
 		<div class="span12">
+
+			<a class="btn btn-success" href="<?= $SYS_pageself ?>"><i class="icon-plus-sign icon-white"></i> Add new Page</a>
 
 <?php
 
