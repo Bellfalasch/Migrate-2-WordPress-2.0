@@ -236,7 +236,14 @@
 
 		<div class="span4 offset1">
 
-			<a class="btn btn-success" href="?"><i class="icon-plus-sign icon-white"></i> Add new Project</a>
+			<a class="btn btn-success" href="<?= $SYS_pageself ?>"><i class="icon-plus-sign icon-white"></i> Add new Project</a>
+
+			<hr />
+
+			<p>
+				<strong>Ready to Crawl, Clean, and Export?</strong> Then <a href="<?= $SYS_pageroot ?>migrate-select.php">head on over the
+				Migration starting point</a> and select your first migration project!
+			</p>
 
 			<hr />
 
@@ -276,7 +283,7 @@
 					<li class="span4">
 						<div class="thumbnail">
 							<h3>
-								<a href="?id=<?= $row->id ?>"><?= $row->name ?></a>
+								<a href="<?= $SYS_pageself ?>?id=<?= $row->id ?>"><?= $row->name ?></a>
 							</h3>
 							<em><?= $row->url ?></em>
 							<p>
