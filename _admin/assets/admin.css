@@ -415,3 +415,12 @@ label .help-block {
 	padding-left: 15px;
 	font-style: italic;
 }
+#ajax-form {
+	overflow: hidden;
+}
+#ajax-form .pull-left {
+	margin-right: 15px;
+}
+#ajax-form .hidden {
+	display: none;
+}

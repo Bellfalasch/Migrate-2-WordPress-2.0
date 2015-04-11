@@ -136,7 +136,7 @@
 
 	<?php if ( $PAGE_dbid > 0 ) { ?>
 
-<form class="well form" action="" method="post">
+<form class="well form" action="" method="post" id="ajax-form">
 
 	<!--<h2><?= $title ?></h2>-->
 
@@ -149,7 +149,8 @@
 
 	?>
 
-	<button type="submit" class="btn btn-primary">Save changes</button>
+	<button type="submit" class="btn btn-primary pull-left">Save changes</button>
+	<p class="hidden pull-left">Message</p>
 
 </form>
 
