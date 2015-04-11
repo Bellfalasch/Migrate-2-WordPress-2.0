@@ -96,7 +96,6 @@
 			FROM `migrate_content`
 			WHERE `id` = {$in['id']}
 			AND `site` = {$in['site']}
-			ORDER BY `id` ASC
 			LIMIT 1
 		");
 	}

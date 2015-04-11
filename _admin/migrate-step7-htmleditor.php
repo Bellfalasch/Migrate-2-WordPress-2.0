@@ -59,7 +59,7 @@
 				// This is the result from the db-handling in my files.
 				// (On update they return -1 on error, and 0 on "no new text added, but the SQL worked", and > 0 for the updated posts id.)
 				if ($result >= 0) {
-					echo '<div class="alert alert-success"><h4>Save successful</h4><p>Data updated</p></div>';
+					fn_infobox("Save successful", "Data updated",'');
 					//header('Location: ' . $SYS_pageself . '?saved=true');
 				} else {
 					pushError("Data could not be saved, do retry.");
