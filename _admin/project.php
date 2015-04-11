@@ -240,28 +240,9 @@
 
 			<hr />
 
-			<h4>Project list</h4>
-			<?php
-				$result = db_getSites();
-
-				if (!is_null($result))
-				{
-					while ( $row = $result->fetch_object() )
-					{
-						echo "<a href='?id=" . $row->id . "'>" . $row->name . "</a> (Step: <strong>" . $row->step . "</strong>)<br />";
-						echo "<em>" . $row->url . "</em><br /><br />";
-					}
-				}
-				else
-				{
-					echo "<p>No projects found</p>";
-				}
-			?>
-
 		</div>
 
 	</div>
-
 
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">Save project</button>
@@ -272,6 +253,52 @@
 				<a href="<?= $SYS_pageself ?>?truncate=<?= $PAGE_dbid ?>" class="btn btn-mini btn-warning" title="Truncate">Delete data (keep project)</a>
 			<?php } ?>
 		<?php } ?>
+	</div>
+
+	<p>&nbsp;</p>
+
+	<div class="row">
+		<div class="span12">
+
+			<h2>My projects</h2>
+			<ul class="thumbnails">
+
+				<?php
+					$result = db_getSites();
+
+					if (!is_null($result))
+					{
+						while ( $row = $result->fetch_object() )
+						{
+				
+				?>
+			
+					<li class="span4">
+						<div class="thumbnail">
+							<h3>
+								<a href="?id=<?= $row->id ?>"><?= $row->name ?></a>
+							</h3>
+							<em><?= $row->url ?></em>
+							<p>
+								Step: <span class="badge badge-inverse"><?= $row->step ?></span><br />
+								Pages: <span class="badge badge-inverse"><?= $row->pages ?></span>
+							</p>
+						</div>
+					</li>
+				
+				<?php
+				
+						}
+					}
+					else
+					{
+						echo "<p>No projects found</p>";
+					}
+				?>
+
+			</ul>
+
+		</div>
 	</div>
 
 </form>

@@ -277,9 +277,12 @@
 
 	function db_getSites() {
 		return db_MAIN("
-			SELECT `id`, `name`, `url`, `new_url`, `step`
-			FROM `migrate_sites`
-			ORDER BY `id` DESC
+			SELECT s.`id`, s.`name`, s.`url`, s.`new_url`, s.`step`, COUNT(c.`id`) AS `pages`
+			FROM `migrate_sites` s
+			LEFT OUTER JOIN `migrate_content` c
+			ON c.`site` = s.`id`
+			GROUP BY c.`site`
+			ORDER BY s.`id` DESC
 		");
 	}
 	function db_getSite($in) { cleanup($in);
