@@ -430,7 +430,20 @@ if ( 1 === 3 ) {
 
 	if ( isset( $result ) )
 	{
-		echo '<table class="site-list">';
+
+?>
+		
+		<table class="site-list">
+			<thead>
+				<th>-</th>
+				<th>Title</th>
+				<th>URL</th>
+				<th>-</th>
+				<th>-</th>
+			</thead>
+			<tbody>
+
+<?php
 
 		while ( $row = $result->fetch_object() )
 		{
@@ -484,7 +497,12 @@ if ( 1 === 3 ) {
 			echo '</tr>';
 		}
 
-		echo '</table>';
+?>
+			</tbody>
+		</table>
+
+<?php
+
 	}
 
 ?>
