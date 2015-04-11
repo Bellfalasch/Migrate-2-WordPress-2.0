@@ -89,9 +89,10 @@
 
 	/* Step 3 */
 	/* **************************************************************************** */
+	// Also used in Step 7
 	function db_getHtmlFromPage($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`
+			SELECT `id`, `title`, `page`, `content`, `wash`, `tidy`, `clean`
 			FROM `migrate_content`
 			WHERE `id` = {$in['id']}
 			AND `site` = {$in['site']}
@@ -163,6 +164,7 @@
 
 	/* Step 6 */
 	/* **************************************************************************** */
+	// Also used in Step 7
 	function db_setCleanCode($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_content`
