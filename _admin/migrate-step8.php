@@ -3,7 +3,7 @@
 	$PAGE_step  = 8;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'push content into Wordpress';
+	$PAGE_desc = 'export your content in the Wordpress-format';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>

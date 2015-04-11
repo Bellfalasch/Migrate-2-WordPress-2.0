@@ -3,7 +3,7 @@
 	$PAGE_step  = 7;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'connect crawled pages with WordPress';
+	$PAGE_desc = 'administrate your pages';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>

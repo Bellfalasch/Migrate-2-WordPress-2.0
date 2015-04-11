@@ -121,15 +121,15 @@
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2) { ?>
-						<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step7.php">7: Connect</a></li>
+						<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step7.php">7: Finalize</a></li>
 					<?php } else { ?>
-						<li class="disabled"><a href="#0">7: Connect</a></li>
+						<li class="disabled"><a href="#0">7: Finalize</a></li>
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 7) { ?>
-						<li<?php flagAsActiveOn("step8") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step8.php">8: Move</a></li>
+						<li<?php flagAsActiveOn("step8") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step8.php">8: Export</a></li>
 					<?php } else { ?>
-						<li class="disabled"><a href="#0">8: Move</a></li>
+						<li class="disabled"><a href="#0">8: Export</a></li>
 					<?php } ?>
 
 				<?php } ?>
