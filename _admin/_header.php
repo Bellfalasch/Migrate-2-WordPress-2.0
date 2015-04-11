@@ -25,11 +25,12 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf8" />
-	<title><?= $PAGE_title ?> - [Migrate 2 WP]</title>
-	<link rel="shortcut icon" href="<?= $SYS_root ?>/favicon.ico">
+	<title><?= $PAGE_title ?> - Migrate 2 WordPress, 2.0 BETA</title>
+	<!--<link rel="shortcut icon" href="<?= $SYS_root ?>/favicon.ico">-->
 	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.css" />
 	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/admin.css?v=<?php if (DEV_ENV) echo rand(); ?>" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script src="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.js"></script>
 	<script src="<?= $SYS_root . $SYS_folder ?>/assets/admin.js"></script>
 </head>
 <body class="<?= $SYS_script ?>">
