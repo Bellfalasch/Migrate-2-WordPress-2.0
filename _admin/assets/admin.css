@@ -410,7 +410,7 @@ textarea.large {
 	width: 90%;
 	height: 600px;
 }
-.help-block {
+label .help-block {
 	margin-bottom: 14px;
 	padding-left: 15px;
 	font-style: italic;
