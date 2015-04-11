@@ -134,8 +134,26 @@
 
 			$page = $row->page;
 			$url = str_replace( $PAGE_siteurl, "/", $page );
+			$title = $row->title;
 
-			echo "<td>" . $row->title . "</a></td>";
+			// Title is not set in the database, so "calculate" one from the page URL
+			if ( is_null($title) ) {
+				$title = $url;
+				$title = str_replace( "/", "", $title );
+				$title = str_replace( array('aspx','asp','php','html','htm'), array('','','','',''), $title );
+				$title = str_replace( ".", "", $title );
+				$title = str_replace( "-", " ", $title );
+
+				// If the URL contains a ? then we should remove it and everything before it
+				if ( strpos($title, "?") > 0) {
+					$title = strstr( $title, "?" );
+					$title = str_replace( "?", "", $title );
+				}
+				
+				$title = ucwords($title);
+			}
+
+			echo "<td>" . $title . "</td>";
 			echo "<td>";
 			
 			if ( $row->crawled == 1 ) {
