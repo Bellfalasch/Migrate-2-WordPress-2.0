@@ -14,7 +14,7 @@
 		"label" => "Project Name:",
 		"id" => "name",
 		"type" => "text(3)",
-		"description" => "Name this project (for your own convinience).",
+		"description" => "Name this project (for your own convenience).",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
