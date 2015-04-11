@@ -23,6 +23,44 @@
 ?>
 <?php include('_header.php'); ?>
 
+
+<?php
+
+	////////////////////////////////////////////////////////
+	// HANDLE POST AND SAVE CHANGES
+
+	if (ISPOST)
+	{
+		// This line is needed to call the validation-process of your form!
+		validateForm();
+
+//			var_dump($PAGE_form); // For debugging
+
+		// Stupid way of getting all the form data into variables for use to save the data.
+		$formTitle = $PAGE_form[0]["content"];
+
+		// If no errors:
+		if (empty($SYS_errors)) {
+
+			// Call insert-function from our database-file for admin.
+			$result = db_setPageSimple( array(
+						'title' => $formTitle,
+						'site' => $PAGE_siteid
+					) );
+
+			// If the insert worked we will now have the created id in this variable, otherwhise we will have 0 or -1.
+			if ($result > 0) {
+
+				header('Location: ' . $SYS_pageself . '?saved=' . $result);
+
+			} else {
+				pushError("Data could not be saved, do retry.");
+			}
+		}
+
+	}
+
+?>
 	<div class="alert">
 		<h4>Optional step!</h4>
 		<p>This step is not mandatory =)</p>
@@ -115,8 +153,6 @@
 // List pages
 // ****************************************************************************
 
-	$split_id = qsGet("split");
-
 	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
 
 	if ( isset( $result ) )
@@ -136,11 +172,7 @@
 
 		while ( $row = $result->fetch_object() )
 		{
-			if ( $row->id == $split_id ) {
-				echo '<tr class="selected">';
-			} else {
-				echo '<tr>';
-			}
+			echo '<tr>';
 
 			$page = $row->page;
 			$url = str_replace( $PAGE_siteurl, "/", $page );
@@ -163,11 +195,7 @@
 				$title = ucwords($title);
 			}
 
-			if ($split_id > 0) {
-				echo "<td>-</td>";
-			} else {
-				echo "<td><a href=\"" . $SYS_pageroot . "migrate-step7-htmleditor.php?id=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-title=\"" . $title . "\" data-toggle=\"modal\" data-target=\"#html-modal\">Edit HTML</a></td>";
-			}
+			echo "<td><a href=\"" . $SYS_pageroot . "migrate-step7-htmleditor.php?id=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-title=\"" . $title . "\" data-toggle=\"modal\" data-target=\"#html-modal\">Edit HTML</a></td>";
 
 			echo "<td>" . $title . "</td>";
 			echo "<td>";
@@ -210,65 +238,12 @@
 
 ?>
 
-		<?php if ( $split_id > 0 ) { ?>
-
-<!-- <form class="form-horizontal" action="" method="post"> -->
-<form class="well form" action="" method="post">
-
-	<div class="row">
-		<div class="span11">
-
-	<?php
-
-		// This is the output area, where all the field's html should be generated for empty field's SQL inserts, and already filled in field's SQL updates.
-		// The fields data/content is generated in the upper parts of this document. Just call this function to get the html out.
-
-		outputFormFields();
-
-	?>
-
-			<h3>Settings</h3>
-
-			<label class="checkbox">
-				<input type="checkbox" name="keep" value="yes"<?php if (formGet('keep') == "yes") { ?> checked="checked"<?php } ?> />
-				Keep the entire matched html-area in the new pages
-			</label>
-
-			<hr />
-
-			<h4>Not in use ...</h4>
-			<p>Normally the first match on a page is a bit down from the top on that page's text. What do you want to do with all the text before this first match (if any)?</p>
-			<label class="radio">
-				<input type="radio" name="prematch" value="parent"<?php if (formGet('prematch') == "parent") { ?> checked="checked"<?php } ?> />
-				Use it for the Parent-page content
-			</label>
-			<label class="radio">
-				<input type="radio" name="prematch" value="sub"<?php if (formGet('prematch') == "sub") { ?> checked="checked"<?php } ?> />
-				Use it as a subpage too
-			</label>
-			<br />
-
-			<input type="submit" name="split" value="Run split" class="btn btn-primary" />
-
-			<input type="submit" name="split" value="Test split" class="btn" />
-
-			<a href="<?= $SYS_pageself ?>" class="btn">Cancel split</a>
-
-		</div>
-
-	</div>
-
-</form>
-
-		<?php } ?>
-
-
 <?php
 
-// The actual code
+// Create new page
 // ****************************************************************************
 
-	if ($split_id > 0) {
+	if (1 > 0) {
 
 		$result = db_getHtmlFromPage( array(
 						'site' => $PAGE_siteid,
@@ -336,30 +311,6 @@
 						// arr_titles first array dimension: 0 contains entire matching area, index 1 only the extracted match.
 
 						$title   = $arr_titles[1][$i];
-
-/*
-						// What to get is controlled by a setting (getting only the exact match is default).
-						if ( formGet('keep') == "yes") {
-							$title   = $arr_titles[0][$i];
-						} else {
-							$title   = $arr_titles[1][$i];
-						}
-*/
-
-// This function is totally wrong ... it should go from first match and to beginning of file, not increment the array counter
-if ( 1 === 3 ) {
-						if ( formGet('prematch') == "sub") {
-							$content = $arr_content[$i]; // Do not skip first content (setting tells us to create a subpage out of it)
-						} else {
-							$content = $arr_content[$i+1]; // Skip first content (because of same setting)
-
-							// Setting to save everything before first match as parent content
-							if ($i === 1 && formGet('prematch') == "parent") {
-								$parentcontent = $arr_content[$i];
-								// TODO: Add this to parent content ...
-							}
-						}
-}
 
 						$content = $arr_content[$i+1];
 
@@ -434,14 +385,7 @@ if ( 1 === 3 ) {
 				echo "</pre>";
 
 			} else {
-/*
-				if ( mb_detect_encoding($codeoutput, "utf-8, iso-8859-1") == "UTF-8" ) {
-					$codeoutput;
-				} else {
-					$codeoutput = iconv("iso-8859-1", "utf-8", $codeoutput);
-				}
-*/
-				//$codeoutput = htmlentities( $codeoutput );
+
 				$codeoutput = htmlspecialchars($codeoutput, ENT_QUOTES, "UTF-8");
 
 				echo "<pre>" . $codeoutput . "</pre>";

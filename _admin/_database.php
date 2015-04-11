@@ -25,7 +25,7 @@
 	/* Step 1 */
 	/* **************************************************************************** */
 	
-	// Also used in Step 5b
+	// Also used in Step 3
 	function db_setNewPage($in) { cleanup($in);
 		return db_MAIN("
 			INSERT INTO `migrate_content`
@@ -174,57 +174,17 @@
 
 	/* Step 7 */
 	/* **************************************************************************** */
-	function db_getWPDataFromSite($in) { cleanup($in);
+	function db_setPageSimple($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `page`, `html`, `wp_postid`, `wp_guid`
-			FROM `migrate_content`
-			WHERE `site` = {$in['site']}
-			ORDER BY wp_postid ASC, `page` DESC
-		");
-	}
-	
-	// NB! Old style - can't be changed because we're sending in the table name
-	function db_getDataFromWordpress($wptable) {
-		return wp_MAIN("
-			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
-			FROM `" . $wptable . "_posts`
-			WHERE
-				(`post_type` = 'page'
-				OR `post_type` = 'ffu_characters')
-				AND	`post_status` = 'publish'
-			ORDER BY `post_name` DESC
-		");
-	}
-
-	function db_updateCleanerWithWP($in) { cleanup($in);
-		return db_MAIN("
-			UPDATE `migrate_content`
-			SET
-				wp_slug = {$in['name']},
-				wp_postid = {$in['postid']},
-				wp_guid = {$in['guid']}
-			WHERE `id` = {$in['id']}
-		");
-	}
-
-	// NB! Old style - can't be changed because we're sending in the table name
-	function db_getPostFromWP($wptable, $id) {
-		return wp_MAIN("
-			SELECT id, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
-			FROM `" . $wptable . "_posts`
-			WHERE `id` = $id
-		");
-	}
-
-	// Disconnect an already connected page from it's WordPress counterpart
-	function db_updateDisconnectPage($in) { cleanup($in);
-		return db_MAIN("
-			UPDATE `migrate_content`
-			SET
-				`wp_guid` = null,
-				`wp_postid` = 0
-			WHERE `site` = {$in['site']}
-			AND `id` = {$in['id']}
+			INSERT INTO `migrate_content`
+				(`title`, `site`, `page`, `html`, `crawled`)
+			VALUES(
+				{$in['title']},
+				{$in['site']},
+				'-',
+				'<!-- Empty page, created in Migrate 2 WordPress -->',
+				0
+			)
 		");
 	}
 
