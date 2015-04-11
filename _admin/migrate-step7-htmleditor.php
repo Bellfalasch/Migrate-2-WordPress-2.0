@@ -9,8 +9,8 @@
 	addField( array(
 		"label" => "HTML source:",
 		"id" => "html",
-		"type" => "area(6*13)",
-		"description" => "Change the washed and cleaned HTML. Don't forget to save!",
+		"type" => "area(6*12)",
+//		"description" => "Change the washed and cleaned HTML. Don't forget to save!",
 		"min" => "1",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -72,8 +72,8 @@
 		////////////////////////////////////////////////////////
 		// If first load, fetch HTML from database
 
-		if ( !ISPOST )
-		{
+//		if ( !ISPOST )
+//		{
 
 			$result = db_getHtmlFromPage( array(
 							'site' => $PAGE_siteid,
@@ -111,13 +111,13 @@
 				// Stupid way of doing it ... no function yet to bind database table to the form, sorry =P
 				$PAGE_form[0]["content"] = $html;
 				
-				$title = $row->title;
+				//$title = $row->title;
 
 			} else {
 				pushError("Couldn't find the requested page's HTML!");
 			}
 
-		}
+//		}
 
 	} else {
 		pushError("No Page selected =/");
@@ -138,7 +138,7 @@
 
 <form class="well form" action="" method="post">
 
-	<h2><?= $title ?></h2>
+	<!--<h2><?= $title ?></h2>-->
 
 	<?php
 
