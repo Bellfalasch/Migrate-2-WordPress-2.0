@@ -6,245 +6,457 @@
 	$PAGE_desc = 'administrate your pages';
 ?>
 <?php require('_global.php'); ?>
+<?php
+
+	// Form generator
+	addField( array(
+		"label" => "HTML-code to split on:",
+		"id" => "splitcode",
+		"type" => "area(10*7)",
+		"description" => "Enter any chunk of HTML-code here (use the output bellow as a guide). Use '[*]'' as a wildcard, and use '[?]' as the 'locator' (the page will be saved with that name). Only use one 'locator' (but any amount of wildcards).",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+?>
 <?php include('_header.php'); ?>
 
+	<div class="alert">
+		<h4>Optional step!</h4>
+		<p>This step is not mandatory =)</p>
+	</div>
 
 	<div class="row">
 		<div class="span8">
-			<h2>Important information</h2>
+			<h2>Manage pages</h2>
 			<p>
-				To the left under this text you'll see all the crawled pages with their old URL. Just click the "Connect"-link on any of these pages
-				to reload this pages and see the same button on the right side. This side contains all your Wordpress pages. Just click the
-				right "Connect"-link here to connect the two pages. Many old pages can be moved to the same single Wordpress-page (the
-				other way around is not supported, yet).
-				<strong>No data is transfered to WordPress yet!</strong>
+				Here you can manage your pages that you crawled in Step 1. The reason you didn't get to this step right after is because the pages are easier to work with here if reduntant html-code
+				have been stripped away.
 			</p>
 			<p>
-				Connected pages are moved to the bottom of the left table, but not moved at all (only grayed out) in the right table. Thanks
-				to this you get a good overview of what old pages remain. Feel free to change any connection by clicking the grayed out connect-button
-				again on any page.
-			</p>
-			<p>
-				Select a page once more (with the connect-button) and click the disconnect-button that took its place to remove a page's
-				connection to WordPress. This will not remove any page, only the connection between them (so that on Step 8 that page will
-				be skipped).
+				It's possible to access this step later and delete and duplicate pages. However, the split-function only runs on the data that comes from Step 2.
 			</p>
 
 			<div class="alert alert-block alert-success">
 				<h4>No Save-button!?</h4>
-				<?php if ($PAGE_sitestep >= 7) { ?>
 				<p>
-					When you're ready with all pages you wanna move, manually <a href="migrate-step8.php">go to Step 8</a>.
+					When you're ready with all pages you wanna move, manually <a href="<?= $SYS_pageroot ?>migrate-step8.php">go to Step 8</a>.
 					Pages left unconnected on the left side in this step will not be moved to Wordpress!
 				</p>
-				<?php } else { ?>
-				<p>
-					Save is instant when you click the links. Go ahead, connect some pages!
-				</p>
-				<?php } ?>
 			</div>
+
 		</div>
+
+		<div class="span3 offset1">
+			<h4>Info</h4>
+			<p>
+				Info ...
+			</p>
+		</div>
+
 	</div>
+
+<?php
+
+	// Now that we are just before the form starts, we can output any errors we might have pushed into the error-array.
+	// Calling this function outputs every error, earlier pushes to the error-array also stops the saving of the form.
+
+	outputErrors($SYS_errors);
+
+?>
 
 	<div class="row">
 		<div class="span12">
 
 <?php
 
-/*
-	Swedish comment:
-	WordPress data ser ut såhär: Tabellen wp_posts har kolumnen “post_content” för sin html-kod, och 
-	kolumnen “post_title” för titel (skall inte ändras). Kolumnen “post_status” skall vara “publish”, 
-	“post_type” skall vara “page” eller “ffu_characters” (eller annan CPT). “post_name” innehåller 
-	url/slug till sidan, och kan användas för att underlätta mappningen.
-*/
-
-
-// Do the connecting
+// Do the splitting
 // ****************************************************************************
 
-	if ( qsGet("connect") != "" && qsGet("to") != "") {
+	$split_id = qsGet("split");
 
-		$id = qsGet("connect");
-		$to = qsGet("to");
+	if ( $split_id > 0 ) {
 
-		// Fetch data from WordPress
-		$result = db_getPostFromWP($wp_table, $to);
+		if (ISPOST)
+		{
+			validateForm();
 
-		if ( isset( $result ) ) {
+			if (empty($SYS_errors)) {
 
-			$row = $result->fetch_object();
-			$newData_id = $row->id;
-			$newData_post_name = $row->post_name;
-			//$newData_post_title = $row->post_title;
-			$newData_guid = $row->guid;
+				// Stupid way of getting all the form data into variables for use to save the data.
+				$splitcode = $PAGE_form[0]["content"];
+				$split_ORG = $splitcode;
 
-			// Save the selection to the database
-			$result2 = db_updateCleanerWithWP( array(
-							'id' => $id,
-							'name' => $newData_post_name,
-							'postid' => $newData_id,
-							'guid' => $newData_guid
-						) );
+				if ( substr_count( $splitcode, "[?]" ) == 1 ) {
 
-			// This step can be done directly after a crawl, but don't update the step counter until step 2 is done
-			if ($PAGE_sitestep >= 2) {
-				db_updateStepValue( array(
-					'step' => $PAGE_step,
-					'id' => $PAGE_siteid
-				) );
+					// I owe a lot to http://regex101.com/ for getting this correct! #regex_noob
+
+					//$splitcode = str_replace('\\', '\\\\', $splitcode);
+					$splitcode = str_replace('(', '\(', $splitcode);
+					$splitcode = str_replace(')', '\)', $splitcode);
+					$splitcode = str_replace('.', '\.', $splitcode);
+					$splitcode = str_replace('&', '\&', $splitcode);
+					$splitcode = str_replace('/', '\/', $splitcode);
+					$splitcode = str_replace('\'', '', $splitcode);
+					//$splitcode = str_replace('<', '\<', $splitcode);
+					//$splitcode = str_replace('>', '\>', $splitcode);
+					$splitcode = str_replace('[*]', '.*', $splitcode);
+					$splitcode = str_replace('[?]', '(.*?)', $splitcode);
+
+				} else {
+
+					//echo "<div class='alert alert-block alert-error'><h4>Hey now!</h4><p>No [?] added (or more than one), and we need that to find names for the new pages!</p></div>";
+					pushError("No [?] added (or more than one), and we need that to find names for the new pages!");
+
+				}
+
+				$PAGE_form[0]["content"] = $split_ORG;
+
 			}
 
-			header('Location: ' . $SYS_pageself);
-
-		} else {
-			echo "Could't find any data";
 		}
 
 	}
 
-	// Disconnect a page
-	if ( qsGet("disconnect") != "" ) {
 
-		$page = qsGet("disconnect");
+// Delete page
+// ****************************************************************************
 
-		$result = db_updateDisconnectPage( array(
-						'id' => $page,
-						'site' => $PAGE_siteid
-					) );
+	$del_id = qsGet("del");
 
-		header('Location: ' . $SYS_pageself);
+	if ( $del_id > 0 ) {
+
+		$del = db_delPage( array(
+					'id' => $del_id,
+					'site' => $PAGE_siteid
+				) );
+
+		if ($del >= 0) {
+			//echo "<div class='alert alert-success'><h4>Delete successful</h4><p>The selected page has been deleted.</p></div>";
+			fn_infobox("Delete successful", "The selected page has been deleted.",'');
+		} else {
+			pushError("Delete of page failed, please try again.");
+		}
 
 	}
 
 
+// Duplicate page
+// ****************************************************************************
+
+	$dup_id = qsGet("dup");
+
+	if ( $dup_id > 0 ) {
+
+		$dup = db_setDuplicatePage( array(
+					'id' => $dup_id,
+					'site' => $PAGE_siteid
+				) );
+
+		if ($dup >= 0) {
+			//echo "<div class='alert alert-success'><h4>Duplication successful</h4><p>The selected page has been duplicated.</p></div>";
+			fn_infobox("Duplication successful", "The selected page has been duplicated.",'');
+		} else {
+			pushError("Duplication of page failed, please try again.");
+		}
+
+	}
+
+?>
+
+		<?php if ( $split_id > 0 ) { ?>
+
+<!-- <form class="form-horizontal" action="" method="post"> -->
+<form class="well form" action="" method="post">
+
+	<div class="row">
+		<div class="span11">
+
+	<?php
+
+		// This is the output area, where all the field's html should be generated for empty field's SQL inserts, and already filled in field's SQL updates.
+		// The fields data/content is generated in the upper parts of this document. Just call this function to get the html out.
+
+		outputFormFields();
+
+	?>
+
+			<h3>Settings</h3>
+
+			<label class="checkbox">
+				<input type="checkbox" name="keep" value="yes"<?php if (formGet('keep') == "yes") { ?> checked="checked"<?php } ?> />
+				Keep the entire matched html-area in the new pages
+			</label>
+
+			<hr />
+
+			<h4>Not in use ...</h4>
+			<p>Normally the first match on a page is a bit down from the top on that page's text. What do you want to do with all the text before this first match (if any)?</p>
+			<label class="radio">
+				<input type="radio" name="prematch" value="parent"<?php if (formGet('prematch') == "parent") { ?> checked="checked"<?php } ?> />
+				Use it for the Parent-page content
+			</label>
+			<label class="radio">
+				<input type="radio" name="prematch" value="sub"<?php if (formGet('prematch') == "sub") { ?> checked="checked"<?php } ?> />
+				Use it as a subpage too
+			</label>
+			<br />
+
+			<input type="submit" name="split" value="Run split" class="btn btn-primary" />
+
+			<input type="submit" name="split" value="Test split" class="btn" />
+
+			<a href="<?= $SYS_pageself ?>" class="btn">Cancel split</a>
+
+		</div>
+
+	</div>
+
+</form>
+
+		<?php } ?>
+
+
+<?php
+
 // The actual code
-// ****************************************************************************	
+// ****************************************************************************
 
-	// Array for all the WP-pages we have listed (don't list again)
-	$arrWPidDone = array();
+	if ($split_id > 0) {
 
-	$pages = array();
+		$result = db_getHtmlFromPage( array(
+						'site' => $PAGE_siteid,
+						'id' => $split_id
+					) );
 
-	// The crawled content side
-	echo '<div class="column"><table>';
-	
-	$result = db_getWPDataFromSite( array( 'site' => $PAGE_siteid ) );
+		if ( isset( $result ) )
+		{
+
+			$row = $result->fetch_object();
+
+			// Waterfall-choose the best (cleanest) html from the database depending on which is available
+			if ( !is_null($row->clean) ) {
+
+				$codeoutput = $row->clean;
+
+			} elseif ( !is_null($row->tidy) ) {
+
+				$codeoutput = $row->tidy;
+
+			} elseif ( !is_null($row->wash) ) {
+
+				$codeoutput = $row->wash;
+
+			} else {
+
+				$codeoutput = $row->content;
+
+			}
+
+			$baseurl    = $row->page;
+			$baseid     = $row->id;
+
+			if (isset($splitcode)) {
+
+				//$clean = preg_replace( "/<!--(.*)-->/Uis", "$0", $codeoutput );
+
+				$arr_content = array();
+				$arr_titles  = array();
+
+				$arr_content = preg_split( "/" . $splitcode . "/Ui", $codeoutput ); // Find the content
+				preg_match_all( "/" . $splitcode . "/Ui", $codeoutput, $arr_titles ); // Find the names
+
+				//var_dump( $arr_content );
+				//var_dump( $arr_titles );
+
+				// Pseudo:
+				// arr_titles(1) innehåller match-array, början på 0.
+				// arr_content(0) är all kod innan första match, arr_content(1) och upp alla matcher
+
+				//exit;
+
+				//$codeoutput = htmlentities( $codeoutput );
+
+				echo "<strong>We found these sub pages:</strong>";
+				echo "<pre>";
+
+				$length_arr = count($arr_content);
+				$length_title = count($arr_titles[1]);
+
+				for ($i = 0; $i < $length_arr; $i++ ) {
+
+					if ($i <= $length_title && $i+1 < $length_arr) {
+
+						// arr_titles first array dimension: 0 contains entire matching area, index 1 only the extracted match.
+
+						$title   = $arr_titles[1][$i];
+
+/*
+						// What to get is controlled by a setting (getting only the exact match is default).
+						if ( formGet('keep') == "yes") {
+							$title   = $arr_titles[0][$i];
+						} else {
+							$title   = $arr_titles[1][$i];
+						}
+*/
+
+// This function is totally wrong ... it should go from first match and to beginning of file, not increment the array counter
+if ( 1 === 3 ) {
+						if ( formGet('prematch') == "sub") {
+							$content = $arr_content[$i]; // Do not skip first content (setting tells us to create a subpage out of it)
+						} else {
+							$content = $arr_content[$i+1]; // Skip first content (because of same setting)
+
+							// Setting to save everything before first match as parent content
+							if ($i === 1 && formGet('prematch') == "parent") {
+								$parentcontent = $arr_content[$i];
+								// TODO: Add this to parent content ...
+							}
+						}
+}
+
+						$content = $arr_content[$i+1];
+
+						// Setting tells us to keep the entire match inside the content of new page
+						if ( formGet('keep') == "yes") {
+							$content = $arr_titles[0][$i] . $content;
+						}
+
+						// Convert page title into something more URL friendly
+						$title_db = trim( strtolower($title) );
+						$title_db = str_replace(' ', '-', $title_db); // Space to dash
+						$title_db = str_replace(',', '', $title_db); // Everything else removed
+						$title_db = str_replace('.', '', $title_db);
+						$title_db = str_replace('&', '', $title_db);
+						$title_db = str_replace('%', '', $title_db);
+						$title_db = str_replace('#', '', $title_db);
+						$title_db = str_replace('\'', '', $title_db);
+						$title_db = str_replace('"', '', $title_db);
+						$title_db = urlencode( $title_db );
+
+						$content_db = trim( $content );
+
+						if (formGet("split") == "Run split") {
+
+							$result = db_setNewPage( array(
+										'site' => $PAGE_siteid,
+										'html' => 'CREATED FROM STEP 3 - not from crawl!',
+										'clean' => null,
+										'content' => $content_db,
+										'page' => $baseurl . '?' . $title_db
+									) );
+
+							if ( $result > 0 ) {
+
+								//echo '<div class="alert alert-success"><h4>Save successful</h4><p>New page for ' . $title . ' created, id: ' . $result . '</p></div>';
+								fn_infobox("Save successful", 'New page for ' . $title . ' created, id: ' . $result,'');
+
+							}
+
+/*
+<a name="\.*"><\/a><\/p>
+<table cellpadding="1">
+<tr>
+<th>(.*?)<\/span> <span class="td_svag">\(.* HP\)<\/th>
+<\/tr>
+<\/table>
+
+<a name="[*]"></a></p>
+<table cellpadding="1">
+<tr>
+<th>[?]</span> <span class="td_svag">([*] HP)</th>
+</tr>
+</table>
+*/
+
+						} else {
+
+							var_dump( array(
+									'site' => $PAGE_siteid,
+									'html' => 'CREATED FROM STEP 3 - not from crawl!',
+									'clean' => null,
+									'content' => $content_db,
+									'page' => $baseurl . '?' . $title_db
+								) );
+
+						}
+
+					} else {
+
+						$title = "NO MATCHING TITLE FOR THIS PAGE!!!"; // This should skip the split
+						$content = "no matching content for this page!";
+
+						//echo '<div class="alert alert-error"><h4>Couldn\'t save</h4><p>New page for following code could not be created!</p></div>';
+						fn_infobox("Couldn't save", "New page for following code could not be created!", 'error');
+
+					}
+
+					echo "<p>";
+					echo "<strong>" . $title . "</strong><br />";
+
+					$content = htmlspecialchars($content, ENT_QUOTES, "UTF-8");
+
+					echo $content;
+					echo "</p>";
+
+				}
+
+				echo "</pre>";
+
+			} else {
+/*
+				if ( mb_detect_encoding($codeoutput, "utf-8, iso-8859-1") == "UTF-8" ) {
+					$codeoutput;
+				} else {
+					$codeoutput = iconv("iso-8859-1", "utf-8", $codeoutput);
+				}
+*/
+				//$codeoutput = htmlentities( $codeoutput );
+				$codeoutput = htmlspecialchars($codeoutput, ENT_QUOTES, "UTF-8");
+
+				echo "<pre>" . $codeoutput . "</pre>";
+
+			}
+
+		}
+
+	}
+
+
+
+	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
+
 	if ( isset( $result ) )
 	{
+		echo '<table class="site-list">';
 
 		while ( $row = $result->fetch_object() )
 		{
-			if ($row->wp_postid > 0) {
-				if ($row->id == qsGet("connect") ) {
-					echo '<tr class="highlighted">';
-				} else {
-					echo '<tr class="done">';
-				}
-				array_push($arrWPidDone, $row->wp_postid);
+			if ($row->id == $split_id ) {
+				echo '<tr class="selected">';
 			} else {
-				if ($row->id == qsGet("connect") ) {
-					echo '<tr class="highlighted">';
-				} else {
-					echo '<tr>';
-				}
+				echo '<tr>';
 			}
-			
-			if (qsGet("connect") != "") {
-				if ( $row->id == qsGet("connect") ) {
-					echo "<td><a href=\"?disconnect=" . $row->id . "\" class=\"btn btn-mini btn\">Disconnect</a></td>";
-				} else {
-					echo "<td>-</td>";
-				}
+
+			if ($split_id > 0) {
+				echo "<td>-</td>";
 			} else {
-				echo "<td><a href=\"?connect=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
+				echo "<td><a href=\"" . $SYS_pageself . "?split=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Split</a></td>";
 			}
 
 			$page = $row->page;
-			
-			// Add to an array to be used to suggest a page structure if WP is empty
-			array_push( $pages, $page );
 
-			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $PAGE_siteurl, "/", $page ) . "</a><br />";
-			echo "&raquo; " . str_replace( $PAGE_sitenewurl, "/", $row->wp_guid . "" ) . "</td>";
+			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $PAGE_siteurl, "/", $page ) . "</a></td>";
+//			echo "<td>&raquo; " . str_replace( $PAGE_sitenewurl, "/", $row->wp_guid . "" ) . "</td>";
+			echo "<td><a href=\"" . $SYS_pageself . "?dup=" . $row->id . "\" class=\"btn btn-mini btn-warning\">Duplicate</a></td>";
+			echo "<td><a href=\"" . $SYS_pageself . "?del=" . $row->id . "\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
 			echo '</tr>';
 		}
 
+		echo '</table>';
 	}
-	echo '</table></div>';
-
-//echo $wp_table;
-//echo $wp_dbname;
-//echo $wp_dburl;
-
-	// The WordPress side
-	$result = db_getDataFromWordpress($wp_table);
-	
-//	var_dump( $result );
-
-	//if ( isset( $result->length ) ) // This is the only one that will see that the result is empty and output a site structure, however it can never see if data is there ... big bug
-	if ( isset( $result ) )
-	{
-		echo '<div class="column"><table>';
-		
-		while ( $row = $result->fetch_object() )
-		{
-			if (!in_array($row->ID, $arrWPidDone))
-				echo '<tr>';
-			else
-				echo '<tr class="done">';
-
-			if ( qsGet("connect") != "" )
-				echo "<td><a href=\"?connect=" . qsGet("connect") . "&amp;to=" . $row->ID . "\" class=\"btn btn-mini btn-primary\">Connect</a></td>";
-			else
-				echo "<td>-</td>";
-
-			//echo "<td>" . $row->ID . "</td>";
-			//echo "<td>" . $row->post_name . "</td>";
-			echo "<td><a href=\"" . $row->guid . "\" target=\"_blank\">" . $row->post_title . "</a><br />";
-			echo "( " . str_replace( $PAGE_sitenewurl, "/", $row->guid ) . " )</td>";
-			echo '</tr>';
-
-		}
-
-		echo '</table></div>';
-		
-	} else {
-		
-		echo '<div class="column">';
-		echo "<p><strong>No pages in WordPress!</strong></p>";
-		echo "<p>1. Download and install the plugin '<a href=\"http://wordpress.org/extend/plugins/simple-add-pages-or-posts/\">Simple add pages or posts</a>' to WordPress.";
-		echo "<p>2. Copy and paste the text bellow and paste it into the plugin to create your site structure in a second!</p>";
-		echo "<textarea class=\"large\">";
-		
-		// Loop out every page from the array of crawled pages
-		$pages_length = count($pages);
-		for ($i = 0; $i < $pages_length; $i++) {
-			
-			// Wash URL so we get a good name
-			$pagename = $pages[$i];
-			$pagename = str_replace( $PAGE_siteurl, '', $pagename ); // Remove domain name
-			$pagename = str_replace( array('aspx','asp','php','html','htm'), '', $pagename ); // Removed file endings
-			$pagename = str_replace( array('_','-','+'), ' ', $pagename ); // Change some usual chars to replace spaces
-			$pagename = str_replace( array('default','index'), '', $pagename ); // Change some usual main page names
-			$pagename = str_replace( array('?page='), '', $pagename ); // Remove querystrings (FFU-specific)
-			$pagename = str_replace( '.', '', $pagename ); // Remove any dot left from fileendings
-
-			$pagename = strtoupper(mb_substr( $pagename, 0, 1 ) ) . mb_substr( $pagename, 1 ); // Uppercase first letter
-
-			if ( $pagename != '' ) {
-				echo $pagename . "\n";
-			} else {
-				echo "Frontpage" . "\n";
-			}
-		}
-		
-		echo "</textarea>";
-		echo "</div>";
-	}
-
-// END FILE
-// ****************************************************************************
 
 ?>
 
