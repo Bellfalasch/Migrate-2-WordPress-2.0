@@ -227,7 +227,7 @@
 				<p>One fine body this is ... so sad it will be replaced.</p>
 			</div>
 			<div class="modal-footer">
-				<p><strong>Don't forget to save changes!</strong> Use the save button above!</p>
+				<p class="pull-left"><strong>Don't forget to save changes!</strong> Use the save button above!</p>
 				<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 				<!--<button class="btn btn-primary">Save changes</button>-->
 			</div>
