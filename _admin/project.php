@@ -43,55 +43,6 @@
 					)
 	) );
 
-	// WP-data
-
-	addField( array(
-		"label" => "WP &gt; DB url:",
-		"id" => "wp_dburl",
-		"type" => "text(3)",
-		"description" => "URL to database (localhost or http://xxx)",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-	addField( array(
-		"label" => "WP &gt; DB name:",
-		"id" => "wp_dbname",
-		"type" => "text(3)",
-		"description" => "Database name for where your current Wordpress-installation resides (set up Wordpress first).",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-	addField( array(
-		"label" => "WP &gt; Table prefix:",
-		"id" => "wp_tablename",
-		"type" => "text(3)",
-		"description" => "If you prefixed your Wordpress tables with anything (you should for security, and not just 'wp') add it here (without the underscore)."
-	) );
-
-	addField( array(
-		"label" => "WP &gt; DB username:",
-		"id" => "wp_dbuser",
-		"type" => "text(3)",
-		"description" => "Database username",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-	addField( array(
-		"label" => "WP &gt; DB password:",
-		"id" => "wp_dbpass",
-		"type" => "text(3)",
-		"description" => "Database password"
-	) );
-
 ?>
 <?php require('_header.php'); ?>
 
@@ -161,21 +112,6 @@
 			$formName     = $PAGE_form[0]["content"];
 			$formURL      = $PAGE_form[1]["content"];
 			$formNewURL   = $PAGE_form[2]["content"];
-
-			// Collect data for the cookie
-			$wp_dburl  = $PAGE_form[3]["content"];
-			$wp_dbname = $PAGE_form[4]["content"];
-			$wp_table  = $PAGE_form[5]["content"];
-			$wp_dbuser = $PAGE_form[6]["content"];
-			$wp_dbpass = $PAGE_form[7]["content"];
-
-			// Save data in cookies
-			$expire = time() + (60*60*24*31);
-			setcookie( "wp_dburl",   $wp_dburl,   $expire );
-			setcookie( "wp_dbname",  $wp_dbname,  $expire );
-			setcookie( "wp_table",   $wp_table,   $expire );
-			setcookie( "wp_dbuser",  $wp_dbuser,  $expire );
-			setcookie( "wp_dbpass",  $wp_dbpass,  $expire );
 
 			// If no errors:
 			if (empty($SYS_errors)) {
@@ -257,31 +193,15 @@
 			} else {
 				pushError("Couldn't find the requested data");
 			}
-
-			// Fetch the cookie data
-			if (isset($wp_dburl)) {
-
-				// Data from form already saved, so set it from our variables.
-
-				$PAGE_form[3]["content"] = $wp_dburl;
-				$PAGE_form[4]["content"] = $wp_dbname;
-				$PAGE_form[5]["content"] = $wp_table;
-				$PAGE_form[6]["content"] = $wp_dbuser;
-				$PAGE_form[7]["content"] = $wp_dbpass;
-
-//				var_dump( $PAGE_form );
-			}
 			
 		}
 
 
 		if ( qsGet("saved") != "" ) {
 			if ( qsGet("saved") == "true" ) {
-				//echo '<div class="alert alert-success"><h4>Save successful</h4><p></p></div>';
 				fn_infobox("Save successful", "Data updated",'');
 
 			} elseif ( qsGet("saved") !== "" ) {
-				//echo '<div class="alert alert-success"><h4>Save successful</h4><p></p></div>';
 				fn_infobox("Save successful", "New data saved, id: " . qsGet("saved"),'');
 			}
 		}
@@ -301,13 +221,6 @@
 
 	<div class="row">
 		<div class="span7">
-
-			<div class="alert">
-				<p>
-					All the settings preceded by "WP" are only temporary stored on your computer. We only use it to be able to connect to your
-					WordPress database in the last few steps to insert the crawled and cleaned data.
-				</p>
-			</div>
 
 	<?php
 
