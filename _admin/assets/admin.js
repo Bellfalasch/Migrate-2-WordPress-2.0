@@ -42,46 +42,43 @@ $(function() {
 	});
 
 	// Ajax-save the forms data
-	ajaxform = $('#ajax-form');
-	message = ajaxform.find(".hidden");
+	$('#ajax-form').on('submit', function(e) {
 
-	ajaxform.on('submit', function(e){
-		e.defaultPrevent;
+		e.preventDefault();
+
+		ajaxform = $('#ajax-form');
+		post_to = ajaxform.attr("action");
+		message = ajaxform.find(".hidden");
+
+		message.show();
+		message.addClass("text-info");
+		message.text("Saving ...");
+
+//		alert( ajaxform.attr("action") );
+
 		$.post(
-			window.location.href,
-			ajaxform.serialize()
+			post_to,
+			$('#ajax-form').serialize()
 		)
-			.done(function() {
-				//alert( "second success" );
-				message.removeClass("text-info");
-				message.show();
-				message.addClass("text-success");
-				message.text("Saved!");
-				setTimeout( function() {
-					//message.css("opacity","0");
-					message.hide();
-					message.removeClass("text-success");
-				}, 2500);
-			})
-			.fail(function() {
-				//alert( "error" );
-				message.removeClass("text-info");
-				message.show();
-				message.addClass("text-error");
-				message.text("NOT saved!");
-				setTimeout( function() {
-					//message.css("opacity","0");
-					message.hide();
-					message.removeClass("text-error");
-				}, 2500);
-			})
-			.always(function() {
-				//alert( "finished" );
-				message.show();
-				message.addClass("text-info");
-				message.text("Saving");
-			})
-		;
+		.done(function() {
+			message.removeClass("text-info");
+			message.addClass("text-success");
+			message.text("Saved!");
+			setTimeout( function() {
+				message.hide();
+				message.removeClass("text-success");
+			}, 2500);
+		})
+		.fail(function() {
+			message.removeClass("text-info");
+			message.addClass("text-error");
+			message.text("NOT saved!");
+			setTimeout( function() {
+				message.hide();
+				message.removeClass("text-error");
+			}, 2500);
+		});
+
 	});
 
 });

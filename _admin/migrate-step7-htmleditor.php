@@ -17,57 +17,43 @@
 					)
 	) );
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf8" />
-	<title><?= $PAGE_title ?> - Migrate 2 WordPress, 2.0 BETA</title>
-	<!--<link rel="shortcut icon" href="<?= $SYS_root ?>/favicon.ico">-->
-	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.css" />
-	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/admin.css?v=<?php if (DEV_ENV) echo rand(); ?>" />
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.js"></script>
-	<script src="<?= $SYS_root . $SYS_folder ?>/assets/admin.js"></script>
-</head>
-<body class="<?= $SYS_script ?>">
 
-<?php
+	////////////////////////////////////////////////////////
+	// HANDLE POST AND SAVE CHANGES
 
-	if ( $PAGE_dbid > 0 ) {
+	if (ISPOST)
+	{
+		// This line is needed to call the validation-process of your form!
+		validateForm();
 
-		////////////////////////////////////////////////////////
-		// HANDLE POST AND SAVE CHANGES
+		// Stupid way of getting all the form data into variables for use to save the data.
+		$formHTML = $PAGE_form[0]["content"];
+		$formID   = formGet("QSid");
+		$PAGE_dbid = $formID;
 
-		if (ISPOST)
-		{
-			// This line is needed to call the validation-process of your form!
-			validateForm();
+		// If no errors:
+		if (empty($SYS_errors)) {
 
-			// Stupid way of getting all the form data into variables for use to save the data.
-			$formHTML = $PAGE_form[0]["content"];
+			// Call function in "_database.php" that does the db-handling, send in an array with data
+			$result = db_setCleanCode( array(
+						'clean' => $formHTML,
+						'id' => $formID
+					) );
 
-			// If no errors:
-			if (empty($SYS_errors)) {
-
-				// Call function in "_database.php" that does the db-handling, send in an array with data
-				$result = db_setUpdatePage( array(
-							'clean' => $formHTML,
-							'id' => $PAGE_dbid
-						) );
-
-				// This is the result from the db-handling in my files.
-				// (On update they return -1 on error, and 0 on "no new text added, but the SQL worked", and > 0 for the updated posts id.)
-				if ($result >= 0) {
-					fn_infobox("Save successful", "Data updated",'');
-					//header('Location: ' . $SYS_pageself . '?saved=true');
-				} else {
-					pushError("Data could not be saved, do retry.");
-				}
-
+			// This is the result from the db-handling in my files.
+			// (On update they return -1 on error, and 0 on "no new text added, but the SQL worked", and > 0 for the updated posts id.)
+			if ($result >= 0) {
+				fn_infobox("Save successful", "Data updated",'');
+				//header('Location: ' . $SYS_pageself . '?saved=true');
+			} else {
+				pushError("Data could not be saved, do retry.");
 			}
 
 		}
+
+	}
+
+	if ( $PAGE_dbid > 0 ) {
 
 		////////////////////////////////////////////////////////
 		// If first load, fetch HTML from database
@@ -136,9 +122,7 @@
 
 	<?php if ( $PAGE_dbid > 0 ) { ?>
 
-<form class="well form" action="" method="post" id="ajax-form">
-
-	<!--<h2><?= $title ?></h2>-->
+<form class="well form" action="<?= $SYS_pageself ?>" method="post" id="ajax-form">
 
 	<?php
 
@@ -148,6 +132,7 @@
 		outputFormFields();
 
 	?>
+	<input type="hidden" name="QSid" value="<?= $PAGE_dbid ?>" />
 
 	<button type="submit" class="btn btn-primary pull-left">Save changes</button>
 	<p class="hidden pull-left">Message</p>
@@ -155,6 +140,3 @@
 </form>
 
 	<?php } ?>
-
-
-<?php require('_footer.php'); ?>
