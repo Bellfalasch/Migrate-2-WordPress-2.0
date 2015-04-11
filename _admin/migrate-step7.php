@@ -74,55 +74,6 @@
 
 <?php
 
-// Do the splitting
-// ****************************************************************************
-
-	$split_id = qsGet("split");
-
-	if ( $split_id > 0 ) {
-
-		if (ISPOST)
-		{
-			validateForm();
-
-			if (empty($SYS_errors)) {
-
-				// Stupid way of getting all the form data into variables for use to save the data.
-				$splitcode = $PAGE_form[0]["content"];
-				$split_ORG = $splitcode;
-
-				if ( substr_count( $splitcode, "[?]" ) == 1 ) {
-
-					// I owe a lot to http://regex101.com/ for getting this correct! #regex_noob
-
-					//$splitcode = str_replace('\\', '\\\\', $splitcode);
-					$splitcode = str_replace('(', '\(', $splitcode);
-					$splitcode = str_replace(')', '\)', $splitcode);
-					$splitcode = str_replace('.', '\.', $splitcode);
-					$splitcode = str_replace('&', '\&', $splitcode);
-					$splitcode = str_replace('/', '\/', $splitcode);
-					$splitcode = str_replace('\'', '', $splitcode);
-					//$splitcode = str_replace('<', '\<', $splitcode);
-					//$splitcode = str_replace('>', '\>', $splitcode);
-					$splitcode = str_replace('[*]', '.*', $splitcode);
-					$splitcode = str_replace('[?]', '(.*?)', $splitcode);
-
-				} else {
-
-					//echo "<div class='alert alert-block alert-error'><h4>Hey now!</h4><p>No [?] added (or more than one), and we need that to find names for the new pages!</p></div>";
-					pushError("No [?] added (or more than one), and we need that to find names for the new pages!");
-
-				}
-
-				$PAGE_form[0]["content"] = $split_ORG;
-
-			}
-
-		}
-
-	}
-
-
 // Delete page
 // ****************************************************************************
 
@@ -145,24 +96,66 @@
 	}
 
 
-// Duplicate page
+// List pages
 // ****************************************************************************
 
-	$dup_id = qsGet("dup");
+	$split_id = qsGet("split");
 
-	if ( $dup_id > 0 ) {
+	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
 
-		$dup = db_setDuplicatePage( array(
-					'id' => $dup_id,
-					'site' => $PAGE_siteid
-				) );
+	if ( isset( $result ) )
+	{
 
-		if ($dup >= 0) {
-			//echo "<div class='alert alert-success'><h4>Duplication successful</h4><p>The selected page has been duplicated.</p></div>";
-			fn_infobox("Duplication successful", "The selected page has been duplicated.",'');
-		} else {
-			pushError("Duplication of page failed, please try again.");
+?>
+		<table class="site-list">
+			<thead>
+				<th>-</th>
+				<th>Title</th>
+				<th>URL</th>
+				<th>-</th>
+			</thead>
+			<tbody>
+
+<?php
+		
+		while ( $row = $result->fetch_object() )
+		{
+			if ( $row->id == $split_id ) {
+				echo '<tr class="selected">';
+			} else {
+				echo '<tr>';
+			}
+
+			if ($split_id > 0) {
+				echo "<td>-</td>";
+			} else {
+				echo "<td><a href=\"" . $SYS_pageself . "?split=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Edit HTML</a></td>";
+			}
+
+			$page = $row->page;
+			$url = str_replace( $PAGE_siteurl, "/", $page );
+
+			echo "<td>" . $row->title . "</a></td>";
+			echo "<td>";
+			
+			if ( $row->crawled == 1 ) {
+				echo "<a href=\"" . $page . "\" target=\"_blank\" title=\"Click to open the original crawled page\">";
+				echo $url;
+				echo "</a>";
+			} else {
+				echo $url;
+			}
+
+			echo "</td>";
+			echo "<td><a href=\"" . $SYS_pageself . "?del=" . $row->id . "\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
+			echo '</tr>';
 		}
+
+?>
+			</tbody>
+		</table>
+
+<?php
 
 	}
 
@@ -357,22 +350,6 @@ if ( 1 === 3 ) {
 
 							}
 
-/*
-<a name="\.*"><\/a><\/p>
-<table cellpadding="1">
-<tr>
-<th>(.*?)<\/span> <span class="td_svag">\(.* HP\)<\/th>
-<\/tr>
-<\/table>
-
-<a name="[*]"></a></p>
-<table cellpadding="1">
-<tr>
-<th>[?]</span> <span class="td_svag">([*] HP)</th>
-</tr>
-</table>
-*/
-
 						} else {
 
 							var_dump( array(
@@ -424,40 +401,6 @@ if ( 1 === 3 ) {
 
 		}
 
-	}
-
-
-
-	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
-
-	if ( isset( $result ) )
-	{
-		echo '<table class="site-list">';
-
-		while ( $row = $result->fetch_object() )
-		{
-			if ($row->id == $split_id ) {
-				echo '<tr class="selected">';
-			} else {
-				echo '<tr>';
-			}
-
-			if ($split_id > 0) {
-				echo "<td>-</td>";
-			} else {
-				echo "<td><a href=\"" . $SYS_pageself . "?split=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Split</a></td>";
-			}
-
-			$page = $row->page;
-
-			echo "<td><a href=\"" . $page . "\" target=\"_blank\">" . str_replace( $PAGE_siteurl, "/", $page ) . "</a></td>";
-//			echo "<td>&raquo; " . str_replace( $PAGE_sitenewurl, "/", $row->wp_guid . "" ) . "</td>";
-			echo "<td><a href=\"" . $SYS_pageself . "?dup=" . $row->id . "\" class=\"btn btn-mini btn-warning\">Duplicate</a></td>";
-			echo "<td><a href=\"" . $SYS_pageself . "?del=" . $row->id . "\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
-			echo '</tr>';
-		}
-
-		echo '</table>';
 	}
 
 ?>

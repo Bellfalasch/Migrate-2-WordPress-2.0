@@ -102,7 +102,7 @@
 
 	function db_getPagesFromSite($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `page`
+			SELECT `id`, `title`, `page`, `crawled`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			ORDER BY `page` ASC
