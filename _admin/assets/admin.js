@@ -41,15 +41,4 @@ $(function() {
 
 	});
 
-	// When the modal opens, set the title to the right one
-	$('#html-modal').on('show', function() {
-		$('#html-modal h3').text("Edit page HTML");
-	});
-
-	$("body.migrate-step7 #html-modal .btn-primary").click( function() {
-
-		alert("Saving changes ...");
-
-	});
-
 });

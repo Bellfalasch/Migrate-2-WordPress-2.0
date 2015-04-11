@@ -138,6 +138,8 @@
 
 <form class="well form" action="" method="post">
 
+	<h2><?= $title ?></h2>
+
 	<?php
 
 		// This is the output area, where all the field's html should be generated for empty field's SQL inserts, and already filled in field's SQL updates.
@@ -146,6 +148,8 @@
 		outputFormFields();
 
 	?>
+
+	<button type="submit" class="btn btn-primary">Save changes</button>
 
 </form>
 
