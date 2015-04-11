@@ -39,18 +39,18 @@
 
 				?>
 
-					<li class="span4">
-						<div class="thumbnail">
-							<h3>
-								<a href="<?= $SYS_pageself ?>?project=<?= $row->id ?>"><?= $row->name ?></a>
-							</h3>
-							<em><?= $row->url ?></em>
-							<p>
-								Step: <span class="badge badge-inverse"><?= $row->step ?></span><br />
-								Pages: <span class="badge badge-inverse"><?= $row->pages ?></span>
-							</p>
-						</div>
-					</li>
+				<li class="span4">
+					<div class="thumbnail">
+						<h3>
+							<a href="<?= $SYS_pageself ?>?project=<?= $row->id ?>"><?= $row->name ?></a>
+						</h3>
+						<em><?= $row->url ?></em>
+						<p>
+							Step: <span class="badge badge-inverse"><?= $row->step ?></span><br />
+							Pages: <span class="badge badge-inverse"><?= $row->pages ?></span>
+						</p>
+					</div>
+				</li>
 
 				<?php
 

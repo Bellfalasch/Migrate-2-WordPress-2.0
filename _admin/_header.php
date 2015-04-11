@@ -21,8 +21,7 @@
 				");
 	}
 
-?>
-<html>
+?><html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf8" />
 	<title><?= $PAGE_title ?> - Migrate 2 WordPress, 2.0 BETA</title>

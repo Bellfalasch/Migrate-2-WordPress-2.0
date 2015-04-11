@@ -10,10 +10,10 @@
 
 	// Form generator
 	addField( array(
-		"label" => "HTML-code to split on:",
-		"id" => "splitcode",
-		"type" => "area(10*7)",
-		"description" => "Enter any chunk of HTML-code here (use the output bellow as a guide). Use '[*]'' as a wildcard, and use '[?]' as the 'locator' (the page will be saved with that name). Only use one 'locator' (but any amount of wildcards).",
+		"label" => "Page Title:",
+		"id" => "title",
+		"type" => "text(3)",
+		"description" => "Set the Title to be used for this page",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -29,14 +29,11 @@
 	</div>
 
 	<div class="row">
-		<div class="span8">
-			<h2>Manage pages</h2>
+		<div class="span7">
+			<h2>Finalize pages</h2>
 			<p>
-				Here you can manage your pages that you crawled in Step 1. The reason you didn't get to this step right after is because the pages are easier to work with here if reduntant html-code
-				have been stripped away.
-			</p>
-			<p>
-				It's possible to access this step later and delete and duplicate pages. However, the split-function only runs on the data that comes from Step 2.
+				This is the end, the last step before we'll hand you that final XML export that you can import into WordPress.
+				Now's the chance to fine tune your pages HTML and a quick and easy way. You can also create new pages, if that's something you'd want.
 			</p>
 
 			<div class="alert alert-block alert-success">
@@ -49,11 +46,30 @@
 
 		</div>
 
-		<div class="span3 offset1">
-			<h4>Info</h4>
+		<div class="span4 offset1">
+
+<form class="well form" action="" method="post">
+
+			<h4>Create new Pages</h4>
 			<p>
-				Info ...
+				Sometimes you just need a few brand new pages to import into WordPress. Just create them here.
 			</p>
+
+			<?php
+
+				// This is the output area, where all the field's html should be generated for empty field's SQL inserts, and already filled in field's SQL updates.
+				// The fields data/content is generated in the upper parts of this document. Just call this function to get the html out.
+
+				outputFormFields();
+
+			?>
+
+			
+			<button type="submit" class="btn btn-primary">Create Page</button>
+			
+
+</form>
+
 		</div>
 
 	</div>
@@ -70,7 +86,7 @@
 	<div class="row">
 		<div class="span12">
 
-			<a class="btn btn-success" href="<?= $SYS_pageself ?>"><i class="icon-plus-sign icon-white"></i> Add new Page</a>
+<!--			<a class="btn btn-success" href="<?= $SYS_pageself ?>"><i class="icon-plus-sign icon-white"></i> Add new Page</a>-->
 
 <?php
 
@@ -117,19 +133,13 @@
 			<tbody>
 
 <?php
-		
+
 		while ( $row = $result->fetch_object() )
 		{
 			if ( $row->id == $split_id ) {
 				echo '<tr class="selected">';
 			} else {
 				echo '<tr>';
-			}
-
-			if ($split_id > 0) {
-				echo "<td>-</td>";
-			} else {
-				echo "<td><a href=\"" . $SYS_pageself . "?split=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-toggle=\"modal\" data-target=\"#myModal\">Edit HTML</a></td>";
 			}
 
 			$page = $row->page;
@@ -149,13 +159,19 @@
 					$title = strstr( $title, "?" );
 					$title = str_replace( "?", "", $title );
 				}
-				
+
 				$title = ucwords($title);
+			}
+
+			if ($split_id > 0) {
+				echo "<td>-</td>";
+			} else {
+				echo "<td><a href=\"" . $SYS_pageroot . "migrate-step7-htmleditor.php?id=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-title=\"" . $title . "\" data-toggle=\"modal\" data-target=\"#html-modal\">Edit HTML</a></td>";
 			}
 
 			echo "<td>" . $title . "</td>";
 			echo "<td>";
-			
+
 			if ( $row->crawled == 1 ) {
 				echo "<a href=\"" . $page . "\" target=\"_blank\" title=\"Click to open the original crawled page\">";
 				echo $url;
@@ -174,13 +190,13 @@
 		</table>
 
 		<!-- Modal -->
-		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div id="html-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">Modal header</h3>
+				<h3 id="myModalLabel">Edit page HTML</h3>
 			</div>
 			<div class="modal-body">
-				<p>One fine body…</p>
+				<p>One fine body ...</p>
 			</div>
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
