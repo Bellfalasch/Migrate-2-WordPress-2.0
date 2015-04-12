@@ -122,7 +122,7 @@
 
 	<?php if ( $PAGE_dbid > 0 ) { ?>
 
-<form class="well form" action="<?= $SYS_pageself ?>" method="post" id="ajax-form">
+<form class="well form" action="<?= $SYS_pageself ?>?id=<?= $PAGE_dbid ?>" method="post" id="ajax-form">
 
 	<?php
 
