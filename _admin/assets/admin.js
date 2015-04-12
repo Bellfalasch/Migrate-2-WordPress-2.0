@@ -41,44 +41,89 @@ $(function() {
 
 	});
 
-	// Ajax-save the forms data
-	$('#ajax-form').on('submit', function(e) {
 
-		e.preventDefault();
+	$('#html-modal').on('show', function() {
 
-		ajaxform = $('#ajax-form');
-		post_to = ajaxform.attr("action");
-		message = ajaxform.find(".hidden");
+		//alert("yolo1");
+		console.log("Modal activated");
+		//console.log( $('#ajax-form') );
 
-		message.show();
-		message.addClass("text-info");
-		message.text("Saving ...");
+		$('#html-modal').on('shown', function() {
 
-//		alert( ajaxform.attr("action") );
+			console.log("Modal done (shown)");
+			//console.log( $('#ajax-form') );
 
-		$.post(
-			post_to,
-			$('#ajax-form').serialize()
-		)
-		.done(function() {
-			message.removeClass("text-info");
-			message.addClass("text-success");
-			message.text("Saved!");
-			setTimeout( function() {
-				message.hide();
+			// Ajax-save the forms data
+			$('#ajax-form').on('submit', function(e) {
+
+				e.preventDefault();
+				//alert("yolo2");
+				//return false;
+
+				ajaxform = $('#ajax-form');
+				post_to = ajaxform.attr("action");
+				message = ajaxform.find(".hidden");
+
+				message.show();
 				message.removeClass("text-success");
-			}, 2500);
-		})
-		.fail(function() {
-			message.removeClass("text-info");
-			message.addClass("text-error");
-			message.text("NOT saved!");
-			setTimeout( function() {
-				message.hide();
 				message.removeClass("text-error");
-			}, 2500);
+				message.addClass("text-info");
+				message.text("Saving ...");
+
+		//		alert( ajaxform.attr("action") );
+				console.log( $('#ajax-form').serialize() );
+
+				$.post(
+					post_to,
+					$('#ajax-form').serialize()
+				)
+				.done(function() {
+					message.removeClass("text-info");
+					message.addClass("text-success");
+					message.text("Saved!");
+					setTimeout( function() {
+						message.hide();
+						message.removeClass("text-success");
+					}, 2500);
+				})
+				.fail(function() {
+					message.removeClass("text-info");
+					message.addClass("text-error");
+					message.text("NOT saved!");
+					setTimeout( function() {
+						message.hide();
+						message.removeClass("text-error");
+					}, 2500);
+				});
+
+				//return false;
+
+			});
+
 		});
 
+	});
+
+	// Destroy the contents of the modal when it closes so we can use it again on another page
+	// Why? - http://stackoverflow.com/questions/12286332/twitter-bootstrap-remote-modal-shows-same-content-everytime
+	$('#html-modal').on('hide', function () {
+
+		console.log("Modal hiding");
+
+		$form = $('#ajax-form');
+
+		$('#html-modal').on('hidden', function () {
+
+			console.log("Modal hidden");
+
+			//$form.remove();
+			//$(this).removeData('#html-modal');
+			//$('#html-modal').removeData('#html-modal');
+			$('#html-modal').removeData();
+
+			console.log("Modal destroyed");
+
+		});
 	});
 
 });
