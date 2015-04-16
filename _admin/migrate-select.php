@@ -27,16 +27,19 @@
 
 	<div class="row">
 		<div class="span12">
+
+			<?php
+				$result = db_getSites();
+
+				if (!is_null($result))
+				{
+			?>
+
 			<ul class="thumbnails">
 
 				<?php
-					$result = db_getSites();
-
-					if (!is_null($result))
+					while ( $row = $result->fetch_object() )
 					{
-						while ( $row = $result->fetch_object() )
-						{
-
 				?>
 
 				<li class="span4">
@@ -53,16 +56,18 @@
 				</li>
 
 				<?php
-
-						}
-					}
-					else
-					{
-						echo "<p>No projects found (<a href=\"" . $SYS_pageroot . "project.php\">create one</a>!)</p>";
 					}
 				?>
 
 			</ul>
+			
+			<?php
+				}
+				else
+				{
+					echo "<p>No projects found (<a href=\"" . $SYS_pageroot . "project.php\">create one</a>!)</p>";
+				}
+			?>
 
 		</div>
 	</div>

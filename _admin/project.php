@@ -115,7 +115,7 @@
 
 			// If no errors:
 			if (empty($SYS_errors)) {
-				
+
 				//echo "<div class='alert alert-block alert-success'><h4>Success</h4><p>Your posted data validated!</p></div>";
 
 				// UPDATE
@@ -150,7 +150,7 @@
 
 					// If the insert worked we will now have the created id in this variable, otherwhise we will have 0 or -1.
 					if ($result > 0) {
-						
+
 						//echo '<div class="alert alert-success"><h4>Save successful</h4><p>New data saved, id: ' . $result . '</p></div>';
 //
 //						// Reset all the data so we get a clean form after an insert.
@@ -175,7 +175,7 @@
 
 		if ( $PAGE_dbid > 0 && !ISPOST )
 		{
-			
+
 			// Call _database.php function for getting any selected data.
 			$result = db_getSite( array('id' => $PAGE_dbid) );
 
@@ -193,7 +193,7 @@
 			} else {
 				pushError("Couldn't find the requested data");
 			}
-			
+
 		}
 
 
@@ -268,18 +268,21 @@
 		<div class="span12">
 
 			<h2>My projects</h2>
+
+			<?php
+				$result = db_getSites();
+
+				if (!is_null($result))
+				{
+			?>
+
 			<ul class="thumbnails">
 
 				<?php
-					$result = db_getSites();
-
-					if (!is_null($result))
+					while ( $row = $result->fetch_object() )
 					{
-						while ( $row = $result->fetch_object() )
-						{
-				
 				?>
-			
+
 					<li class="span4">
 						<div class="thumbnail">
 							<h3>
@@ -292,18 +295,20 @@
 							</p>
 						</div>
 					</li>
-				
+
 				<?php
-				
-						}
-					}
-					else
-					{
-						echo "<p>No projects found</p>";
 					}
 				?>
 
 			</ul>
+
+			<?php
+				}
+				else
+				{
+					echo "<p>No projects found</p>";
+				}
+			?>
 
 		</div>
 	</div>
