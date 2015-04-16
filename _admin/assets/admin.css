@@ -424,3 +424,6 @@ label .help-block {
 #ajax-form .hidden {
 	display: none;
 }
+.thumbnail {
+	text-align: center;
+}

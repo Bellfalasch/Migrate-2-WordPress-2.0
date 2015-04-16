@@ -47,7 +47,7 @@
 						<h3>
 							<a href="<?= $SYS_pageself ?>?project=<?= $row->id ?>"><?= $row->name ?></a>
 						</h3>
-						<em><?= $row->url ?></em>
+						<p><a href="<?= $row->url ?>" target="_blank"><em><?= $row->url ?></em></a></p>
 						<p>
 							Step: <span class="badge badge-inverse"><?= $row->step ?></span><br />
 							Pages: <span class="badge badge-inverse"><?= $row->pages ?></span>
