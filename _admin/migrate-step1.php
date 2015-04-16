@@ -68,7 +68,6 @@ function savepage($url, $html)
 	}
 
 //	echo mb_detect_encoding($html, "utf-8, iso-8859-1");
-//	exit;
 
 	if ($html != "") {
 
@@ -105,7 +104,6 @@ function savepage($url, $html)
 function checklink($link)
 {
 	global $checked_link;
-	global $debugger;
 
 	// Find every space in URLs, and replace it with %20
 //	$space_search = array('/\s/i');
@@ -123,18 +121,13 @@ function checklink($link)
 	// If match found (# found in URL) remove it
 	if ( $matches ) {
 		$link = $matches[0];
-//		echo $matches[0];
 	}
-//	var_dump($matches);
-
-//	echo $link;
-
-	//var_dump( $endings );
 
 	if ( validfiletype($link) ) {
 		$checked_link = $link;
 
-		array_push( $debugger, "Valid 'checked_link': " . $checked_link );
+//		array_push( $debugger, "Valid 'checked_link': " . $checked_link );
+		// Note to self: don't debug here, will come out double since the crawler code does all the debugging.
 
 		return true;
 	} else {
@@ -172,7 +165,7 @@ function forsites($check_links)
 	while($continue)
 	{
 		$continue = false;
-		#		for ($i=0; $i<=count($check_links); $i++)
+
 		foreach ($check_links as $url => $v)
 		{
 			if ($v == 0)
@@ -254,11 +247,6 @@ function getsite($url)
 
 	//$http_request = stream_get_contents($http_request);
 
-	// Create array to store all the links we find, one for each regex-string
-//	for ($i=0; $i<=$search_length; $i++) {
-//		$linklist = array();
-//	}
-
 	// Collect a list of links from our pages and check for duplicates
 	$pagebuffer = "";
 
@@ -268,12 +256,8 @@ function getsite($url)
 		{
 
 			$pagebuffer .= $buffer; // "while" checks if it worked, add it to the buffer (no idea why it adds it like this)
-									// Nevermind, read up on documentation ... fgets apparently reads files/URLs line by line (facepalm)
+									// Nevermind, I read up on documentation ... fgets apparently reads files/URLs line by line (facepalm)
 
-//			echo "sparat ...";
-//			exit;
-
-			//echo "search_length: " . $search_length . "<br />";
 		}
 
 	}
@@ -281,16 +265,11 @@ function getsite($url)
 	// Search for all the different regex we have
 	for ( $i = 0; $i < $search_length; $i++ )
 	{
-
 		// Find all matching links in the fetched URL's html
 		if ( preg_match_all($search[$i], $pagebuffer, $result) )
 		{
-			//if ( $i < count($result[$i]) ) {
 
-if (DEBUG) {
-			echo '<strong>$result</strong>';
-			var_dump( $result );
-}
+			array_push( $debugger, '<strong>$result</strong><pre>' . var_export($result, true) . "</pre>" );
 
 			// Add each link we find to our link list
 			$result_length = count($result[1]);
@@ -300,17 +279,13 @@ if (DEBUG) {
 			for ( $u = 0; $u < $result_length; $u++ )
 			{
 
-				array_push( $debugger, $u . ' - ' . in_array($result[1][$u], $linklist) . '<br />' );
+				array_push( $debugger, '<strong>' . $u . '</strong> - ' . in_array($result[1][$u], $linklist) . ' ' );
 
 				// Don't add duplicates
 				if ( !in_array($result[1][$u], $linklist) ) {
 
-if (DEBUG) {
-					echo '<strong>$result[1][$u]</strong>';
-					var_dump($result[1][$u]);
-					echo 'validfiletype($result[1][$u])';
-					var_dump(validfiletype($result[1][$u]) );
-}
+					array_push( $debugger, '<strong>$result[1][$u]:</strong> <span class="text-info">' . var_export($result[1][$u], true) . '</span> ' );
+					array_push( $debugger, '<strong>validfiletype():</strong> ' . var_export(validfiletype($result[1][$u]), true) . '<br />' );
 
 					if ( validfiletype($result[1][$u]) ) {
 
@@ -323,13 +298,7 @@ if (DEBUG) {
 
 			}
 
-if (DEBUG) {
-			echo '<strong>$linklist</strong>';
-			var_dump($linklist);
-}
-
-			//}
-			//exit;
+			array_push( $debugger, '<strong>$linklist</strong><pre>' . var_export($linklist, true) . "</pre>" );
 
 		}
 	}
@@ -350,7 +319,7 @@ if (DEBUG) {
 	for ( $j = 0; $j < $links_length; $j++)
 	{
 
-		array_push( $debugger, "Validating link: " . $linklist[$j] );
+		array_push( $debugger, "<strong>Validating link:</strong> <span class='text-info'>" . $linklist[$j] . "</span><br />" );
 
 		if (!empty($linklist[$j]) )
 		{
@@ -359,7 +328,7 @@ if (DEBUG) {
 			if (preg_match($search_links[0], $linklist[$j], $res_links))
 			{
 
-				array_push( $debugger, " = not allowed" );
+				array_push( $debugger, " = <span class='text-error'>not allowed</span>" );
 
 			}
 			// Honeypot, catching bad URLs: (http-links, most likely leaving the site but check and make sure)
@@ -382,7 +351,7 @@ if (DEBUG) {
 								$break = true;
 								break;
 
-								array_push( $debugger, " = cool" );
+								array_push( $debugger, " = <span class='text-success'>cool</span>" );
 							}
 						}
 					}
@@ -390,7 +359,7 @@ if (DEBUG) {
 				else
 				{
 					$break = true;
-					array_push( $debugger, " = not allowed" );
+					array_push( $debugger, " = <span class='text-error'>not allowed</span>" );
 				}
 
 
@@ -400,11 +369,9 @@ if (DEBUG) {
 			else
 			{
 
-			// Match link without regexp, should be valid and inside that site
+				// Match link without regexp, should be valid and inside that site
 
-				//var_dump( $linklist[$j] );
-
-				array_push( $debugger, " = not .. or http in start, checking" );
+				array_push( $debugger, " = not '..' or 'http' in start." );
 
 				// Don't collect garbage links (only # in the href, or mailto-links)
 				if ($linklist[$j] != "#" && substr( $linklist[$j], 0, 7 ) != "mailto:")
@@ -425,10 +392,12 @@ if (DEBUG) {
 							echo " <span class=\"label label-info\">Added</span>";
 							$check_links[$checked_link] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
 
-							array_push( $debugger, "'checked_link' (" . $checked_link . ") = 0. " );
+							//array_push( $debugger, " 'checked_link' (" . $checked_link . ") = 0. " );
+							array_push( $debugger, " <strong>\"checklink\"</strong>: <span class='text-success'>Valid, added to list!</span>");
 
 						} else {
 							echo " <span class=\"label\">Skipped</span>";
+							array_push( $debugger, " <strong>\"checklink\"</strong>: <span class='text-error'>Already in our list</span>");
 						}
 					} else {
 						echo " <span class=\"label\">Not a page</span>";
@@ -446,20 +415,16 @@ if (DEBUG) {
 
 	echo "</ol>";
 
-	//$check_links[$PAGE_siteurl] = 1;
 	$check_links[$url] = 1; // Link is flagged as parsed/crawled
 
-if (DEBUG) {
-	echo "<strong>'check_links' array:</strong><br />";
-	var_dump( $check_links );
-}
+	array_push( $debugger, "<strong>'check_links' array:</strong><br /><pre>" . var_export($check_links, true) . "</pre>" );
 
+	// Output everything we stored in the debugger array, if debugging is activated by user
 	if (DEBUG) {
 		foreach($debugger as $error) {
 			echo $error;
 		}
 	}
-
 
 	// Close file/URL
 	fclose($http_request);
