@@ -85,8 +85,11 @@
 
 	//////////////////////////////////////////////////////////////////////////////////
 
+	// Project has been chosen in the Select stage, set everything needed and send to starting point
 	if (qsGet("project") != "") {
 		$_SESSION["site"] = qsGet("project");
+		ob_clean();
+		header('Location: ' . $SYS_pageroot . 'migrate-step1.php');
 	}
 
 	if (isset($_SESSION["site"])) {

@@ -45,6 +45,7 @@
 	}
 
 	// Custom debugging of crawl activated
+	$debugger = array();
 	if ( formGet('debug') === 'yes' ) {
 		DEFINE('DEBUG', true);
 	} else {
@@ -104,6 +105,7 @@ function savepage($url, $html)
 function checklink($link)
 {
 	global $checked_link;
+	global $debugger;
 
 	// Find every space in URLs, and replace it with %20
 //	$space_search = array('/\s/i');
@@ -117,7 +119,7 @@ function checklink($link)
 	$matches = array();
 	$anchor_search = "/(.*?)#(.*?)/i";
 	preg_match($anchor_search, $link, $matches);
-	
+
 	// If match found (# found in URL) remove it
 	if ( $matches ) {
 		$link = $matches[0];
@@ -131,11 +133,8 @@ function checklink($link)
 
 	if ( validfiletype($link) ) {
 		$checked_link = $link;
-		//echo  "\n" . $checked_link . " ---<br />\n";
 
-		if (DEBUG) {
-			echo "Valid 'checked_link': " . $checked_link;
-		}
+		array_push( $debugger, "Valid 'checked_link': " . $checked_link );
 
 		return true;
 	} else {
@@ -193,6 +192,7 @@ function getsite($url)
 	global $PAGE_siteid;
 	global $check_links;
 	global $checked_link;
+	global $debugger;
 
 	$linklist = array(); // Array to store all the links in
 
@@ -261,7 +261,7 @@ function getsite($url)
 
 	// Collect a list of links from our pages and check for duplicates
 	$pagebuffer = "";
-	
+
 	if ($search_length > 0) { // If we have any search terms
 
 		while ( ($buffer = fgets($http_request)) !== false )
@@ -295,16 +295,13 @@ if (DEBUG) {
 			// Add each link we find to our link list
 			$result_length = count($result[1]);
 
-if (DEBUG) {
-			echo 'Array längd: ' . $result_length . '<br />';
-}
+			array_push( $debugger, "Array längd: " . $result_length . "<br />" );
 
 			for ( $u = 0; $u < $result_length; $u++ )
 			{
 
-if (DEBUG) {
-				echo $u . ' - ' . in_array($result[1][$u], $linklist) . '<br />';
-}
+				array_push( $debugger, $u . ' - ' . in_array($result[1][$u], $linklist) . '<br />' );
+
 				// Don't add duplicates
 				if ( !in_array($result[1][$u], $linklist) ) {
 
@@ -323,15 +320,15 @@ if (DEBUG) {
 					}
 
 				}
-			
+
 			}
-				
+
 if (DEBUG) {
 			echo '<strong>$linklist</strong>';
 			var_dump($linklist);
 }
 
-			//} 
+			//}
 			//exit;
 
 		}
@@ -347,173 +344,105 @@ if (DEBUG) {
 	echo "<ol>";
 
 
-	// For each type of URL format ...
-//	for ($i=0; $i<=$search_length; $i++)
-//	{
+	$links_length = count($linklist);
 
-		$links_length = count($linklist);
+	// For each link found ...
+	for ( $j = 0; $j < $links_length; $j++)
+	{
 
-		// For each link found ...
-		for ( $j = 0; $j < $links_length; $j++)
+		array_push( $debugger, "Validating link: " . $linklist[$j] );
+
+		if (!empty($linklist[$j]) )
 		{
 
-if (DEBUG) {
-			echo "Validating link: " . $linklist[$j];
-}
-
-			if (!empty($linklist[$j]) )
+			// Honeypot, catching bad URLs: (going down one folder)
+			if (preg_match($search_links[0], $linklist[$j], $res_links))
 			{
 
-				// Honeypot, catching bad URLs: (going down one folder)
-				if (preg_match($search_links[0], $linklist[$j], $res_links))
+				array_push( $debugger, " = not allowed" );
+
+			}
+			// Honeypot, catching bad URLs: (http-links, most likely leaving the site but check and make sure)
+			else if (preg_match($search_links[1], $linklist[$j], $res_links))
+			{
+				$break = false;
+
+				array_push( $debugger, " = http link, checking if correct domain ..." );
+
+				if ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) && ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) ) && count($res_links[0] >= strlen($PAGE_siteurl) ) )
 				{
 
-if (DEBUG) {
-					echo " = not allowed";
-}
-
-				}
-				// Honeypot, catching bad URLs: (http-links, most likely leaving the site but check and make sure)
-				else if (preg_match($search_links[1], $linklist[$j], $res_links))
-				{
-					$break = false;
-
-if (DEBUG) {
-					echo " = http link, checking if correct domain ...";
-}
-
-					if ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) && ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) ) && count($res_links[0] >= strlen($PAGE_siteurl) ) )
+					if ( (($res_links[0][strlen($PAGE_siteurl)-1] != ".") ) )
 					{
-
-						if ( (($res_links[0][strlen($PAGE_siteurl)-1] != ".") ) )
+						for ($k=0; $k<strlen($PAGE_siteurl); $k++)
 						{
-							for ($k=0; $k<strlen($PAGE_siteurl); $k++)
+							if ($res_links[0][$k] != $PAGE_siteurl[$k])
 							{
-								if ($res_links[0][$k] != $PAGE_siteurl[$k])
-								{
-	#								echo "TRUE";
-									//echo $site_address[$k] . " <span class=\"label label-info\">Link</span><br />";
-									$break = true;
-									break;
-if (DEBUG) {
-									echo " = cool";
-}
-								}
+								//echo $site_address[$k] . " <span class=\"label label-info\">Link</span><br />";
+								$break = true;
+								break;
+
+								array_push( $debugger, " = cool" );
 							}
 						}
 					}
-					else
-					{
-#						echo "TRUE2";
-						$break = true;
-if (DEBUG) {
-						echo " = not allowed";
-}
-
-					}
-
-
-				// Looks like these are outside of the folder we're looking in =/
-				/*
-					if (!$break)
-					{		
-						echo "1: " . $res_links[0] . "";
-						#					print_r($res_links);
-#						$link = preg_replace($replace_search, $replace, $res_links[0]);
-						if (checklink($res_links[0])) {
-							if (!array_key_exists($checked_link, $check_links))
-							{
-								echo " <span class=\"label label-success\">Added</span>";
-								$check_links[$checked_link] = 0;
-							} else {
-								echo " <span class=\"label label-warning\">Skipped</span>";
-							}
-						}
-
-						echo "<br />";
-					}
-
-				*/
 				}
 				else
 				{
+					$break = true;
+					array_push( $debugger, " = not allowed" );
+				}
 
-				// Match link without regexp, should be valid and inside that site
 
-#					echo "\n2: " . $linklist[$j][1] . "<br />\n";
-#					print_r($res_links);
+			// Looks like this is outside of the folder we're looking in =/
 
-//					echo "count:" . count($linklist[$j]);
-/*
-					$del_val = "#";
-					$key = array_search($del_val, $linklist[$j]);
+			}
+			else
+			{
 
-					if ( $key !== false ) {
-						unset($linklist[$j][$key]);
-					}
-*/
-//					$links2_length = count($linklist[$j]);
+			// Match link without regexp, should be valid and inside that site
 
-					
-//					for ($y=0; $y<=$links2_length; $y++)
-//					{
-//					$y = 0;
+				//var_dump( $linklist[$j] );
 
-						//var_dump( $linklist[$j] );
-if (DEBUG) {
-						echo " = not .. or http in start, checking";
-}
+				array_push( $debugger, " = not .. or http in start, checking" );
 
-						// Don't collect garbage links (only # in the href, or mailto-links)
-						if ($linklist[$j] != "#" && substr( $linklist[$j], 0, 7 ) != "mailto:")
+				// Don't collect garbage links (only # in the href, or mailto-links)
+				if ($linklist[$j] != "#" && substr( $linklist[$j], 0, 7 ) != "mailto:")
+				{
+
+					// Create full http links with domain name and all
+					$link_full = $PAGE_siteurl . $linklist[$j];
+
+					// Output information (link) to user
+					echo "<li><a href=\"" . $link_full . "\" target=\"_blank\">" . $link_full . "</a>\n";
+
+#						$link = preg_replace($replace_search, $replace, $link_full[1]);
+					if (checklink($link_full))
+					{
+						//echo "\n" . $checked_link . " ---\n";
+						if (!array_key_exists($checked_link, $check_links))
 						{
-// exit;
-//								if ( $y > 1 )
-//									exit;
+							echo " <span class=\"label label-info\">Added</span>";
+							$check_links[$checked_link] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
 
-							// Create full http links with domain name and all
-							$link_full = $PAGE_siteurl . $linklist[$j];
+							array_push( $debugger, "'checked_link' (" . $checked_link . ") = 0. " );
 
-							// Output information (link) to user
-							echo "<li><a href=\"" . $link_full . "\" target=\"_blank\">" . $link_full . "</a>\n";
-
-	#						$link = preg_replace($replace_search, $replace, $link_full[1]);
-							if (checklink($link_full))
-							{
-								//echo "\n" . $checked_link . " ---\n";
-								if (!array_key_exists($checked_link, $check_links))
-								{
-									echo " <span class=\"label label-info\">Added</span>";
-									$check_links[$checked_link] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
-
-									if (DEBUG) {
-										echo "'checked_link' (" . $checked_link . ") = 0. ";
-									}
-
-								} else {
-									echo " <span class=\"label\">Skipped</span>";
-								}
-							} else {
-								echo " <span class=\"label\">Not a page</span>";
-							}
-							echo "</li>";
-
+						} else {
+							echo " <span class=\"label\">Skipped</span>";
 						}
-						
-						//exit;
-					
-//					} // for $y
+					} else {
+						echo " <span class=\"label\">Not a page</span>";
+					}
+					echo "</li>";
 
 				}
+
 			}
-
-if (DEBUG) {
-	echo "<br />";
-}
-			
 		}
-//	}
 
+		array_push( $debugger, "<br />" );
+
+	}
 
 	echo "</ol>";
 
@@ -524,6 +453,13 @@ if (DEBUG) {
 	echo "<strong>'check_links' array:</strong><br />";
 	var_dump( $check_links );
 }
+
+	if (DEBUG) {
+		foreach($debugger as $error) {
+			echo $error;
+		}
+	}
+
 
 	// Close file/URL
 	fclose($http_request);
@@ -637,7 +573,7 @@ if (DEBUG) {
 			<div class="row">
 				<div class="span5">
 					<h4>Fetch these filetypes</h4>
-					
+
 					<?php
 						// Valid file endings to crawl
 						$optionArray = array("aspx","asp","htm","html");
