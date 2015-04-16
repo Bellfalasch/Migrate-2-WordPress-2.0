@@ -30,7 +30,7 @@ It's based on a somewhat slow fopen-crawl, this might be changed in the future. 
 Installation:
 ----------------
 
-Look at the list of dependencies after this section. Make sure all is set up. Open phpMyAdmin (or similiar), execute everything in the included file "/DATABASE.sql" in root. Now upload all the files to your server (or localhost). It *should* work in any folder structure.
+Look at the list of dependencies after this section. Make sure all is set up. Open phpMyAdmin (or similiar), create a database called "test" and execute everything in the included file "/DATABASE.sql". Now upload all the files to your server (or localhost). It *should* work in any folder structure.
 
 Log in with "admin@example.com" and "password" in the login form (you should be redirected automatically when you open the projects root folder).
 

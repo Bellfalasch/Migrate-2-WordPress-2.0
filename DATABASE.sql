@@ -1,11 +1,9 @@
 -- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- SET time_zone = "+00:00";
-
 -- --------------------------------------------------------
 
-
 --
--- Tabellstruktur `migrate_sites`
+-- Table structure for table `migrate_sites`
 --
 
 CREATE TABLE IF NOT EXISTS `migrate_sites` (
@@ -68,5 +66,4 @@ CREATE TABLE IF NOT EXISTS `migrate_users` (
 --
 
 INSERT INTO `migrate_users` (`id`, `name`, `mail`, `username`, `password`, `lastlogin`, `level`) VALUES
-(1, NULL, 'test@test.no', 'Nils', 'pills', '2013-05-13 13:37:00', 2),
-(2, NULL, 'admin@example.com', 'admin', 'password', '2013-05-22 13:37:00', 2);
+(1, NULL, 'admin@example.com', 'admin', 'password', '2013-05-22 13:37:00', 2);
