@@ -236,9 +236,13 @@
 
 		<div class="span4 offset1">
 
-			<a class="btn btn-success" href="<?= $SYS_pageself ?>"><i class="icon-plus-sign icon-white"></i> Add new Project</a>
+			<?php if ( $PAGE_dbid >= 0 ) { ?>
 
-			<hr />
+				<a class="btn btn-success" href="<?= $SYS_pageself ?>"><i class="icon-plus-sign icon-white"></i> Add new Project</a>
+
+				<hr />
+
+			<?php } ?>
 
 			<p>
 				<strong>Ready to Crawl, Clean, and Export?</strong> Then <a href="<?= $SYS_pageroot ?>migrate-select.php">head on over the
@@ -252,7 +256,13 @@
 	</div>
 
 	<div class="form-actions">
-		<button type="submit" class="btn btn-primary">Save project</button>
+		<button type="submit" class="btn btn-primary">
+			<?php if ( $PAGE_dbid >= 0 ) { ?>
+				Save project
+			<?php } else { ?>
+				Create project
+			<?php } ?>
+		</button>
 
 		<?php if ($PAGE_dbid > 0) { ?>
 			<a href="<?= $SYS_pageself ?>?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger"><strong>Delete data AND project</strong></a>
