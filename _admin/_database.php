@@ -242,7 +242,7 @@
 			FROM `migrate_sites` s
 			LEFT OUTER JOIN `migrate_content` c
 			ON c.`site` = s.`id`
-			GROUP BY c.`site`
+			GROUP BY s.`id`
 			ORDER BY s.`id` DESC
 		");
 	}
