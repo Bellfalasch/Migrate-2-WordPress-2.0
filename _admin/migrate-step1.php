@@ -374,7 +374,7 @@ function getsite($url)
 						// Only add it to the linklist if it isn't there already
 						if (!array_key_exists($linklist[$j], $check_links))
 						{
-							array_push( $debugger, " Not added before, not adding" );
+							array_push( $debugger, " Not added before" );
 							// TODO: When I add this to the array we will end up in an eternal loop, if I don't add it we will stop after one page crawl
 						//	$check_links[$linklist[$j]] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
 						} else {
