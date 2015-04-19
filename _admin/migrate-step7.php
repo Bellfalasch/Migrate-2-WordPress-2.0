@@ -3,7 +3,7 @@
 	$PAGE_step  = 7;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'administrate your pages';
+	$PAGE_desc = 'administrate your page structure';
 ?>
 <?php require('_global.php'); ?>
 <?php
@@ -68,17 +68,15 @@
 
 	<div class="row">
 		<div class="span7">
-			<h2>Finalize pages</h2>
+			<h2>Structure pages</h2>
 			<p>
-				This is the end, the last step before we'll hand you that final XML export that you can import into WordPress.
 				Now's the chance to fine tune your pages HTML and a quick and easy way. You can also create new pages, if that's something you'd want.
 			</p>
 
 			<div class="alert alert-block alert-success">
 				<h4>No Save-button!?</h4>
 				<p>
-					When you're ready with all pages you wanna export, manually <a href="<?= $SYS_pageroot ?>migrate-step8.php">go to Step 8</a>.
-					All the pages under here, and their cleaned and washed html-code, will be exported to XML in the next step.
+					When you're ready with your page structure, manually <a href="<?= $SYS_pageroot ?>migrate-step8.php">go to Step 8</a>.
 				</p>
 			</div>
 

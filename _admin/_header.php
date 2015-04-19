@@ -26,11 +26,11 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf8" />
 	<title><?= $PAGE_title ?> - Migrate 2 WordPress, 2.0 BETA</title>
 	<!--<link rel="shortcut icon" href="<?= $SYS_root ?>/favicon.ico">-->
-	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.css" />
-	<link rel="stylesheet" href="<?= $SYS_root . $SYS_folder ?>/assets/admin.css?v=<?php if (DEV_ENV) echo rand(); ?>" />
+	<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/bootstrap.min.css" />
+	<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/admin.css?v=<?php if (DEV_ENV) echo rand(); ?>" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="<?= $SYS_root . $SYS_folder ?>/assets/bootstrap.min.js"></script>
-	<script src="<?= $SYS_root . $SYS_folder ?>/assets/admin.js"></script>
+	<script src="<?= $SYS_pageroot ?>assets/bootstrap.min.js"></script>
+	<script src="<?= $SYS_pageroot ?>assets/admin.js"></script>
 </head>
 <body class="<?= $SYS_script ?>">
 
@@ -48,12 +48,12 @@
 				<div class="nav-collapse">
 
 					<ul class="nav">
-						<li<?php flagAsActiveOn("index") ?>><a href="<?= $SYS_root . $SYS_folder ?>/index.php">Start</a></li>
+						<li<?php flagAsActiveOn("index") ?>><a href="<?= $SYS_pageroot ?>index.php">Start</a></li>
 						<?php if ($SYS_adminlvl > 0) { ?>
-							<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_root . $SYS_folder ?>/project.php">Projects</a></li>
-							<li<?php flagAsActiveOn("migrate") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate.php">Migrate</a></li>
+							<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_pageroot ?>project.php">Projects</a></li>
+							<li<?php flagAsActiveOn("migrate") ?>><a href="<?= $SYS_pageroot ?>migrate.php">Migrate</a></li>
 							<?php if ($SYS_adminlvl == 2) { ?>
-							<li<?php flagAsActiveOn("users") ?>><a href="<?= $SYS_root . $SYS_folder ?>/users.php">Users</a></li>
+							<li<?php flagAsActiveOn("users") ?>><a href="<?= $SYS_pageroot ?>users.php">Users</a></li>
 							<?php } ?>
 						<?php } ?>
 					</ul>
@@ -67,53 +67,53 @@
 		<ul class="nav nav-pills">
 			<?php if (isActiveOn("index")) { ?>
 
-				<li<?php flagAsActiveOn("index") ?>><a href="<?= $SYS_root . $SYS_folder ?>/index.php">Login</a></li>
+				<li<?php flagAsActiveOn("index") ?>><a href="<?= $SYS_pageroot ?>index.php">Login</a></li>
 				<?php if ($SYS_adminlvl > 0) { ?>
-				<li><a href="<?= $SYS_root . $SYS_folder ?>/index.php?do=logout">Sign out</a></li>
+				<li><a href="<?= $SYS_pageroot ?>index.php?do=logout">Sign out</a></li>
 				<?php } ?>
 
 
 			<?php } else if (isActiveOn("users")) { ?>
 
-				<li<?php flagAsActiveOn("users") ?>><a href="<?= $SYS_root . $SYS_folder ?>/users.php">Users</a></li>
+				<li<?php flagAsActiveOn("users") ?>><a href="<?= $SYS_pageroot ?>users.php">Users</a></li>
 
 
 			<?php } else if (isActiveOn("project")) { ?>
 
-				<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_root . $SYS_folder ?>/project.php">Projects</a></li>
+				<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_pageroot ?>project.php">Projects</a></li>
 
 			<?php } else if (isActiveOn("migrate")) { ?>
 
 				<?php if ($SYS_adminlvl > 0) { ?>
 
-					<li<?php flagAsActiveOn("select") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-select.php">0: Select</a></li>
+					<li<?php flagAsActiveOn("select") ?>><a href="<?= $SYS_pageroot ?>migrate-select.php">Select</a></li>
 
 					<?php if ($PAGE_siteid > 0) { ?>
 						<li class="disabled"><a href="#0">"<?= $PAGE_sitename ?>"</a></li>
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 0) { ?>
-						<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step1.php">1: Eat</a></li>
+						<li<?php flagAsActiveOn("step1") ?>><a href="<?= $SYS_pageroot ?>migrate-step1.php">1: Eat</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">1: Eat</a></li>
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 1) { ?>
-						<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step2.php">2: Strip</a></li>
+						<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_pageroot ?>migrate-step2.php">2: Strip</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">2: Strip</a></li>
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2) { ?>
-						<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step3.php">3: Manage</a></li>
+						<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_pageroot ?>migrate-step3.php">3: Manage</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">3: Manage</a></li>
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2) { ?>
-						<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step4.php">4: Wash</a></li>
-						<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step5.php">5: Tidy</a></li>
-						<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step6.php">6: Clean</a></li>
+						<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_pageroot ?>migrate-step4.php">4: Wash</a></li>
+						<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_pageroot ?>migrate-step5.php">5: Tidy</a></li>
+						<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_pageroot ?>migrate-step6.php">6: Clean</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">4: Wash</a></li>
 						<li class="disabled"><a href="#0">5: Tidy</a></li>
@@ -121,15 +121,21 @@
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2) { ?>
-						<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step7.php">7: Finalize</a></li>
+						<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_pageroot ?>migrate-step7.php">7: Structure</a></li>
 					<?php } else { ?>
-						<li class="disabled"><a href="#0">7: Finalize</a></li>
+						<li class="disabled"><a href="#0">7: Structure</a></li>
 					<?php } ?>
 
 					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 7) { ?>
-						<li<?php flagAsActiveOn("step8") ?>><a href="<?= $SYS_root . $SYS_folder ?>/migrate-step8.php">8: Export</a></li>
+						<li<?php flagAsActiveOn("step8") ?>><a href="<?= $SYS_pageroot ?>migrate-step8.php">8: Finalize</a></li>
 					<?php } else { ?>
-						<li class="disabled"><a href="#0">8: Export</a></li>
+						<li class="disabled"><a href="#0">8: Finalize</a></li>
+					<?php } ?>
+
+					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep > 2) { ?>
+						<li<?php flagAsActiveOn("export") ?>><a href="<?= $SYS_pageroot ?>migrate-export.php"><strong>Export</strong></a></li>
+					<?php } else { ?>
+						<li class="disabled"><a href="#0"><strong>Export</strong></a></li>
 					<?php } ?>
 
 				<?php } ?>
@@ -149,17 +155,20 @@
 		
 		<?php
 			// Generate the progress indicator automatically
-			if ( substr($SYS_script,0,12) == 'migrate-step' ) {
+			if ( substr($SYS_script,0,12) == 'migrate-step' || substr($SYS_script,0,14) == 'migrate-export' ) {
 
 				$percentage = 0;
 				$total_steps = 8;
 				$perstep = 100 / $total_steps;
 				$notpost = 0.9 * $perstep;
 
-				$percentage = $PAGE_step * $perstep;
-
-				if (!ISPOST) {
-					$percentage -= $notpost;
+				if ( substr($SYS_script,0,14) == 'migrate-export' ) {
+					$percentage = 100;
+				} else {
+					$percentage = $PAGE_step * $perstep;
+					if (!ISPOST) {
+						$percentage -= $notpost;
+					}
 				}
 		?>
 		

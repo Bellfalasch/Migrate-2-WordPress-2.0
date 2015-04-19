@@ -105,7 +105,7 @@ $(function() {
 	});
 
 	// Destroy the contents of the modal when it closes so we can use it again on another page
-	// Why? - http://stackoverflow.com/questions/12286332/twitter-bootstrap-remote-modal-shows-same-content-everytime
+	// Why: - http://stackoverflow.com/questions/12286332/twitter-bootstrap-remote-modal-shows-same-content-everytime
 	$('#html-modal').on('hide', function () {
 
 		console.log("Modal hiding");
@@ -119,7 +119,7 @@ $(function() {
 			//$form.remove();
 			//$(this).removeData('#html-modal');
 			//$('#html-modal').removeData('#html-modal');
-			$('#html-modal').removeData();
+			$('#html-modal').removeData(); // Correct way of doing it
 
 			console.log("Modal destroyed");
 

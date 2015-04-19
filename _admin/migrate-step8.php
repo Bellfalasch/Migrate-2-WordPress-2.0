@@ -3,7 +3,7 @@
 	$PAGE_step  = 8;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'export your content in the Wordpress-format';
+	$PAGE_desc = 'finalize your content before exporting it';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
@@ -137,12 +137,12 @@
 						echo " <span class=\"label label-success\">OK</span>";
 						echo "</p>";
 
-						if (formGet("save_move") != "Test move") {
+						if (formGet("save_finalize") != "Test Finalize") {
 
 							echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
 							// Do some saving right into WP
-							db_updateWPwithText($wp_table, $content, $row->wp_postid);
+//							db_updateWPwithText($wp_table, $content, $row->wp_postid);
 
 							db_updateStepValue( array(
 								'step' => $PAGE_step,
@@ -167,18 +167,23 @@
 
 ?>
 
+	<div class="alert">
+		<h4>Optional step!</h4>
+		<p>This step is not mandatory =)</p>
+	</div>
+
 <form class="well form" action="" method="post">
 
 	<div class="row">
 		<div class="span11">
 
 			<p>
-				Activating this step will run through your old clean pages and push all the code
-				straight into your Wordpress pages (given the connections made in previous step).
+				This is the end, the last step before we'll hand you that final XML export that you can import into WordPress.
 			</p>
 			<p>
-				This step also updates all your old links so it fits nicely inside your new
-				Wordpress installation.
+				This step will run through your old pages now clean code and fix all those last little details that
+				needs to be addressed before handing you the export XML data. We'll update all inline links that have
+				changed, and things like that.
 			</p>
 
 			<h3>Settings:</h3>
@@ -198,9 +203,9 @@
 			</label>
 			<br />
 
-			<input type="submit" name="save_move" value="Move 'em all!" class="btn btn-primary" />
+			<input type="submit" name="save_finalize" value="Save Finalize" class="btn btn-primary" />
 
-			<input type="submit" name="save_move" value="Test move" class="btn" />
+			<input type="submit" name="save_finalize" value="Test Finalize" class="btn" />
 
 		</div>
 	</div>
