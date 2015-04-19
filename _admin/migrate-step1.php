@@ -57,7 +57,7 @@
 // ****************************************************************************
 
 // Simple insert into the database, no check if data already is there.
-function savepage($url, $html)
+function savepage($url, $html, $title)
 {
 	global $PAGE_siteid;
 
@@ -68,6 +68,18 @@ function savepage($url, $html)
 	}
 
 //	echo mb_detect_encoding($html, "utf-8, iso-8859-1");
+
+	// Convert page title into something more URL friendly
+	$slug = trim( mb_strtolower($title) );
+	$slug = str_replace(' ', '-', $slug); // Space to dash
+	$slug = str_replace(',', '', $slug); // Everything else removed
+	$slug = str_replace('.', '', $slug);
+	$slug = str_replace('&', '', $slug);
+	$slug = str_replace('%', '', $slug);
+	$slug = str_replace('#', '', $slug);
+	$slug = str_replace('\'', '', $slug);
+	$slug = str_replace('"', '', $slug);
+	$slug = urlencode( $slug );
 
 	if ($html != "") {
 
@@ -84,7 +96,9 @@ function savepage($url, $html)
 
 			$result = db_setUpdatePage( array(
 							'html' => $html,
-							'id' => $row->id
+							'id' => $row->id,
+							'page_slug' => $slug,
+							'title' => $title
 						) );
 
 		} else {
@@ -92,9 +106,9 @@ function savepage($url, $html)
 			$result = db_setNewPage( array(
 							'site' => $PAGE_siteid,
 							'html' => $html,
-							'content' => null,
 							'page' => $url,
-							'clean' => null
+							'page_slug' => $slug,
+							'title' => $title
 						) );
 		}
 
@@ -434,7 +448,22 @@ function getsite($url)
 	// Only save when Run crawl is pressed (never on Test)
 	if (formGet("save_crawl") == "Run crawl") {
 
-		savepage($url, trim($pagebuffer) );
+		// Calculate a title from the url
+		$title = $url;
+		$title = str_replace( "/", "", $title );
+		$title = str_replace( array('aspx','asp','php','html','htm'), array('','','','',''), $title );
+		$title = str_replace( ".", "", $title );
+		$title = str_replace( "-", " ", $title );
+
+		// If the URL contains a ? then we should remove it and everything before it
+		if ( strpos($title, "?") > 0) {
+			$title = strstr( $title, "?" );
+			$title = str_replace( "?", "", $title );
+		}
+		
+		$title = ucwords($title);
+
+		savepage($url, trim($pagebuffer), $title );
 
 	}
 

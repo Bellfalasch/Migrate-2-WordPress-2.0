@@ -29,13 +29,13 @@
 	function db_setNewPage($in) { cleanup($in);
 		return db_MAIN("
 			INSERT INTO `migrate_content`
-				(`site`,`html`,`content`,`clean`,`page`)
+				(`site`,`html`,`content`,`page_slug`,`title`)
 			VALUES(
 				{$in['site']},
 				{$in['html']},
-				{$in['content']},
-				{$in['clean']},
-				{$in['page']}
+				{$in['page']},
+				{$in['page_slug']},
+				{$in['title']}
 			)
 		");
 	}
@@ -52,7 +52,9 @@
 	function db_setUpdatePage($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_content`
-			SET `html` = {$in['html']}
+			SET `html` = {$in['html']},
+			`page_slug` = {$in['page_slug']},
+			`title` = {$in['title']}
 			WHERE `id` = {$in['id']}
 		");
 	}
