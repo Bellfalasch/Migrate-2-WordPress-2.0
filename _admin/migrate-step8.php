@@ -171,67 +171,37 @@
 
 			while ( $row = $result->fetch_object() )
 			{
-/*
-				$stop = false;
 
-				// Waterfall-choose the best (cleanest) html from the database depending on which is available
-				if ( !is_null($row->ready) ) {
+				// Update all links
+				$newlink = $row->page_guid;
+				$oldlink = $row->page;
 
-					$content = $row->ready;
+				if ($newlink != "" && !is_null($newlink))
+				{
 
-				} elseif ( !is_null($row->clean) ) {
+					$mapparArr = explode('/', $oldlink);
+					$fil = $mapparArr[count($mapparArr) - 1];
+					//$mapp = $mapparArr[count($mapparArr) - 2];
 
-					$content = $row->clean;
+					// Re-build the full new URL for the page
+					$separator = "/";
+					if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) ) {
+						$separator = "";
+					}
+					$newlink = $PAGE_sitenewurl . $separator . $newlink;
 
-				} elseif ( !is_null($row->tidy) ) {
+					// Update all the Links on ALL the pages
+					$fixLinks = db_updateContentLinks( array(
+										'oldlink' => ' href="' . $oldlink,
+										'newlink' => ' href="' . $newlink
+								) );
 
-					$content = $row->tidy;
-
-				} elseif ( !is_null($row->wash) ) {
-
-					$content = $row->wash;
-
-				} elseif ( !is_null($row->content) ) {
-
-					$content = $row->content;
-
-				} else {
-
-					$stop = true;
-
+					// Output a counter if we got any hits
+					echo "<span class=\"badge badge-success\">" . ($fixLinks) . "</span>";
 				}
 
-				if ( !$stop ) {
-*/
-					// Update all links
-					$newlink = $row->page_guid;
-					$oldlink = $row->page;
-
-					if ($newlink != "" && !is_null($newlink))
-					{
-
-						$mapparArr = explode('/', $oldlink);
-						$fil = $mapparArr[count($mapparArr) - 1];
-						//$mapp = $mapparArr[count($mapparArr) - 2];
-
-						// Re-build the full new URL for the page
-						$separator = "/";
-						if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) ) {
-							$separator = "";
-						}
-						$newlink = $PAGE_sitenewurl . $separator . $newlink;
-
-						// Update all the Links on ALL the pages
-						$fixLinks = db_updateContentLinks( array(
-											'oldlink' => ' href="' . $oldlink,
-											'newlink' => ' href="' . $newlink
-									) );
-
-						// Output a counter if we got any hits
-						echo "<span class=\"badge badge-success\">" . ($fixLinks) . "</span>";
-					}
-//				}
 			}
+
 		}
 
 	}
