@@ -369,7 +369,7 @@ function getsite($url)
 */
 					// Check that we have the correct root URL
 					if ( mb_substr( $linklist[$j], 0, strlen($PAGE_siteurl) ) == $PAGE_siteurl ) {
-						array_push( $debugger, " = <span class='text-success'>cool, valid URL</span>" );
+						array_push( $debugger, " = <span class='text-success'>cool, valid URL</span><br />" );
 
 						// Only add it to the linklist if it isn't there already
 						if (!array_key_exists($linklist[$j], $check_links))
@@ -389,14 +389,14 @@ function getsite($url)
 					{
 						//$break = true;
 						array_push( $debugger, " = <span class='text-error'>not correct URL base</span>" );
-						continue;
+						//continue;
 					}
 				}
 				else
 				{
 					//$break = true;
 					array_push( $debugger, " = <span class='text-error'>URL not allowed</span>" );
-					continue;
+					//continue;
 				}
 
 			}
@@ -410,7 +410,6 @@ function getsite($url)
 				// Don't collect garbage links (only # in the href, or mailto-links)
 				if ($linklist[$j] != "#" && substr( $linklist[$j], 0, 7 ) != "mailto:")
 				{
-
 					// Create full http links with domain name and all
 					$link_full = $PAGE_siteurl . $linklist[$j];
 
@@ -421,10 +420,10 @@ function getsite($url)
 					if (checklink($link_full))
 					{
 						//echo "\n" . $checked_link . " ---\n";
-						if (!array_key_exists($checked_link, $check_links))
+						if (!array_key_exists($link_full, $check_links))
 						{
 							echo " <span class=\"label label-info\">Added</span>";
-							$check_links[$checked_link] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
+							$check_links[$link_full] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
 
 							//array_push( $debugger, " 'checked_link' (" . $checked_link . ") = 0. " );
 							array_push( $debugger, " <strong>\"checklink\"</strong>: <span class='text-success'>Valid, added to list!</span>");
@@ -451,7 +450,7 @@ function getsite($url)
 
 	$check_links[$url] = 1; // Link is flagged as parsed/crawled
 
-	array_push( $debugger, "<strong>'check_links' array:</strong><br /><pre>" . var_export($check_links, true) . "</pre>" );
+	array_push( $debugger, "<br /><strong>'check_links' array:</strong><br /><pre>" . var_export($check_links, true) . "</pre>" );
 
 	// Output everything we stored in the debugger array, if debugging is activated by user
 	if (DEBUG) {
