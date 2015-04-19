@@ -590,7 +590,7 @@ function getsite($url)
 
 					<?php
 						// Valid file endings to crawl
-						$optionArray = array("aspx","asp","htm","html");
+						$optionArray = array("aspx","asp","htm","html","php");
 						if (isset($_POST['filetype'])) {
 							$optionArray = $_POST['filetype'];
 						}
@@ -599,6 +599,7 @@ function getsite($url)
 					<label><input type="checkbox" name="filetype[]" value="asp"<?php if (in_array("asp",$optionArray)) { ?> checked="checked"<?php } ?> /> asp</label>
 					<label><input type="checkbox" name="filetype[]" value="html"<?php if (in_array("html",$optionArray)) { ?> checked="checked"<?php } ?> /> html</label>
 					<label><input type="checkbox" name="filetype[]" value="htm"<?php if (in_array("htm",$optionArray)) { ?> checked="checked"<?php } ?> /> htm</label>
+					<label><input type="checkbox" name="filetype[]" value="php"<?php if (in_array("php",$optionArray)) { ?> checked="checked"<?php } ?> /> php</label>
 				</div>
 
 				<div class="span5 offset1">
