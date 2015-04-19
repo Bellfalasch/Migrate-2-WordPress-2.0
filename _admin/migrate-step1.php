@@ -396,9 +396,6 @@ function getsite($url)
 					array_push( $debugger, " = <span class='text-error'>URL not allowed</span>" );
 				}
 
-
-			// Looks like this is outside of the folder we're looking in =/
-
 			}
 			else // Link not starting with "../" or "http(s)://"
 			{
