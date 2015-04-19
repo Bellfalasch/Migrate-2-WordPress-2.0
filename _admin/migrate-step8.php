@@ -18,19 +18,21 @@
 	{
 
 		// Get all pages that has been connected to a Wordpress page, these will get transfered now
-		$result = db_getWPDataFromSite2( array( 'site' => $PAGE_siteid ) );
+		$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
 
 			while ( $row = $result->fetch_object() )
 			{
-				
-				//$content = utf8_encode($row->clean);
 
 				$stop = false;
 
 				// Waterfall-choose the best (cleanest) html from the database depending on which is available
-				if ( !is_null($row->clean) ) {
+				if ( !is_null($row->ready) ) {
+
+					$content = $row->ready;
+
+				} elseif ( !is_null($row->clean) ) {
 
 					$content = $row->clean;
 
@@ -65,7 +67,7 @@
 					if (!is_null($getWP)) {
 
 						// Update all links
-						$newlink = $row->wp_guid;
+						$newlink = $row->page_guid;
 						$oldlink = $row->page;
 
 						if ($newlink != "" && !is_null($newlink))

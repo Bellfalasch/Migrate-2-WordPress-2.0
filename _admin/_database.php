@@ -197,18 +197,16 @@
 			SET `ready` = REPLACE(`clean`, {$in['oldlink']}, {$in['newlink']})
 		");
 	}
-/*
-	function db_getWPDataFromSite2($in) { cleanup($in);
+	function db_getContentDataFromSite($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`, `wp_postid`, `wp_guid`
+			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`, `ready`, `page_guid`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
-			AND wp_postid > 0
-			AND `wp_guid` IS NOT NULL
-			ORDER BY wp_postid ASC, `page` DESC
+			ORDER BY `id` ASC
 		");
 	}
 
+/*
 	// NB! Old style - can't be changed because we're sending in the table name
 	function db_getPageFromWordpress($wptable, $postid) {
 		return wp_MAIN("
