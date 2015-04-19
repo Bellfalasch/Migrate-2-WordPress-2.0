@@ -36,11 +36,10 @@ CREATE TABLE IF NOT EXISTS `migrate_content` (
   `page_parent` int(11) NOT NULL '0'
   PRIMARY KEY (`id`),
   INDEX (`page`),
-  INDEX (`wp_url`),
-  INDEX (`wp_slug`),
+  INDEX (`page_slug`),
   KEY `fk_sites` (`site`),
   CONSTRAINT `fk_sites` FOREIGN KEY (`site`) REFERENCES `migrate_sites` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
 
 
 --
