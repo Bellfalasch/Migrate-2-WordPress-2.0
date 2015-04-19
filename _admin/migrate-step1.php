@@ -346,7 +346,7 @@ function getsite($url)
 			}
 			// Honeypot, catching bad URLs: (http-links, most likely leaving the site but check and make sure)
 			// Does the URL start with "http://"? (or https://)
-			elseif (preg_match('/^http[s]?\:\/\/(.*?)/i', $linklist[$j], $res_links))
+			else if (preg_match('/^http[s]?\:\/\/(.*?)/i', $linklist[$j], $res_links))
 			{
 				//$break = false;
 
@@ -369,16 +369,20 @@ function getsite($url)
 */
 					// Check that we have the correct root URL
 					if ( mb_substr( $linklist[$j], 0, strlen($PAGE_siteurl) ) == $PAGE_siteurl ) {
-						array_push( $debugger, " = <span class='text-success'>cool, valid URL</span><br />" );
+						array_push( $debugger, " = <span class='text-success'>cool, valid URL</span>" );
 
 						// Only add it to the linklist if it isn't there already
 						if (!array_key_exists($linklist[$j], $check_links))
 						{
-							$check_links[$linklist[$j]] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
+							array_push( $debugger, " Not added before, not adding" );
+							// TODO: When I add this to the array we will end up in an eternal loop, if I don't add it we will stop after one page crawl
+						//	$check_links[$linklist[$j]] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
+						} else {
+							array_push( $debugger, " Already added" );
 						}
 						//$break = true;
 						//break;
-						continue;
+						//continue;
 /*
 							}
 						}
@@ -473,6 +477,8 @@ function getsite($url)
 		$title = str_replace( array('aspx','asp','php','html','htm'), array('','','','',''), $title );
 		$title = str_replace( ".", "", $title );
 		$title = str_replace( "-", " ", $title );
+		$title = str_replace( "%20", " ", $title );
+		$title = str_replace( "+", " ", $title );
 
 		// If the URL contains a ? then we should remove it and everything before it
 		if ( strpos($title, "?") > 0) {
