@@ -328,7 +328,7 @@ function getsite($url)
 
 	$links_length = count($linklist);
 
-	// For each link found ...
+	// For each link found on this page ... analyze it!
 	for ( $j = 0; $j < $links_length; $j++)
 	{
 
@@ -346,7 +346,7 @@ function getsite($url)
 			}
 			// Honeypot, catching bad URLs: (http-links, most likely leaving the site but check and make sure)
 			// Does the URL start with "http://"? (or https://)
-			else if (preg_match('/^http[s]?\:\/\/(.*?)/i', $linklist[$j], $res_links))
+			elseif (preg_match('/^http[s]?\:\/\/(.*?)/i', $linklist[$j], $res_links))
 			{
 				//$break = false;
 
