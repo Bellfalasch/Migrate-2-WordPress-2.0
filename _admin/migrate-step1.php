@@ -288,7 +288,7 @@ function getsite($url)
 			// Add each link we find to our link list
 			$result_length = count($result[1]);
 
-			array_push( $debugger, "Array längd: " . $result_length . "<br />" );
+			array_push( $debugger, "Array length: " . $result_length . "<br />" );
 
 			for ( $u = 0; $u < $result_length; $u++ )
 			{
@@ -374,10 +374,11 @@ function getsite($url)
 						// Only add it to the linklist if it isn't there already
 						if (!array_key_exists($linklist[$j], $check_links))
 						{
-							$check_links[$linklist[$j]] = 0;
+							$check_links[$linklist[$j]] = 0; // Is added to array-list and flagged as not crawled (will be crawled later)
 						}
 						//$break = true;
 						//break;
+						continue;
 /*
 							}
 						}
@@ -388,12 +389,14 @@ function getsite($url)
 					{
 						//$break = true;
 						array_push( $debugger, " = <span class='text-error'>not correct URL base</span>" );
+						continue;
 					}
 				}
 				else
 				{
 					//$break = true;
 					array_push( $debugger, " = <span class='text-error'>URL not allowed</span>" );
+					continue;
 				}
 
 			}
