@@ -78,7 +78,11 @@
 							//$mapp = $mapparArr[count($mapparArr) - 2];
 
 							// Re-build the full new URL for the page
-							$newlink = $PAGE_sitenewurl . "/" . $newlink;
+							$separator = "/";
+							if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) ) {
+								$separator = "";
+							}
+							$newlink = $PAGE_sitenewurl . $separator . $newlink;
 
 							// Content with links that has the class="fix" added should get that removed now
 							if (isset($_POST['fix'])) {
@@ -211,7 +215,11 @@
 						//$mapp = $mapparArr[count($mapparArr) - 2];
 
 						// Re-build the full new URL for the page
-						$newlink = $PAGE_sitenewurl . "/" . $newlink;
+						$separator = "/";
+						if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) ) {
+							$separator = "";
+						}
+						$newlink = $PAGE_sitenewurl . $separator . $newlink;
 
 						// Update all the Links on ALL the pages
 						$fixLinks = db_updateContentLinks( array(
