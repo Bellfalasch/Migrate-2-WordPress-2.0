@@ -12,7 +12,7 @@
 <?php
 
 // The actual code
-// ****************************************************************************	
+// ****************************************************************************
 
 	if (ISPOST)
 	{
@@ -51,7 +51,7 @@
 				} else {
 
 					$stop = true;
-				
+
 				}
 
 				if ( !$stop ) {
@@ -87,7 +87,7 @@
 
 							// Replace all the old href URLs with the new one in the current text
 							$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content, $counter );
-							
+
 							// This will turn out bad on WP folder navigation, we need full root linking!
 							//$newlink = str_replace( $PAGE_sitenewurl,'',$newlink);
 							//str_replace( $PAGE_sitenewurl, "/", $newlink )
@@ -104,8 +104,7 @@
 
 							// Output a counter if we got any hits
 							//if ($fixWP2 >= 0) {
-								
-								echo "<span class=\"badge badge-success\">" . ($fixWP2) . "</span>";
+							echo "<span class=\"badge badge-success\">" . ($fixWP2) . "</span>";
 							//}
 
 //							echo "<span class=\"badge badge-success\">" . $counter . "</span>";
@@ -118,7 +117,7 @@
 
 						// Add the review page flag
 						if (isset($_POST['flag'])) {
-							
+
 							// Flag every page at the top for manual review
 //							if ($WProw->post_content == '') {
 
@@ -129,7 +128,7 @@
 
 						// Add the page separator?
 						if (isset($_POST['separator'])) {
-							
+
 							// Separate content in WP if there already is something there
 //							if ($WProw->post_content != '') {
 
@@ -161,9 +160,9 @@
 							) );
 
 						} else {
-							
+
 							echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-						
+
 						}
 
 //					}
