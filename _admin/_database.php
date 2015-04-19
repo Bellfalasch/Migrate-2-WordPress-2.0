@@ -199,7 +199,7 @@
 	}
 	function db_getContentDataFromSite($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`, `ready`, `page_guid`
+			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`, `ready`, `page_slug`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			ORDER BY `id` ASC

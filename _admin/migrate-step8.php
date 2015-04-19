@@ -65,9 +65,9 @@
 //					$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
 
 //					if (!is_null($getWP)) {
-
+/*
 						// Update all links
-						$newlink = $row->page_guid;
+						$newlink = $row->page_slug;
 						$oldlink = $row->page;
 
 						if ($newlink != "" && !is_null($newlink))
@@ -103,7 +103,7 @@
 
 						}
 						// End link updater
-
+*/
 						// Add the review page flag
 						if (isset($_POST['flag'])) {
 
@@ -116,16 +116,16 @@
 							$content .= "<hr /><hr /><hr />";
 						}
 
-
-						echo "<p>";
-						echo "<strong>Move old page:</strong> \"" . str_replace( $PAGE_siteurl, "/", $row->page ) . "\"";
-						echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $WProw->guid ) . "\"";
+//						echo "<p>";
+						echo "<strong>Updating:</strong> \"<span class=\"text-info\">" . str_replace( $PAGE_siteurl, "/", $row->page ) . "</span>\"";
+//						echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $newlink ) . "\"";
 						echo " <span class=\"label label-success\">OK</span>";
-						echo "</p>";
+//						echo "</p>";
+//						echo "<br />";
 
 						if (formGet("save_finalize") != "Test Finalize") {
 
-							echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+							echo " <strong>Result:</strong> <span class=\"label label-success\">Saved</span>";
 
 							// Do some saving
 							db_setReadyCode( array(
@@ -133,16 +133,13 @@
 								'id' => $row->id
 							) );
 
-							db_updateStepValue( array(
-								'step' => $PAGE_step,
-								'id' => $PAGE_siteid
-							) );
-
 						} else {
 
-							echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
+							echo " <strong>Result:</strong> <span class=\"label label-important\">Not saved</span>";
 
 						}
+
+						echo "<br />";
 
 //					}
 
@@ -151,6 +148,12 @@
 			}
 
 		}
+
+		echo "
+			<br />
+			<p>
+				<strong>Now updating all the old links on all the pages:</strong>
+			</p>";
 
 		// Now run another batch updater that will fix all the old links between the pages so they're correct
 		$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
@@ -161,7 +164,7 @@
 			{
 
 				// Update all links
-				$newlink = $row->page_guid;
+				$newlink = $row->page_slug;
 				$oldlink = $row->page;
 
 				if ($newlink != "" && !is_null($newlink))
@@ -177,6 +180,12 @@
 						$separator = "";
 					}
 					$newlink = $PAGE_sitenewurl . $separator . $newlink;
+/*
+TODO: Get this working?
+					// Replace all the old href URLs with the new one in the current text
+					$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content, $counter );
+*/
+
 
 					// Update all the Links on ALL the pages
 					$fixLinks = db_updateContentLinks( array(
@@ -185,10 +194,27 @@
 								) );
 
 					// Output a counter if we got any hits
-					echo "<span class=\"badge badge-success\">" . ($fixLinks) . "</span>";
+					//echo "<strong>" . $oldlink . "</strong> removed <span class=\"badge badge-success\">" . $fixLinks . "</span> times<br />";
+					//echo "<p>";
+					echo "<strong>Update old links:</strong> \"" . str_replace( $PAGE_siteurl, "/", $oldlink ) . "\" ";
+					echo "<strong>to Wordpress links:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $newlink ) . "\" ";
+					echo "<span class=\"label label-success\">" . $fixLinks . "</span>";
+					//echo "</p>";
+					echo "<br />";
+
 				}
 
 			}
+
+		}
+
+		// Update Step data
+		if (formGet("save_finalize") != "Test Finalize") {
+
+			db_updateStepValue( array(
+				'step' => $PAGE_step,
+				'id' => $PAGE_siteid
+			) );
 
 		}
 
