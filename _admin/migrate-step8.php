@@ -78,7 +78,7 @@
 							//$mapp = $mapparArr[count($mapparArr) - 2];
 
 							// Re-build the full new URL for the page
-							$newlink = $newlink;
+							$newlink = $PAGE_sitenewurl . "/" . $newlink;
 
 							// Content with links that has the class="fix" added should get that removed now
 							if (isset($_POST['fix'])) {
@@ -93,19 +93,6 @@
 							//str_replace( $PAGE_sitenewurl, "/", $newlink )
 
 							echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . $newlink . "\" - ";
-
-
-							// Update all the Links on ALL the pages in WP!!!
-							$fixWP2 = db_updateContentLinks( array(
-												'oldlink' => ' href="' . $oldlink,
-												'newlink' => ' href="' . $newlink
-										) );
-							//$fixWP = 0;
-
-							// Output a counter if we got any hits
-							//if ($fixWP2 >= 0) {
-							echo "<span class=\"badge badge-success\">" . ($fixWP2) . "</span>";
-							//}
 
 //							echo "<span class=\"badge badge-success\">" . $counter . "</span>";
 							echo "<br />";
@@ -171,6 +158,72 @@
 
 			}
 
+		}
+
+		// Now run another batch updater that will fix all the old links between the pages so they're correct
+		$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
+		if ( isset( $result ) )
+		{
+
+			while ( $row = $result->fetch_object() )
+			{
+/*
+				$stop = false;
+
+				// Waterfall-choose the best (cleanest) html from the database depending on which is available
+				if ( !is_null($row->ready) ) {
+
+					$content = $row->ready;
+
+				} elseif ( !is_null($row->clean) ) {
+
+					$content = $row->clean;
+
+				} elseif ( !is_null($row->tidy) ) {
+
+					$content = $row->tidy;
+
+				} elseif ( !is_null($row->wash) ) {
+
+					$content = $row->wash;
+
+				} elseif ( !is_null($row->content) ) {
+
+					$content = $row->content;
+
+				} else {
+
+					$stop = true;
+
+				}
+
+				if ( !$stop ) {
+*/
+					// Update all links
+					$newlink = $row->page_guid;
+					$oldlink = $row->page;
+
+					if ($newlink != "" && !is_null($newlink))
+					{
+
+						$mapparArr = explode('/', $oldlink);
+						$fil = $mapparArr[count($mapparArr) - 1];
+						//$mapp = $mapparArr[count($mapparArr) - 2];
+
+						// Re-build the full new URL for the page
+						$newlink = $PAGE_sitenewurl . "/" . $newlink;
+
+						// Update all the Links on ALL the pages
+						$fixLinks = db_updateContentLinks( array(
+											'oldlink' => ' href="' . $oldlink,
+											'newlink' => ' href="' . $newlink
+									) );
+
+						// Output a counter if we got any hits
+						echo "<span class=\"badge badge-success\">" . ($fixLinks) . "</span>";
+					}
+//				}
+			}
 		}
 
 	}
