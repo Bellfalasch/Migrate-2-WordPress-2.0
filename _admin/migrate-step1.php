@@ -316,16 +316,15 @@ function getsite($url)
 
 		}
 	}
-
+/*
 	// Regexp-format on the URL's we'll primarily look for as invalid (not contained in that site).
 	$search_links = array(
 		'/^\.\.(.*?)/i',
 		'/^http\:\/\/(.*?)/i'
 	);
-
+*/
 
 	echo "<ol>";
-
 
 	$links_length = count($linklist);
 
@@ -335,26 +334,29 @@ function getsite($url)
 
 		array_push( $debugger, "<strong>Validating link:</strong> <span class='text-info'>" . $linklist[$j] . "</span><br />" );
 
-		if (!empty($linklist[$j]) )
+		if ( !empty($linklist[$j]) )
 		{
 
 			// Honeypot, catching bad URLs: (going down one folder)
-			if (preg_match($search_links[0], $linklist[$j], $res_links))
+			if (preg_match('/^\.\.(.*?)/i', $linklist[$j], $res_links))
 			{
 
 				array_push( $debugger, " = <span class='text-error'>not allowed</span>" );
 
 			}
 			// Honeypot, catching bad URLs: (http-links, most likely leaving the site but check and make sure)
-			else if (preg_match($search_links[1], $linklist[$j], $res_links))
+			// Does the URL start with "http://"? (or https://)
+			else if (preg_match('/^http[s]?\:\/\/(.*?)/i', $linklist[$j], $res_links))
 			{
 				$break = false;
 
 				array_push( $debugger, " = http link, checking if correct domain ..." );
 
-				if ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) && ((strlen($res_links[0]) >= strlen($PAGE_siteurl)) ) && count($res_links[0] >= strlen($PAGE_siteurl) ) )
+				if ((strlen($linklist[$j]) >= strlen($PAGE_siteurl)) && ((strlen($linklist[$j]) >= strlen($PAGE_siteurl)) ) && count($linklist[$j] >= strlen($PAGE_siteurl) ) )
 				{
 
+					// Page URL is longer than site address, so we can do some checking here
+/*
 					if ( (($res_links[0][strlen($PAGE_siteurl)-1] != ".") ) )
 					{
 						for ($k=0; $k<strlen($PAGE_siteurl); $k++)
@@ -364,16 +366,27 @@ function getsite($url)
 								//echo $site_address[$k] . " <span class=\"label label-info\">Link</span><br />";
 								$break = true;
 								break;
-
-								array_push( $debugger, " = <span class='text-success'>cool</span>" );
+*/
+						// Check that we have the correct root URL
+						if ( mb_substr( $linklist[$j], 0, strlen($PAGE_siteurl) ) == $PAGE_siteurl ) {
+							array_push( $debugger, " = <span class='text-success'>cool, valid URL</span>" );
+							//$check_links[$linklist[$j]] = 0;
+/*
 							}
 						}
 					}
+*/
+						}
+						else
+						{
+							$break = true;
+							array_push( $debugger, " = <span class='text-error'>not correct URL base</span>" );
+						}
 				}
 				else
 				{
 					$break = true;
-					array_push( $debugger, " = <span class='text-error'>not allowed</span>" );
+					array_push( $debugger, " = <span class='text-error'>URL not allowed</span>" );
 				}
 
 
