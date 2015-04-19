@@ -191,6 +191,13 @@
 
 	/* Step 8 */
 	/* **************************************************************************** */
+	function db_updateContentLinks($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `ready` = REPLACE(`clean`, {$in['oldlink']}, {$in['newlink']})
+		");
+	}
+/*
 	function db_getWPDataFromSite2($in) { cleanup($in);
 		return db_MAIN("
 			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`, `wp_postid`, `wp_guid`
@@ -221,7 +228,6 @@
 			LIMIT 1
 		");
 	}
-
 	function db_updateWPwithNewLinks($wptable, $oldlink, $newlink) {
 		//global $mysqWP;
 		return wp_EXEC("
@@ -230,6 +236,7 @@
 			WHERE `post_status` = 'publish'
 		");
 	}
+*/
 
 
 	//////////////////////////////////////////////////////////////////////////////////

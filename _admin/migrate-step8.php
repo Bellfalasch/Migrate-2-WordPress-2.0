@@ -91,7 +91,10 @@
 
 
 							// Update all the Links on ALL the pages in WP!!!
-							$fixWP2 = db_updateWPwithNewLinks($wp_table, ' href="' . $oldlink, ' href="' . $newlink);
+							$fixWP2 = db_updateContentLinks( array(
+												'oldlink' => ' href="' . $oldlink,
+												'newlink' => ' href="' . $newlink
+										) );
 							$fixWP = 0;
 
 							// Output a counter if we got any hits

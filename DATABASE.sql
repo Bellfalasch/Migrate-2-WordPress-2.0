@@ -31,14 +31,13 @@ CREATE TABLE IF NOT EXISTS `migrate_content` (
   `wash` longtext DEFAULT NULL,
   `tidy` longtext DEFAULT NULL,
   `clean` longtext DEFAULT NULL,
-  `wp_url` varchar(100) DEFAULT NULL,
-  `wp_slug` varchar(50) DEFAULT NULL,
-  `wp_postid` int(11) NOT NULL DEFAULT '0',
-  `wp_guid` varchar(100) DEFAULT NULL,
+  `ready` longtext DEFAULT NULL,
+  `page_slug` varchar(50) DEFAULT NULL,
+  `page_parent` int(11) NOT NULL '0'
   PRIMARY KEY (`id`),
   INDEX (`page`),
   INDEX (`wp_url`),
-  INDEX (`wp_guid`),
+  INDEX (`wp_slug`),
   KEY `fk_sites` (`site`),
   CONSTRAINT `fk_sites` FOREIGN KEY (`site`) REFERENCES `migrate_sites` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
