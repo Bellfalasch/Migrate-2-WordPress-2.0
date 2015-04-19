@@ -205,6 +205,14 @@
 			ORDER BY `id` ASC
 		");
 	}
+	function db_setReadyCode($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `ready` = {$in['ready']}
+			WHERE `id` = {$in['id']}
+			LIMIT 1
+		");
+	}
 
 /*
 	// NB! Old style - can't be changed because we're sending in the table name

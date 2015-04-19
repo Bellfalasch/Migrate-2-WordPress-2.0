@@ -62,9 +62,9 @@
 						$content = str_replace('<a href="', '<a class="fix" href="', $content);
 					}
 
-					$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
+//					$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
 
-					if (!is_null($getWP)) {
+//					if (!is_null($getWP)) {
 
 						// Update all links
 						$newlink = $row->page_guid;
@@ -75,7 +75,10 @@
 
 							$mapparArr = explode('/', $oldlink);
 							$fil = $mapparArr[count($mapparArr) - 1];
-							$mapp = $mapparArr[count($mapparArr) - 2];
+							//$mapp = $mapparArr[count($mapparArr) - 2];
+
+							// Re-build the full new URL for the page
+							$newlink = $newlink;
 
 							// Content with links that has the class="fix" added should get that removed now
 							if (isset($_POST['fix'])) {
@@ -97,12 +100,12 @@
 												'oldlink' => ' href="' . $oldlink,
 												'newlink' => ' href="' . $newlink
 										) );
-							$fixWP = 0;
+							//$fixWP = 0;
 
 							// Output a counter if we got any hits
 							//if ($fixWP2 >= 0) {
 								
-								echo "<span class=\"badge badge-success\">" . ($fixWP + $fixWP2) . "</span>";
+								echo "<span class=\"badge badge-success\">" . ($fixWP2) . "</span>";
 							//}
 
 //							echo "<span class=\"badge badge-success\">" . $counter . "</span>";
@@ -111,28 +114,28 @@
 						}
 						// End link updater
 
-						$WProw = $getWP->fetch_object();
+//						$WProw = $getWP->fetch_object();
 
 						// Add the review page flag
 						if (isset($_POST['flag'])) {
 							
 							// Flag every page at the top for manual review
-							if ($WProw->post_content == '') {
+//							if ($WProw->post_content == '') {
 
 								$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
 
-							}
+//							}
 						}
 
 						// Add the page separator?
 						if (isset($_POST['separator'])) {
 							
 							// Separate content in WP if there already is something there
-							if ($WProw->post_content != '') {
+//							if ($WProw->post_content != '') {
 
 								$content = $WProw->post_content . "<hr /><hr /><hr />" . $content;
 
-							}
+//							}
 						}
 
 
@@ -146,8 +149,11 @@
 
 							echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
-							// Do some saving right into WP
-//							db_updateWPwithText($wp_table, $content, $row->wp_postid);
+							// Do some saving
+							db_setReadyCode( array(
+								'ready' => $content,
+								'id' => $row->id
+							) );
 
 							db_updateStepValue( array(
 								'step' => $PAGE_step,
@@ -160,7 +166,7 @@
 						
 						}
 
-					}
+//					}
 
 				}
 
