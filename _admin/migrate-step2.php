@@ -333,7 +333,7 @@
 		Use this output of code extracted from the first page we crawled from your site. Identify
 		a div with a unique id, a block of tags, or a text, that's always (always!!!) present in your
 		html just before the actual content starts (or as close to it as possible). Do the same for
-		were your content ends. All html between these two strings will be kept and used in futher
+		where your content ends. All html between these two strings will be kept and used in further
 		steps.
 	</p>
 	<pre><?= htmlentities( $html, ENT_COMPAT, 'UTF-8', false ) ?></pre>
