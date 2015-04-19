@@ -348,11 +348,11 @@ function getsite($url)
 			// Does the URL start with "http://"? (or https://)
 			else if (preg_match('/^http[s]?\:\/\/(.*?)/i', $linklist[$j], $res_links))
 			{
-				$break = false;
+				//$break = false;
 
 				array_push( $debugger, " = http link, checking if correct domain ..." );
 
-				if ((strlen($linklist[$j]) >= strlen($PAGE_siteurl)) && ((strlen($linklist[$j]) >= strlen($PAGE_siteurl)) ) && count($linklist[$j] >= strlen($PAGE_siteurl) ) )
+				if ( strlen($linklist[$j]) >= strlen($PAGE_siteurl) )
 				{
 
 					// Page URL is longer than site address, so we can do some checking here
@@ -367,25 +367,32 @@ function getsite($url)
 								$break = true;
 								break;
 */
-						// Check that we have the correct root URL
-						if ( mb_substr( $linklist[$j], 0, strlen($PAGE_siteurl) ) == $PAGE_siteurl ) {
-							array_push( $debugger, " = <span class='text-success'>cool, valid URL</span>" );
-							//$check_links[$linklist[$j]] = 0;
+					// Check that we have the correct root URL
+					if ( mb_substr( $linklist[$j], 0, strlen($PAGE_siteurl) ) == $PAGE_siteurl ) {
+						array_push( $debugger, " = <span class='text-success'>cool, valid URL</span>" );
+
+						// Only add it to the linklist if it isn't there already
+						if (!array_key_exists($linklist[$j], $check_links))
+						{
+							$check_links[$linklist[$j]] = 0;
+						}
+						//$break = true;
+						//break;
 /*
 							}
 						}
 					}
 */
-						}
-						else
-						{
-							$break = true;
-							array_push( $debugger, " = <span class='text-error'>not correct URL base</span>" );
-						}
+					}
+					else
+					{
+						//$break = true;
+						array_push( $debugger, " = <span class='text-error'>not correct URL base</span>" );
+					}
 				}
 				else
 				{
-					$break = true;
+					//$break = true;
 					array_push( $debugger, " = <span class='text-error'>URL not allowed</span>" );
 				}
 
@@ -393,7 +400,7 @@ function getsite($url)
 			// Looks like this is outside of the folder we're looking in =/
 
 			}
-			else
+			else // Link not starting with "../" or "http(s)://"
 			{
 
 				// Match link without regexp, should be valid and inside that site
@@ -473,7 +480,7 @@ function getsite($url)
 			$title = strstr( $title, "?" );
 			$title = str_replace( "?", "", $title );
 		}
-		
+
 		$title = ucwords($title);
 
 		savepage($url, trim($pagebuffer), $title );
