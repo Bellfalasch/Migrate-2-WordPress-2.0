@@ -8,6 +8,66 @@
 <?php include('_header.php'); ?>
 
 
+<?php
+
+// The actual code
+// ****************************************************************************
+
+	if (ISPOST)
+	{
+
+		// Get all pages that has been connected to a Wordpress page, these will get transfered now
+		$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
+		if ( isset( $result ) )
+		{
+
+			while ( $row = $result->fetch_object() )
+			{
+
+				$stop = false;
+
+				// Waterfall-choose the best (cleanest) html from the database depending on which is available
+				if ( !is_null($row->ready) ) {
+
+					$content = $row->ready;
+
+				} elseif ( !is_null($row->clean) ) {
+
+					$content = $row->clean;
+
+				} elseif ( !is_null($row->tidy) ) {
+
+					$content = $row->tidy;
+
+				} elseif ( !is_null($row->wash) ) {
+
+					$content = $row->wash;
+
+				} elseif ( !is_null($row->content) ) {
+
+					$content = $row->content;
+
+				} else {
+
+					$stop = true;
+
+				}
+
+				if ( !$stop ) {
+
+					// TODO: Generate XML
+					// TODO: Use variable $content
+
+				}
+
+			}
+
+		}
+
+	}
+
+?>
+
 	<form class="well form" action="" method="post">
 
 		<div class="row">
