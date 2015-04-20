@@ -57,7 +57,7 @@
 				if ( !$stop ) {
 
 					// Tag code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
-					if (isset($_POST['fix'])) {
+					if ( formGet("fix") === "yes" ) {
 						$content = str_replace('<img ', '<img class="imgfix" ', $content);
 						$content = str_replace('<a href="', '<a class="fix" href="', $content);
 					}
@@ -85,7 +85,7 @@
 							$newlink = $PAGE_sitenewurl . $separator . $newlink;
 
 							// Content with links that has the class="fix" added should get that removed now
-							if (isset($_POST['fix'])) {
+							if ( formGet("fix") === "yes" ) {
 								$content = str_replace( " class=\"fix\" href=\"" . $fil, " href=\"" . $newlink, $content );
 							}
 
@@ -105,16 +105,22 @@
 						// End link updater
 */
 						// Add the review page flag
-						if (isset($_POST['flag'])) {
+						if ( formGet("flag") === "yes" ) {
 
 							$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
 						}
 
 						// Add the page separator?
-						if (isset($_POST['separator'])) {
+						// TODO: Make smarter ... or move?
+						if ( formGet("separator") === "yes" ) {
 
 							$content .= "<hr /><hr /><hr />";
 						}
+
+					// Remove all images
+					if ( formGet("remove_img") === "yes" ) {
+						$content = preg_replace( '/<img .*?\/?>/Uis', '', $content );
+					}
 
 //						echo "<p>";
 						echo "<strong>Updating:</strong> \"<span class=\"text-info\">" . str_replace( $PAGE_siteurl, "/", $row->page ) . "</span>\"";
@@ -243,18 +249,23 @@ TODO: Get this working?
 
 			<h3>Settings:</h3>
 			<label>
-				<input type="checkbox" name="fix" value="yes"<?php if (isset($_POST['fix'])) { ?> checked="checked"<?php } ?> />
+				<input type="checkbox" name="fix" value="yes"<?php if ( formGet('fix') === "yes" ) { ?> checked="checked"<?php } ?> />
 				Add the class "fix" to links and "imgfix" to images inside content (easily spot them in admin and on site if you style them)
 				<span class="help-block">The class on links is removed on all links we can manage to update to the new correct links automatically.</span>
 			</label>
 			<label>
-				<input type="checkbox" name="separator" value="yes"<?php if (isset($_POST['separator'])) { ?> checked="checked"<?php } ?> />
+				<input type="checkbox" name="separator" value="yes"<?php if ( formGet('separator') === "yes" ) { ?> checked="checked"<?php } ?> />
 				When pages get smashed together in one WP-page, add a separator?
 				<span class="help-block">Without this, existing content in WordPress will be removed!</span>
 			</label>
 			<label>
-				<input type="checkbox" name="flag" value="yes"<?php if (isset($_POST['flag'])) { ?> checked="checked"<?php } ?> />
+				<input type="checkbox" name="flag" value="yes"<?php if ( formGet('flag') === "yes" ) { ?> checked="checked"<?php } ?> />
 				Add a "Text not manually checked" on top of every moved page in WordPress?
+				<span class="help-block">This helps you to keep track if you're gonna manually edit all pages when they're in WordPress</span>
+			</label>
+			<label>
+				<input type="checkbox" name="remove_img" value="yes"<?php if ( formGet('remove_img') === "yes" ) { ?> checked="checked"<?php } ?> />
+				Remove all images from the code (you'll upload them again in WordPress anyway because of re-design)?
 			</label>
 			<br />
 
