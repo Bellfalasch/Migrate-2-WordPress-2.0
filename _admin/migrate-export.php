@@ -100,6 +100,8 @@ EOT;
 			}
 			$fn = 'fn';
 
+			// Reference: http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/
+
 			$XML_content = <<< EOT
 
 	<item>
@@ -116,14 +118,16 @@ EOT;
 <p><strong>Roll: </strong>Gud (Final Fantasy-seriens skapare)</p>
 <p>Hironobu Sakaguchi skapade denna serie då han skulle avgå från (då) Square. Han hade tidigare gjort bilspel och dylikt åt företaget. Men strax innan hade Enix släppt superhiten Dragon Quest till NES och Sega hade släppt Phantasy Star till Master System. Så Sakaguchi intresserade sig för rollspel och ville som sitt sista spel skapa ett sådant, sin sista fantasi - Final Fantasy. Men han slutade inte utan har fortsatt med serien sen dess. Nu har han dock lämnat Square Enix för att börja på en egen spelserie som ska bli bättre än Final Fantasy. Hans nya företag heter Mist Walker. Det enda han gjort med Final Fantasy XII är att godkänna Matsunos grundidé för spelet.
 </p>]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded><!-- TODO -->
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>292</wp:post_id><!-- TODO - remove? -->
-		<wp:post_date>2015-01-09 22:14:35</wp:post_date><!-- TODO -->
-		<wp:post_date_gmt>2015-01-09 21:14:35</wp:post_date_gmt><!-- TODO -->
-		<wp:comment_status>open</wp:comment_status><!-- TODO -->
-		<wp:ping_status>open</wp:ping_status><!-- TODO -->
+		<wp:post_date>{$date->format('Y-m-d H:i:s')}</wp:post_date><!-- DONE? -->
+		<wp:post_date>2015-01-09 22:14:35</wp:post_date>
+		<wp:post_date_gmt>{$date->format('Y-m-d H:i:s')}</wp:post_date_gmt><!-- DONE? -->
+		<wp:post_date_gmt>2015-01-09 21:14:35</wp:post_date_gmt>
+		<wp:comment_status>closed</wp:comment_status>
+		<wp:ping_status>closed</wp:ping_status>
 		<wp:post_name>utvecklarna</wp:post_name><!-- TODO -->
-		<wp:status>publish</wp:status><!-- TODO - "draft" for contentless pages -->
+		<wp:status>publish</wp:status><!-- TODO - "draft" for content-less pages -->
 		<wp:post_parent>0</wp:post_parent><!-- TODO -->
 		<wp:menu_order>15</wp:menu_order><!-- TODO -->
 		<wp:post_type>page</wp:post_type>
