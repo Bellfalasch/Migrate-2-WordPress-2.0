@@ -105,11 +105,11 @@ EOT;
 	<item>
 		<title>Utvecklarna</title><!-- TODO -->
 		<link>http://guide.ffuniverse.nu/ff12/utvecklarna/</link><!-- TODO -->
-		<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate><!-- DONE! -->
-		<pubDate>Fri, 09 Jan 2015 21:14:35 +0000</pubDate><!-- TODO -->
-		<dc:creator><![CDATA[tigerlaugh]]></dc:creator><!-- TODO -->
+		<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate><!-- DONE? -->
+		<pubDate>Fri, 09 Jan 2015 21:14:35 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator><!-- TODO -->
 		<guid isPermaLink="false">http://localhost/wordpress/utvecklarna/</guid><!-- TODO -->
-		<description></description><!-- TODO -->
+		<description></description>
 		<!-- TODO -->
 		<content:encoded><![CDATA[<h2>Hironobu Sakaguchi</h2>
 <div class="sidebar_img"><img class="alignnone size-full wp-image-919" src="http://guide.ffuniverse.nu/ff12/wp-content/uploads/sites/11/2015/01/dev_sakaguchi.jpg" alt="dev_sakaguchi" width="129" height="118" /></div>
@@ -117,18 +117,18 @@ EOT;
 <p>Hironobu Sakaguchi skapade denna serie då han skulle avgå från (då) Square. Han hade tidigare gjort bilspel och dylikt åt företaget. Men strax innan hade Enix släppt superhiten Dragon Quest till NES och Sega hade släppt Phantasy Star till Master System. Så Sakaguchi intresserade sig för rollspel och ville som sitt sista spel skapa ett sådant, sin sista fantasi - Final Fantasy. Men han slutade inte utan har fortsatt med serien sen dess. Nu har han dock lämnat Square Enix för att börja på en egen spelserie som ska bli bättre än Final Fantasy. Hans nya företag heter Mist Walker. Det enda han gjort med Final Fantasy XII är att godkänna Matsunos grundidé för spelet.
 </p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded><!-- TODO -->
-		<wp:post_id>292</wp:post_id><!-- TODO -->
+		<wp:post_id>292</wp:post_id><!-- TODO - remove? -->
 		<wp:post_date>2015-01-09 22:14:35</wp:post_date><!-- TODO -->
 		<wp:post_date_gmt>2015-01-09 21:14:35</wp:post_date_gmt><!-- TODO -->
 		<wp:comment_status>open</wp:comment_status><!-- TODO -->
 		<wp:ping_status>open</wp:ping_status><!-- TODO -->
 		<wp:post_name>utvecklarna</wp:post_name><!-- TODO -->
-		<wp:status>publish</wp:status><!-- TODO -->
+		<wp:status>publish</wp:status><!-- TODO - "draft" for contentless pages -->
 		<wp:post_parent>0</wp:post_parent><!-- TODO -->
 		<wp:menu_order>15</wp:menu_order><!-- TODO -->
-		<wp:post_type>page</wp:post_type><!-- TODO -->
-		<wp:post_password></wp:post_password><!-- TODO -->
-		<wp:is_sticky>0</wp:is_sticky><!-- TODO -->
+		<wp:post_type>page</wp:post_type>
+		<wp:post_password></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta><!-- TODO - remove? -->
 			<wp:meta_key>_edit_last</wp:meta_key>
 			<wp:meta_value><![CDATA[1]]></wp:meta_value>
