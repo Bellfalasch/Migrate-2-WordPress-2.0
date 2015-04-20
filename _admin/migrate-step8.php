@@ -117,10 +117,6 @@
 							$content .= "<hr /><hr /><hr />";
 						}
 
-					// Remove all images
-					if ( formGet("remove_img") === "yes" ) {
-						$content = preg_replace( '/<img .*?\/?>/Uis', '', $content );
-					}
 
 //						echo "<p>";
 						echo "<strong>Updating:</strong> \"<span class=\"text-info\">" . str_replace( $PAGE_siteurl, "/", $row->page ) . "</span>\"";
@@ -129,6 +125,12 @@
 //						echo "</p>";
 //						echo "<br />";
 
+					// Remove all images
+					if ( formGet("remove_img") === "yes" ) {
+						$content = preg_replace( '/<img .*?\/?>/is', '', $content, -1, $count ); // "s" = If this modifier is set, a dot metacharacter in the pattern matches all characters, including newlines. Without it, newlines are excluded.
+																								 // "i" = Match upper and lower case!
+						echo " (<strong>" . $count . "</strong> images removed.) ";
+					}
 						if (formGet("save_finalize") != "Test Finalize") {
 
 							echo " <strong>Result:</strong> <span class=\"label label-success\">Saved</span>";
