@@ -110,11 +110,6 @@ function checklink($link)
 	global $checked_link;
 
 	// Find every space in URLs, and replace it with %20
-//	$space_search = array('/\s/i');
-//	$space_replace = array('%20');
-//	$link = preg_replace($space_search, $space_replace, $link);
-
-	// Simplification of the above:
 	$link = str_replace( " ", "%20", $link );
 
 	// Find all achors ( #-sign ) and delete it and everything after

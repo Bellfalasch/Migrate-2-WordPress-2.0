@@ -8,18 +8,24 @@
 	function fn_getTitleFromUrl($url) {
 		
 		$title = $url;
+		
+		// Characters to remove
 		$title = str_replace( "/", "", $title );
-		$title = str_replace( array('aspx','asp','php','html','htm'), array('','','','',''), $title );
 		$title = str_replace( ".", "", $title );
-		$title = str_replace( "-", " ", $title );
-		$title = str_replace( "%20", " ", $title );
-		$title = str_replace( "+", " ", $title );
+		
+		// Remove any file endings (valid ones, as we don't crawl others)
+		$title = str_replace( array('aspx','asp','php','html','htm'), array('','','','',''), $title );
+
+		// Convert to real spaces
+		$title = str_replace( array('-','+','%20'), array(' ',' ',' '), $title );
 
 		// If the URL contains a ? then we should remove it and everything before it
 		if ( strpos($title, "?") > 0) {
 			$title = strstr( $title, "?" );
 			$title = str_replace( "?", "", $title );
-			// TODO: split on = and grab the last part (split has not been run, so this is safe)
+			// Split on '=' and grab the last part (split has not been run, so this is safe)
+			$querystring = explode("=", $title);
+			$title = $querystring[1];
 		}
 
 		$title = ucwords($title);
