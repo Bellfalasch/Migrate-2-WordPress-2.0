@@ -19,10 +19,27 @@
 		if ( strpos($title, "?") > 0) {
 			$title = strstr( $title, "?" );
 			$title = str_replace( "?", "", $title );
+			// TODO: split on = and grab the last part (split has not been run, so this is safe)
 		}
 
 		$title = ucwords($title);
 		return $title;
+	}
+
+	// Convert page title into something more URL friendly, later to be the WP slug
+	function fn_getSlugFromTitle($title) {
+	
+		$slug = trim( mb_strtolower($title) );
+		$slug = str_replace(' ', '-', $slug); // Space to dash
+		$slug = str_replace(',', '', $slug); // Everything else removed
+		$slug = str_replace('.', '', $slug);
+		$slug = str_replace('&', '', $slug);
+		$slug = str_replace('%', '', $slug);
+		$slug = str_replace('#', '', $slug);
+		$slug = str_replace('\'', '', $slug);
+		$slug = str_replace('"', '', $slug);
+		$slug = urlencode( $slug );
+		return $slug;
 	}
 	
 	// Output infoboxes with heading and text in different colors/formats (Bootstrap style)

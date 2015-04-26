@@ -69,17 +69,7 @@ function savepage($url, $html, $title)
 
 //	echo mb_detect_encoding($html, "utf-8, iso-8859-1");
 
-	// Convert page title into something more URL friendly
-	$slug = trim( mb_strtolower($title) );
-	$slug = str_replace(' ', '-', $slug); // Space to dash
-	$slug = str_replace(',', '', $slug); // Everything else removed
-	$slug = str_replace('.', '', $slug);
-	$slug = str_replace('&', '', $slug);
-	$slug = str_replace('%', '', $slug);
-	$slug = str_replace('#', '', $slug);
-	$slug = str_replace('\'', '', $slug);
-	$slug = str_replace('"', '', $slug);
-	$slug = urlencode( $slug );
+	$slug = fn_getSlugFromTitle( $title );
 
 	if ($html != "") {
 
