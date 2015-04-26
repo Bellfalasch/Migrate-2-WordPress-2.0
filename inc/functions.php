@@ -9,6 +9,9 @@
 		
 		$title = $url;
 		
+		// Go to last folder in url (or else we'll get the entire URL in here)
+		$title = substr(strrchr($title, "/"), 1);
+
 		// Characters to remove
 		$title = str_replace( "/", "", $title );
 		$title = str_replace( ".", "", $title );
