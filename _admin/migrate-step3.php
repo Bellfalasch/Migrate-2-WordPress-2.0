@@ -325,16 +325,7 @@ if ( 1 === 3 ) {
 						}
 
 						// Convert page title into something more URL friendly
-						$title_db = trim( strtolower($title) );
-						$title_db = str_replace(' ', '-', $title_db); // Space to dash
-						$title_db = str_replace(',', '', $title_db); // Everything else removed
-						$title_db = str_replace('.', '', $title_db);
-						$title_db = str_replace('&', '', $title_db);
-						$title_db = str_replace('%', '', $title_db);
-						$title_db = str_replace('#', '', $title_db);
-						$title_db = str_replace('\'', '', $title_db);
-						$title_db = str_replace('"', '', $title_db);
-						$title_db = urlencode( $title_db );
+						$slug = fn_getSlugFromTitle($title);
 
 						$content_db = trim( $content );
 
@@ -343,9 +334,10 @@ if ( 1 === 3 ) {
 							$result = db_setNewPage( array(
 										'site' => $PAGE_siteid,
 										'html' => 'CREATED FROM STEP 3 - not from crawl!',
-										'clean' => null,
+										'page' => $baseurl . '/' . $slug,
 										'content' => $content_db,
-										'page' => $baseurl . '?' . $title_db
+										'page_slug' => $slug,
+										'title' => $title
 									) );
 
 							if ( $result > 0 ) {
@@ -373,12 +365,14 @@ if ( 1 === 3 ) {
 
 						} else {
 
+							// Test split (print debugging info)
 							var_dump( array(
 									'site' => $PAGE_siteid,
 									'html' => 'CREATED FROM STEP 3 - not from crawl!',
-									'clean' => null,
+									'page' => $baseurl . '/' . $slug,
 									'content' => $content_db,
-									'page' => $baseurl . '?' . $title_db
+									'page_slug' => $slug,
+									'title' => $title
 								) );
 
 						}

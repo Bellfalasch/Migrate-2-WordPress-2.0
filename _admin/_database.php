@@ -29,11 +29,12 @@
 	function db_setNewPage($in) { cleanup($in);
 		return db_MAIN("
 			INSERT INTO `migrate_content`
-				(`site`,`html`,`content`,`page_slug`,`title`)
+				(`site`,`html`,`page`,`content`,`page_slug`,`title`)
 			VALUES(
 				{$in['site']},
 				{$in['html']},
 				{$in['page']},
+				{$in['content']},
 				{$in['page_slug']},
 				{$in['title']}
 			)

@@ -97,6 +97,7 @@ function savepage($url, $html, $title)
 							'site' => $PAGE_siteid,
 							'html' => $html,
 							'page' => $url,
+							'content' => NULL,
 							'page_slug' => $slug,
 							'title' => $title
 						) );
