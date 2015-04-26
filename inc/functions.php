@@ -1,5 +1,30 @@
 <?php
 
+	//////////////////////////////////////////////////////////////////////////////////
+	// Migrate 2 WordPress-specific functions
+	//////////////////////////////////////////////////////////////////////////////////
+
+	// Calculate a title from the url
+	function fn_getTitleFromUrl($url) {
+		
+		$title = $url;
+		$title = str_replace( "/", "", $title );
+		$title = str_replace( array('aspx','asp','php','html','htm'), array('','','','',''), $title );
+		$title = str_replace( ".", "", $title );
+		$title = str_replace( "-", " ", $title );
+		$title = str_replace( "%20", " ", $title );
+		$title = str_replace( "+", " ", $title );
+
+		// If the URL contains a ? then we should remove it and everything before it
+		if ( strpos($title, "?") > 0) {
+			$title = strstr( $title, "?" );
+			$title = str_replace( "?", "", $title );
+		}
+
+		$title = ucwords($title);
+		return $title;
+	}
+	
 	// Output infoboxes with heading and text in different colors/formats (Bootstrap style)
 	function fn_infobox($heading,$text,$type) {
 
@@ -19,18 +44,11 @@
 		echo $final;
 	}
 
-	// Get correct ip even if user is on a proxy
-	// - http://roshanbh.com.np/2007/12/getting-real-ip-address-in-php.html
-	function getRealIpAddr() {
-		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {  //check ip from share internet
-			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  //to check ip is pass from proxy
-			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		} else {
-			$ip = $_SERVER['REMOTE_ADDR'];
-		} 
-		return $ip;
-	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Functions for admin area (Bobby CMS)
+	//////////////////////////////////////////////////////////////////////////////////
 
 	// If the array sent in contains any items an error-block will be printed out.
 	function outputErrors($errors)
@@ -102,6 +120,24 @@
 	}
 
 
+	//////////////////////////////////////////////////////////////////////////////////
+	// Mixed useful functions
+	//////////////////////////////////////////////////////////////////////////////////
+
+	// Get correct ip even if user is on a proxy
+	// - http://roshanbh.com.np/2007/12/getting-real-ip-address-in-php.html
+	function getRealIpAddr() {
+		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {  //check ip from share internet
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  //to check ip is pass from proxy
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		} 
+		return $ip;
+	}
+
+
 	function randomAlphaNum($length)
 	{
 		$rangeMin = pow(36, $length-1); //smallest number to give length digits in base 36 
@@ -154,7 +190,7 @@
 		return ( $number > 0 ) ? 1 : ( ( $number < 0 ) ? -1 : 0 );
 	}
 
-	// Just somethink quick I used for some special SQL-need where I need to remove a lot of html formating that was common.
+	// Just something quick I used for some special SQL-need where I need to remove a lot of html formating that was common.
 	function removeHtmlEntities($string) {
 		$tmp = $string;
 		$tmp = str_replace('&amp;','&',$tmp);

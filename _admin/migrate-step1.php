@@ -471,22 +471,7 @@ function getsite($url)
 	// Only save when Run crawl is pressed (never on Test)
 	if (formGet("save_crawl") == "Run crawl") {
 
-		// Calculate a title from the url
-		$title = $url;
-		$title = str_replace( "/", "", $title );
-		$title = str_replace( array('aspx','asp','php','html','htm'), array('','','','',''), $title );
-		$title = str_replace( ".", "", $title );
-		$title = str_replace( "-", " ", $title );
-		$title = str_replace( "%20", " ", $title );
-		$title = str_replace( "+", " ", $title );
-
-		// If the URL contains a ? then we should remove it and everything before it
-		if ( strpos($title, "?") > 0) {
-			$title = strstr( $title, "?" );
-			$title = str_replace( "?", "", $title );
-		}
-
-		$title = ucwords($title);
+		$title = fn_getTitleFromUrl($url);
 
 		savepage($url, trim($pagebuffer), $title );
 
