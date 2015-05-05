@@ -124,8 +124,8 @@
 	function db_setDuplicatePage($in) { cleanup($in);
 		return db_MAIN("
 			INSERT INTO `migrate_content`
-			( `page`, `html`, `site`, `content`, `wash`, `tidy`, `clean` )
-			SELECT `page`, `html`, `site`, `content`, `wash`, `tidy`, `clean`
+			( `page`, `title`, `crawled`, `html`, `site`, `content`, `wash`, `tidy`, `clean`, `ready`, `page_slug`, `page_parent` )
+			SELECT CONCAT(`page`, '_2'), CONCAT(`title`, ' (2)'), 0, `html`, `site`, `content`, `wash`, `tidy`, `clean`, `ready`, `page_slug`, `page_parent`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			AND `id` = {$in['id']}
