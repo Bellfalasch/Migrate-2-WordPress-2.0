@@ -156,7 +156,6 @@
 				) );
 
 		if ($dup >= 0) {
-			//echo "<div class='alert alert-success'><h4>Duplication successful</h4><p>The selected page has been duplicated.</p></div>";
 			fn_infobox("Duplication successful", "The selected page has been duplicated.",'');
 		} else {
 			pushError("Duplication of page failed, please try again.");
@@ -168,7 +167,6 @@
 
 		<?php if ( $split_id > 0 ) { ?>
 
-<!-- <form class="form-horizontal" action="" method="post"> -->
 <form class="well form" action="" method="post">
 
 	<div class="row">
