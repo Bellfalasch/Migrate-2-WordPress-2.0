@@ -14,7 +14,7 @@
 		"label" => "HTML-code to split on:",
 		"id" => "splitcode",
 		"type" => "area(10*7)",
-		"description" => "Enter any chunk of HTML-code here (use the output bellow as a guide). Use '[*]'' as a wildcard, and use '[?]' as the 'locator' (the page will be saved with that name). Only use one 'locator' (but any amount of wildcards).",
+		"description" => "Enter any chunk of HTML-code here (use the output bellow as a guide). Use '[*]' as a wildcard, and use '[?]' as the 'locator' (the page will be saved with that name). Only use one 'locator' (but any amount of wildcards).",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
