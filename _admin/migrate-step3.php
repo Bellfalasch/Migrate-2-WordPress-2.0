@@ -277,19 +277,26 @@
 
 				//$codeoutput = htmlentities( $codeoutput );
 
-				echo "<strong>We found these sub pages:</strong>";
-				echo "<pre>";
+				echo "<h3>We found these sub pages:</h3>";
+//				echo "<pre>";
 
 				$length_arr = count($arr_content);
 				$length_title = count($arr_titles[1]);
 
+				$last_title = "";
+				$title = "";
+				$slug = "";
+
 				for ($i = 0; $i < $length_arr; $i++ ) {
+
+					$show_output = true;
 
 					if ($i <= $length_title && $i+1 < $length_arr) {
 
 						// arr_titles first array dimension: 0 contains entire matching area, index 1 only the extracted match.
 
 						$title   = $arr_titles[1][$i];
+						$last_title = $title;
 
 /*
 						// What to get is controlled by a setting (getting only the exact match is default).
@@ -331,10 +338,12 @@ if ( 1 === 3 ) {
 
 							$result = db_setNewPage( array(
 										'site' => $PAGE_siteid,
-										'html' => 'CREATED FROM STEP 3 - not from crawl!',
+										'html' => 'CREATED BY SPLIT-FUNCTION - not from crawl!',
 										'page' => $baseurl . '/' . $slug,
 										'content' => $content_db,
 										'page_slug' => $slug,
+										'page_parent' => $baseid,
+										'crawled' => 0,
 										'title' => $title
 									) );
 
@@ -364,38 +373,55 @@ if ( 1 === 3 ) {
 						} else {
 
 							// Test split (print debugging info)
+
 							var_dump( array(
-									'site' => $PAGE_siteid,
-									'html' => 'CREATED FROM STEP 3 - not from crawl!',
-									'page' => $baseurl . '/' . $slug,
-									'content' => $content_db,
-									'page_slug' => $slug,
-									'title' => $title
-								) );
+										'site' => $PAGE_siteid,
+										'html' => 'CREATED BY SPLIT-FUNCTION - not from crawl!',
+										'page' => $baseurl . '/' . $slug,
+										'content' => $content_db,
+										'page_slug' => $slug,
+										'page_parent' => $baseid,
+										'crawled' => 0,
+										'title' => $title
+									) );
 
 						}
 
 					} else {
 
+						// Code for handling EOF on the page when split matches has been found earlier
+						if ( $last_title == $title && $title != "" ) {
+							$show_output = false;
+							fn_infobox("No more matches!", "That's all the possible matching subpages we could find on the page you submitted. Tweak your 'split-code' if this isn't what you wanted.", 'error');
+						}
+
 						$title = "NO MATCHING TITLE FOR THIS PAGE!!!"; // This should skip the split
 						$content = "no matching content for this page!";
 
-						//echo '<div class="alert alert-error"><h4>Couldn\'t save</h4><p>New page for following code could not be created!</p></div>';
-						fn_infobox("Couldn't save", "New page for following code could not be created!", 'error');
+						// Error message for when we found zero hits of that string on this page
+						if ( $show_output ) {
+							//fn_infobox("Couldn't save", "New page for following code could not be created!<br />If this error appears at the end of a list of new, splitted, pages then it just means we didn't find any more pages.", 'error');
+							$show_output = false;
+							fn_infobox("Nothing found", "The 'split-code' you submitted didn't exist anywhere on the current page. Try again!", 'error');
+						}
 
 					}
 
-					echo "<p>";
-					echo "<strong>" . $title . "</strong><br />";
+					if ( $show_output ) {
+						echo "<h4>" . $title . "</h4>";
+						echo "<p><span class=\"text-info\">" . $baseurl . '/<strong>' . $slug . "</strong></span></p>";
+						echo "<pre>";
 
-					$content = htmlspecialchars($content, ENT_QUOTES, "UTF-8");
+						$content = htmlspecialchars($content, ENT_QUOTES, "UTF-8");
+						$content = trim( $content );
 
-					echo $content;
-					echo "</p>";
+						echo $content;
+						echo "</pre>";
+					}
 
 				}
 
-				echo "</pre>";
+//				echo "</pre>";
 
 			} else {
 /*
@@ -424,7 +450,7 @@ if ( 1 === 3 ) {
 	{
 
 ?>
-		
+
 		<table class="site-list">
 			<thead>
 				<th>-</th>
@@ -462,8 +488,8 @@ if ( 1 === 3 ) {
 
 			echo "<td>" . $title . "</td>";
 			echo "<td>";
-			
-			if ( $row->crawled == 1 ) {
+
+			if ( $row->crawled == "1" ) {
 				echo "<a href=\"" . $page . "\" target=\"_blank\" title=\"Click to open the original crawled page\">";
 				echo $url;
 				echo "</a>";

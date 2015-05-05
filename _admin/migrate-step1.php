@@ -99,6 +99,8 @@ function savepage($url, $html, $title)
 							'page' => $url,
 							'content' => NULL,
 							'page_slug' => $slug,
+							'page_parent' => 0,
+							'crawled' => 1,
 							'title' => $title
 						) );
 		}
