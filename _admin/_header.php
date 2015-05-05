@@ -126,7 +126,7 @@
 						<li class="disabled"><a href="#0">7: Structure</a></li>
 					<?php } ?>
 
-					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 7) { ?>
+					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2) { ?>
 						<li<?php flagAsActiveOn("step8") ?>><a href="<?= $SYS_pageroot ?>migrate-step8.php">8: Finalize</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">8: Finalize</a></li>
