@@ -459,7 +459,7 @@ if ( 1 === 3 ) {
 
 			// Title is not set in the database
 			if ( is_null($title) ) {
-				$title = "- Unknown -";
+				$title = "<em>- Unknown -</em>";
 			}
 
 			echo "<td>" . $title . "</td>";
