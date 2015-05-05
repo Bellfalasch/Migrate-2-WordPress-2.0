@@ -64,15 +64,16 @@
 
 		?>
 
+			<h2>Good to know</h2>
 			<p>
-				<strong>Important!</strong> All html marked in red will be removed when saving these pages back to
+				All html <span class="text-error">marked in red</span> will be removed when saving these pages back to
 				the database. The originally crawled content will be kept in the column 'html' in the table
 				'migrate_content', if you need it for reference. This also adds support for you to redo this step
-				as many times as you'd like in case you wanna change your needles). The green html will be saved
+				as many times as you'd like in case you wanna change your needles). <span class="text-success">The green html</span> will be saved
 				into the column 'content'.
 			</p>
 			<p>
-				Please do make extra sure that all code is intact, that the ONLY allowed difference between the
+				Please, make sure that all code is intact, that the ONLY allowed difference between the
 				left and the right side are the colors. Look for bad cuts shopping of the header or the start of the footer!
 				If so, just tweak your needles and re-run this step until it gets perfect (found at bottom of the page).
 			</p>
@@ -81,6 +82,7 @@
 				everything inside the body-tag is content. If not even the body-tag is found, it will try and use the html-tag.
 				If that also fail we'll keep the entire html as the content.
 			</p>
+			<hr />
 
 		<?php
 
@@ -90,7 +92,7 @@
 				while ( $row = $result->fetch_object() )
 				{
 
-					echo "<strong>" . $row->page . "</strong><br />";
+					echo "<strong class=\"text-info\">" . $row->page . "</strong><br />";
 					
 					$headerStart = 0;
 
