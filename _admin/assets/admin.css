@@ -392,6 +392,14 @@ pre {
 	.selected td {
 		font-weight: bold;
 	}
+
+.child td {
+	padding-left: 20px;
+}
+.child td .btn {
+	margin-left: -17px; /* Compensate */
+}
+
 .done {
 	opacity: 0.3;
 }

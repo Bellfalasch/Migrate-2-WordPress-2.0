@@ -107,7 +107,7 @@
 
 	function db_getPagesFromSite($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `title`, `page`, `crawled`
+			SELECT `id`, `title`, `page`, `crawled`, `page_slug`, `page_parent`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			ORDER BY `page` ASC
@@ -127,7 +127,7 @@
 		return db_MAIN("
 			INSERT INTO `migrate_content`
 			( `page`, `title`, `crawled`, `html`, `site`, `content`, `wash`, `tidy`, `clean`, `ready`, `page_slug`, `page_parent` )
-			SELECT CONCAT(`page`, '_2'), CONCAT(`title`, ' (2)'), 0, `html`, `site`, `content`, `wash`, `tidy`, `clean`, `ready`, `page_slug`, `page_parent`
+			SELECT CONCAT(`page`, '_2'), CONCAT(`title`, ' (2)'), 0, `html`, `site`, `content`, `wash`, `tidy`, `clean`, `ready`, CONCAT(`page_slug`, '_2'), `page_parent`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			AND `id` = {$in['id']}

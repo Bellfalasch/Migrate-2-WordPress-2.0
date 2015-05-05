@@ -157,10 +157,11 @@
 	{
 
 ?>
-		<table class="site-list">
+		<table>
 			<thead>
 				<th>-</th>
 				<th>Title</th>
+				<th>Slug</th>
 				<th>URL</th>
 				<th>-</th>
 			</thead>
@@ -170,7 +171,12 @@
 
 		while ( $row = $result->fetch_object() )
 		{
-			echo '<tr>';
+			echo "<tr";
+			// Add child-class to children so you see it visually
+			if ( $row->page_parent > 0 ) {
+				echo " class=\"child\"";
+			}
+			echo ">";
 
 			$page = $row->page;
 			$url = str_replace( $PAGE_siteurl, "/", $page );
@@ -184,6 +190,7 @@
 			echo "<td><a href=\"" . $SYS_pageroot . "migrate-step7-htmleditor.php?id=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-title=\"" . $title . "\" data-toggle=\"modal\" data-target=\"#html-modal\">Edit HTML</a></td>";
 
 			echo "<td>" . $title . "</td>";
+			echo "<td>" . $row->page_slug . "</td>";
 			echo "<td>";
 
 			if ( $row->crawled == 1 ) {

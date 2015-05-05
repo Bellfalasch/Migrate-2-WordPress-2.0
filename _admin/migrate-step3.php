@@ -451,10 +451,12 @@ if ( 1 === 3 ) {
 
 ?>
 
-		<table class="site-list">
+		<!--<table class="site-list">-->
+		<table>
 			<thead>
 				<th>-</th>
 				<th>Title</th>
+				<th>Slug</th>
 				<th>URL</th>
 				<th>-</th>
 				<th>-</th>
@@ -465,11 +467,21 @@ if ( 1 === 3 ) {
 
 		while ( $row = $result->fetch_object() )
 		{
-			if ($row->id == $split_id ) {
-				echo '<tr class="selected">';
-			} else {
-				echo '<tr>';
+			$addclass = "";
+
+			// Add child-class to children so you see it visually
+			if ( $row->page_parent > 0 ) {
+				$addclass = "child";
 			}
+			if ($row->id == $split_id ) {
+				$addclass = " selected";
+			}
+
+			echo "<tr";
+			if ($addclass != "" ) {
+				echo " class=\"" . trim( $addclass ) . "\"";
+			}
+			echo ">";
 
 			if ($split_id > 0) {
 				echo "<td>-</td>";
@@ -487,6 +499,7 @@ if ( 1 === 3 ) {
 			}
 
 			echo "<td>" . $title . "</td>";
+			echo "<td>" . $row->page_slug . "</td>";
 			echo "<td>";
 
 			if ( $row->crawled == "1" ) {
