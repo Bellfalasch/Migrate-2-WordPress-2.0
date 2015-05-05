@@ -200,6 +200,7 @@
 		return db_MAIN("
 			UPDATE `migrate_content`
 			SET `ready` = REPLACE(`clean`, {$in['oldlink']}, {$in['newlink']})
+			WHERE `site` = {$in['site']}
 		");
 	}
 	function db_getContentDataFromSite($in) { cleanup($in);

@@ -194,12 +194,18 @@ TODO: Get this working?
 					$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content, $counter );
 */
 
+					if (formGet("save_finalize") != "Test Finalize") {
+					
+						// Update all the Links on ALL the pages on this site
+						$fixLinks = db_updateContentLinks( array(
+											'oldlink' => ' href="' . $oldlink,
+											'newlink' => ' href="' . $newlink,
+											'site' => $PAGE_siteid
+									) );
 
-					// Update all the Links on ALL the pages
-					$fixLinks = db_updateContentLinks( array(
-										'oldlink' => ' href="' . $oldlink,
-										'newlink' => ' href="' . $newlink
-								) );
+					} else {
+						$fixLinks = "???";
+					}
 
 					// Output a counter if we got any hits
 					//echo "<strong>" . $oldlink . "</strong> removed <span class=\"badge badge-success\">" . $fixLinks . "</span> times<br />";
@@ -213,6 +219,8 @@ TODO: Get this working?
 				}
 
 			}
+
+			echo "<br />";
 
 		}
 
