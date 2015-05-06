@@ -34,8 +34,9 @@
 
 				$original_html = $html;
 
+				///////////////////////////////////////////////////
 				// Start replacing old bad markup
-
+				///////////////////////////////////////////////////
 
 				// Convert old school attributes to classes instead
 				$html = str_replace(' width="15" height="15"', ' class="psx_button"', $html);
@@ -74,7 +75,7 @@
 
 				$html = str_replace('<strong>***</strong>', '<span class="stars"><span class="lit">***</span></span>', $html);
 
-				// Old school attributes that should be remove (because of universal style now handling them)
+				// Old school attributes that should be remove (because of CSS now handling them)
 				////////////////////////////////////////////////////////
 
 				// Smarter regex removal of valign and align attributes
@@ -245,6 +246,10 @@
 				$html = str_replace('<img src="assets/ner.jpg" class="psx_button" />', '<span class="psx_button down">Ner</span>', $html);
 
 				$html = trim($html);
+
+				///////////////////////////////////////////////////
+				// Replacements complete
+				///////////////////////////////////////////////////
 
 				// Generate a view with original versus washed code
 				echo "<div class=\"column\"><strong>Original code:</strong>";

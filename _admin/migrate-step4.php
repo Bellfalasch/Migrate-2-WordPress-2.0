@@ -25,7 +25,9 @@
 
 				$original_html = $html;
 
+				///////////////////////////////////////////////////
 				// Start replacing old bad markup ... at the moment very manual work =/
+				///////////////////////////////////////////////////
 
 				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
 				$html = str_replace('<B><FONT COLOR="Orange">*</FONT>****</B>',         '<span class="stars"><span class="lit">*</span>****</span>', $html);
@@ -59,8 +61,7 @@
 				$html = str_replace('2000. Unauthorized reproduction or use of content on this site is prohibited. Squaresoft ® and<BR>', '', $html);
 				$html = str_replace('Final Fantasy, are registered trademarks of Square Co, Ltd.', '', $html);
 
-
-				// My pages have a ad from Google on every page, but it's always kept in this div - so just remove it all
+				// My pages have an ad from Google on every page, but it's always kept in this div - so just remove it all
 				$html = preg_replace( '/<div id="main_ads_big">(.*)<\/div>/Uis', '', $html );
 
 				// Another block of code for RSS-buttons etc on my sites, I'm just removing it all
@@ -104,6 +105,10 @@
 				$html = str_replace('Bobby Vestberg', 'Bobby Westberg', $html);
 
 				$html = trim($html);
+
+				///////////////////////////////////////////////////
+				// Replacements complete
+				///////////////////////////////////////////////////
 
 				// Generate a view with original versus washed code
 				echo "<div class=\"column\"><strong>Original code:</strong>";
