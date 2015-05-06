@@ -35,33 +35,7 @@
 				$original_html = $html;
 
 				// Start replacing old bad markup
-				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
-				$html = str_replace('<table>
-<tr>
-<td width="142">
-<table cellpadding="0" cellspacing="0">
-<tr>
-<td><a href="default.asp"><img src="top/ffiv_logo.jpg" width="142" height="57" alt="Final Fantasy IV (återvänd till startsidan)" border="0" /></a><br />
-<img src="trans.gif" width="1" height="1" vspace="2" hspace="1" /><br /></td>
-</tr>
-<tr>
-<td>
-<table width="100%" cellpadding="1" cellspacing="0">
-<tr>
-<td colspan="3"><img src="trans.gif" width="1" height="1" /></td>
-</tr>
-<tr>
-<td rowspan="2"><img src="trans.gif" width="1" height="1" /></td>
-<td>', '<div class="sidebar"><p>', $html);
-				$html = str_replace('</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>', '</p></div>', $html);
+
 
 				// Convert old school attributes to classes instead
 				$html = str_replace(' width="15" height="15"', ' class="psx_button"', $html);
@@ -227,7 +201,7 @@
 					$html = str_replace("</div>", "</p>", $html);
 				}
 
-				// Clean any fault remaining html
+				// Clean any faulty html remaining (empty tags)
 				$html = str_replace("<p><p>", "<p>", $html);
 				$html = preg_replace('/<\/p>\s*<\/p>/i', "</p>", $html);
 				$html = preg_replace('/<p>$/i', '', $html);
