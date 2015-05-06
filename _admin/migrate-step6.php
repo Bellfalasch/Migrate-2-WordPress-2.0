@@ -75,6 +75,7 @@
 
 				$html = str_replace('<strong>***</strong>', '<span class="stars"><span class="lit">***</span></span>', $html);
 
+				////////////////////////////////////////////////////////
 				// Old school attributes that should be remove (because of CSS now handling them)
 				////////////////////////////////////////////////////////
 
