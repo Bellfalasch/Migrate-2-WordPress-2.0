@@ -78,7 +78,7 @@
 				$html = preg_replace( '/<style[^>]*?>.*?<\/style>/siu', '', $html );
 
 				// Some more garbage code from tidy (remove all classes it creates on styled items)
-				$html = preg_replace('/ class="c[12345]+"/i', "", $html);
+				$html = preg_replace('/ class="c[1-9]+"/i', "", $html);
 
 				$html = trim($html);
 
