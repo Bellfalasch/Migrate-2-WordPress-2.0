@@ -51,6 +51,7 @@
 						"logical-emphasis" => true,
 						"lower-literals" => true,
 						"merge-divs" => true,
+						"merge-spans" => true,
 						"quote-ampersand" => true,
 						"break-before-br" => false,
 						"sort-attributes" => 'alpha',
