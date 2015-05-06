@@ -355,6 +355,8 @@ if ( 1 === 3 ) {
 							}
 
 /*
+Code to test with. First the regex, then that same code translated into our more simpler format
+
 <a name="\.*"><\/a><\/p>
 <table cellpadding="1">
 <tr>
