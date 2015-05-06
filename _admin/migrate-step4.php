@@ -59,11 +59,6 @@
 				$html = str_replace('2000. Unauthorized reproduction or use of content on this site is prohibited. Squaresoft ® and<BR>', '', $html);
 				$html = str_replace('Final Fantasy, are registered trademarks of Square Co, Ltd.', '', $html);
 
-				// Can't remove trailing font-tag or Tidy in next step will go nuts
-				//$html = str_replace('</FONT>', '</span>', $html);
-
-				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
-				$html = preg_replace( '/<FONT[^>]*?>/siu', '', $html );
 
 				// My pages have a ad from Google on every page, but it's always kept in this div - so just remove it all
 				$html = preg_replace( '/<div id="main_ads_big">(.*)<\/div>/Uis', '', $html );
@@ -88,6 +83,12 @@
 				$html = str_replace('<TD NAME="space2" WIDTH=3><IMG SRC="trans.gif" WIDTH=3 HEIGHT=1></TD>', '', $html);
 				$html = str_replace('<BR><BR></TD></TR></TABLE>', '', $html);
 				$html = str_replace(' NOWRAP>', '>', $html);
+
+				// Can't remove trailing font-tag or Tidy in next step will go nuts
+				//$html = str_replace('</FONT>', '</span>', $html);
+
+				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
+				$html = preg_replace( '/<FONT[^>]*?>/siu', '', $html );
 
 				// Some markup we can improve
 				$html = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $html);
