@@ -72,8 +72,9 @@
 
 <?php
 
-// Do the splitting
-// ****************************************************************************
+	///////////////////////////////////////////////////
+	// Handle posted split form setting/value
+	///////////////////////////////////////////////////
 
 	$split_id = qsGet("split");
 
@@ -121,8 +122,9 @@
 	}
 
 
-// Delete page
-// ****************************************************************************
+	///////////////////////////////////////////////////
+	// Delete page
+	///////////////////////////////////////////////////
 
 	$del_id = qsGet("del");
 
@@ -143,8 +145,9 @@
 	}
 
 
-// Duplicate page
-// ****************************************************************************
+	///////////////////////////////////////////////////
+	// Duplicate page
+	///////////////////////////////////////////////////
 
 	$dup_id = qsGet("dup");
 
@@ -219,8 +222,9 @@
 
 <?php
 
-// The actual code
-// ****************************************************************************
+	///////////////////////////////////////////////////
+	// Handle splitting of pages (database-part)
+	///////////////////////////////////////////////////
 
 	if ($split_id > 0) {
 
@@ -445,7 +449,6 @@ Code to test with. First the regex, then that same code translated into our more
 	}
 
 
-
 	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
 
 	if ( isset( $result ) )
@@ -453,7 +456,6 @@ Code to test with. First the regex, then that same code translated into our more
 
 ?>
 
-		<!--<table class="site-list">-->
 		<table>
 			<thead>
 				<th>-</th>
