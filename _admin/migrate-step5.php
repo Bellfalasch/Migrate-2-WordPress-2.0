@@ -30,6 +30,10 @@
 
 				$original_html = $html;
 
+				///////////////////////////////////////////////////
+				// Setup and run the Tidy plugin + other replacements
+				///////////////////////////////////////////////////
+
 				// REF: http://tidy.sourceforge.net/docs/quickref.html
 				$options = array(
 						"output-xhtml" => true,
@@ -81,6 +85,10 @@
 				$html = preg_replace('/ class="c[1-9]+"/i', "", $html);
 
 				$html = trim($html);
+
+				///////////////////////////////////////////////////
+				// Tidy and replacements complete
+				///////////////////////////////////////////////////
 
 				// Generate a view with original versus washed code
 				echo "<div class=\"column\"><strong>Original code:</strong>";
