@@ -191,6 +191,11 @@ EOT;
 					}
 					$newlink = $PAGE_sitenewurl . $separator . $newlink;
 
+					// Add trailing / if there is none
+					if ( mb_substr($newlink,-1) != "/" ) {
+						$newlink = $newlink . "/";
+					}
+
 					$title = $row->title;
 					$slug = $row->page_slug;
 
@@ -200,7 +205,7 @@ EOT;
 					$this_content = str_replace("|||SLUG|||", $slug, $this_content);
 					$this_content = str_replace("|||CONTENT|||", $content, $this_content);
 
-					$this_content = htmlspecialchars($XML_content, ENT_QUOTES, "UTF-8");
+					$this_content = htmlspecialchars($this_content, ENT_QUOTES, "UTF-8");
 
 					echo $this_content;
 
