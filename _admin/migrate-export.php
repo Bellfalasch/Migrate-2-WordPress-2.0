@@ -114,15 +114,15 @@ EOT;
 		<description></description>
 		<content:encoded><![CDATA[|||CONTENT|||]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>292</wp:post_id><!-- TODO - remove? -->
+		<wp:post_id>|||ID|||</wp:post_id><!-- DONE? -->
 		<wp:post_date>{$date->format('Y-m-d H:i:s')}</wp:post_date><!-- DONE? -->
 		<wp:post_date_gmt>{$date->format('Y-m-d H:i:s')}</wp:post_date_gmt><!-- DONE? -->
 		<wp:comment_status>closed</wp:comment_status>
 		<wp:ping_status>closed</wp:ping_status>
 		<wp:post_name>|||SLUG|||</wp:post_name>
 		<wp:status>publish</wp:status><!-- TODO - "draft" for content-less pages -->
-		<wp:post_parent>0</wp:post_parent><!-- TODO -->
-		<wp:menu_order>15</wp:menu_order><!-- TODO -->
+		<wp:post_parent>|||PARENT|||</wp:post_parent>
+		<wp:menu_order>15</wp:menu_order><!-- TODO - remove? -->
 		<wp:post_type>page</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
@@ -201,12 +201,16 @@ EOT;
 
 					$title = $row->title;
 					$slug = $row->page_slug;
+					$id = $row->id;
+					$parent = $row->page_parent;
 
 					$this_content = $XML_content;
-					$this_content = str_replace("|||URL|||", $newlink, $this_content);
-					$this_content = str_replace("|||TITLE|||", $title, $this_content);
-					$this_content = str_replace("|||SLUG|||", $slug, $this_content);
+					$this_content = str_replace("|||URL|||",     $newlink, $this_content);
+					$this_content = str_replace("|||TITLE|||",   $title,   $this_content);
+					$this_content = str_replace("|||SLUG|||",    $slug,    $this_content);
 					$this_content = str_replace("|||CONTENT|||", $content, $this_content);
+					$this_content = str_replace("|||ID|||",      $id,      $this_content);
+					$this_content = str_replace("|||PARENT|||",  $parent,  $this_content);
 
 					$this_content = htmlspecialchars($this_content, ENT_QUOTES, "UTF-8");
 
