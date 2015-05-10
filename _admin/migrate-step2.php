@@ -303,7 +303,7 @@
 	?>
 			<p>
 				By defining "needles" for finding the start and end of all the content, we can
-				strip away all the redundent html we picked up from the crawl in step 1.
+				strip away all the redundant html we picked up from the crawl in step 1.
 			</p>
 
 			<?php outputFormFields(); ?>
