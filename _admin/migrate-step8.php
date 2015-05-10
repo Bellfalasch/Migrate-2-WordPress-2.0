@@ -181,6 +181,8 @@
 					if ($newlink != "" && !is_null($newlink))
 					{
 
+						$oldlink = str_replace( $PAGE_siteurl, "", $oldlink ); // Remove base URL from page URL
+
 						$mapparArr = explode('/', $oldlink);
 						$fil = $mapparArr[count($mapparArr) - 1];
 						//$mapp = $mapparArr[count($mapparArr) - 2];
