@@ -171,55 +171,60 @@
 			while ( $row = $result->fetch_object() )
 			{
 
-				// Update all links
-				$newlink = $row->page_slug;
-				$oldlink = $row->page;
+				// Don't bother updating links to pages this tool created as there can't be any links to them yet
+				if ( $row->crawled == 1 ) {
 
-				if ($newlink != "" && !is_null($newlink))
-				{
+					// Update all links
+					$newlink = $row->page_slug;
+					$oldlink = $row->page;
 
-					$mapparArr = explode('/', $oldlink);
-					$fil = $mapparArr[count($mapparArr) - 1];
-					//$mapp = $mapparArr[count($mapparArr) - 2];
+					if ($newlink != "" && !is_null($newlink))
+					{
 
-					// Add parents slug to root URL if this is a child page
-					if ( !is_null($row->page_parent) ) {
-						$newlink = $row->parent_slug . "/" . $newlink;
+						$mapparArr = explode('/', $oldlink);
+						$fil = $mapparArr[count($mapparArr) - 1];
+						//$mapp = $mapparArr[count($mapparArr) - 2];
+
+						// Add parents slug to root URL if this is a child page
+						if ( $row->page_parent > 0 ) {
+							$newlink = $row->parent_slug . "/" . $newlink;
+						}
+
+						// Re-build the full new URL for the page
+						$separator = "/";
+						if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) == "/" ) {
+							$separator = "";
+						}
+						$newlink = $PAGE_sitenewurl . $separator . $newlink;
+	/*
+	TODO: Get this working?
+						// Replace all the old href URLs with the new one in the current text
+						$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content, $counter );
+	*/
+
+						if (formGet("save_finalize") != "Test Finalize") {
+
+							// Update all the Links on ALL the pages on this site
+							$fixLinks = db_updateContentLinks( array(
+												'oldlink' => ' href="' . $oldlink,
+												'newlink' => ' href="' . $newlink,
+												'site' => $PAGE_siteid
+										) );
+
+						} else {
+							$fixLinks = "???";
+						}
+
+						// Output a counter if we got any hits
+						//echo "<strong>" . $oldlink . "</strong> removed <span class=\"badge badge-success\">" . $fixLinks . "</span> times<br />";
+						//echo "<p>";
+						echo "<strong>Update old links:</strong> \"" . str_replace( $PAGE_siteurl, "/", $oldlink ) . "\" ";
+						echo "<strong>to Wordpress links:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $newlink ) . "\" ";
+						echo "<span class=\"label label-success\">" . $fixLinks . "</span>";
+						//echo "</p>";
+						echo "<br />";
+
 					}
-
-					// Re-build the full new URL for the page
-					$separator = "/";
-					if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) == "/" ) {
-						$separator = "";
-					}
-					$newlink = $PAGE_sitenewurl . $separator . $newlink;
-/*
-TODO: Get this working?
-					// Replace all the old href URLs with the new one in the current text
-					$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content, $counter );
-*/
-
-					if (formGet("save_finalize") != "Test Finalize") {
-
-						// Update all the Links on ALL the pages on this site
-						$fixLinks = db_updateContentLinks( array(
-											'oldlink' => ' href="' . $oldlink,
-											'newlink' => ' href="' . $newlink,
-											'site' => $PAGE_siteid
-									) );
-
-					} else {
-						$fixLinks = "???";
-					}
-
-					// Output a counter if we got any hits
-					//echo "<strong>" . $oldlink . "</strong> removed <span class=\"badge badge-success\">" . $fixLinks . "</span> times<br />";
-					//echo "<p>";
-					echo "<strong>Update old links:</strong> \"" . str_replace( $PAGE_siteurl, "/", $oldlink ) . "\" ";
-					echo "<strong>to Wordpress links:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $newlink ) . "\" ";
-					echo "<span class=\"label label-success\">" . $fixLinks . "</span>";
-					//echo "</p>";
-					echo "<br />";
 
 				}
 
