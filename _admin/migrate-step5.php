@@ -13,14 +13,14 @@
 
 	if (ISPOST)
 	{
-		
+
 		$result = db_getContentFromSite( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
 			while ( $row = $result->fetch_object() )
 			{
 				echo "<strong>" . $row->page . "</strong><br />";
-				
+
 				$html = $row->wash;
 
 				// If we haven't run Wash, use the Strip-data
@@ -66,7 +66,7 @@
 				$html = tidy_parse_string($html, $options,'UTF8');
 				//$tidy = tidy_parse_string($row->content, $options);
 				tidy_clean_repair($html);
-				
+
 				// Tidy leaves some code that we do not want inside WP, so let's remove it
 				$html = str_replace('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"', '', $html);
 				$html = str_replace('    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">', '', $html);
@@ -114,16 +114,16 @@
 					) );
 
 				} else {
-					
+
 					echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-				
+
 				}
 				echo "</div>";
 
 				echo "<hr /><br />";
-			
+
 			}
-		
+
 		}
 
 	}
@@ -132,7 +132,7 @@
 
 	<?php
 		outputErrors($SYS_errors);
-	
+
 		if (!ISPOST) {
 	?>
 

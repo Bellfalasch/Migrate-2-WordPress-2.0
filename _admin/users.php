@@ -19,7 +19,7 @@
 						"max" => "Please keep number of character's to [MAX] at most."
 					)
 	) );
-	
+
 	addField( array(
 		"label" => "Email:",
 		"type" => "text(5)",
@@ -31,7 +31,7 @@
 						"mail" => "Please use a valid e-mail, [CONTENT] is not valid."
 					)
 	) );
-	
+
 	addField( array(
 		"label" => "Username:",
 		"type" => "text(3)",
@@ -42,7 +42,7 @@
 						"max" => "Please keep number of characters to [MAX] at most."
 					)
 	) );
-	
+
 	addField( array(
 		"label" => "Password:",
 		"type" => "text(3)",
@@ -91,7 +91,7 @@
 			else
 				pushError("Delete of data failed, please try again.");
 		}
-		
+
 
 		////////////////////////////////////////////////////////
 		// HANDLE POST AND SAVE CHANGES
@@ -112,7 +112,7 @@
 			$formMail     = $PAGE_form[1]["content"];
 			$formUsername = $PAGE_form[2]["content"];
 			$formPassword = $PAGE_form[3]["content"];
-			
+
 			// EDITION: Custom validation on custom field:
 			if (! in_array($formLevel,array('0','1','2','3')) ) {
 				// User pushError, but insert custom html:
@@ -121,7 +121,7 @@
 
 			// If no errors:
 			if (empty($SYS_errors)) {
-				
+
 				// UPDATE
 				if ( $PAGE_dbid > 0 )
 				{
@@ -157,7 +157,7 @@
 
 					// If the insert worked we will now have the created id in this variable, otherwhise we will have 0 or -1.
 					if ($result > 0) {
-						
+
 						echo '<div class="alert alert-success"><h4>Save successful</h4><p>New data saved, id: ' . $result . '</p></div>';
 
 						// Reset all the data so we get a clean form after an insert.
@@ -168,7 +168,7 @@
 						$PAGE_form[1]["content"] = '';
 						$PAGE_form[2]["content"] = '';
 						$PAGE_form[3]["content"] = '';
-						
+
 						// EDITION: Reset custom field
 						$formLevel = '';
 
@@ -189,8 +189,8 @@
 		{
 			// Pseudo: Run SQL, get result, loop through it and put each data in the correct "content" of all the arrays.
 			// 		   Maybe time for that setting in the arrays with name of field in database? Hmm ... TODO =)
-			
-			
+
+
 			// Call _database.php function for getting any selected data.
 			$result = db2_getUser( array('id' => $PAGE_dbid) );
 
@@ -204,14 +204,14 @@
 				$PAGE_form[1]["content"] = $row->mail;
 				$PAGE_form[2]["content"] = $row->username;
 				$PAGE_form[3]["content"] = $row->password;
-				
+
 				// EDITION: Setting data from database to custom field
 				$formLevel = $row->level;
 
 			} else {
 				pushError("Couldn't find the requested data");
 			}
-			
+
 		}
 
 	?>

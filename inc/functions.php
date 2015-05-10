@@ -6,16 +6,16 @@
 
 	// Calculate a title from the url
 	function fn_getTitleFromUrl($url) {
-		
+
 		$title = $url;
-		
+
 		// Go to last folder in url (or else we'll get the entire URL in here)
 		$title = substr(strrchr($title, "/"), 1);
 
 		// Characters to remove
 		$title = str_replace( "/", "", $title );
 		$title = str_replace( ".", "", $title );
-		
+
 		// Remove any file endings (valid ones, as we don't crawl others)
 		$title = str_replace( array('aspx','asp','php','html','htm'), array('','','','',''), $title );
 
@@ -37,7 +37,7 @@
 
 	// Convert page title into something more URL friendly, later to be the WP slug
 	function fn_getSlugFromTitle($title) {
-	
+
 		$slug = trim( mb_strtolower($title) );
 		$slug = str_replace(' ', '-', $slug); // Space to dash
 		$slug = str_replace(',', '', $slug); // Everything else removed
@@ -50,7 +50,7 @@
 		$slug = urlencode( $slug );
 		return $slug;
 	}
-	
+
 	// Output infoboxes with heading and text in different colors/formats (Bootstrap style)
 	function fn_infobox($heading,$text,$type) {
 
@@ -159,19 +159,19 @@
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		} else {
 			$ip = $_SERVER['REMOTE_ADDR'];
-		} 
+		}
 		return $ip;
 	}
 
 
 	function randomAlphaNum($length)
 	{
-		$rangeMin = pow(36, $length-1); //smallest number to give length digits in base 36 
-		$rangeMax = pow(36, $length)-1; //largest number to give length digits in base 36 
-		$base10Rand = mt_rand($rangeMin, $rangeMax); //get the random number 
-		$newRand = base_convert($base10Rand, 10, 36); //convert it 
+		$rangeMin = pow(36, $length-1); //smallest number to give length digits in base 36
+		$rangeMax = pow(36, $length)-1; //largest number to give length digits in base 36
+		$base10Rand = mt_rand($rangeMin, $rangeMax); //get the random number
+		$newRand = base_convert($base10Rand, 10, 36); //convert it
 
-		return $newRand; //spit it out 
+		return $newRand; //spit it out
 	}
 
 	// Native PHP 5 validation of e-mail. If on older system use the commented out line.
@@ -212,7 +212,7 @@
 	}
 
 	// Return true if positive number, or false if negative number!
-	function sign( $number ) { 
+	function sign( $number ) {
 		return ( $number > 0 ) ? 1 : ( ( $number < 0 ) ? -1 : 0 );
 	}
 

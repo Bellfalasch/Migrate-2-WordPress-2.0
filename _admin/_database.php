@@ -24,7 +24,7 @@
 
 	/* Step 1 */
 	/* **************************************************************************** */
-	
+
 	// Also used in Step 3
 	function db_setNewPage($in) { cleanup($in);
 		return db_MAIN("

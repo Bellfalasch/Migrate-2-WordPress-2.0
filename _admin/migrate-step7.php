@@ -100,9 +100,9 @@
 
 			?>
 
-			
+
 			<button type="submit" class="btn btn-primary">Create Page</button>
-			
+
 
 </form>
 

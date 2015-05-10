@@ -10,7 +10,7 @@
 			");
 
 	if (isset($_SESSION['username'])) {
-		
+
 		pushDebug("
 				[SESSION]
 				username: " . $_SESSION['username'] . "
@@ -42,9 +42,9 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				
+
 				<a class="brand" href="http://www.github.com/Bellfalasch/Migrate-2-WP">Migrate 2 WP</a>
-				
+
 				<div class="nav-collapse">
 
 					<ul class="nav">
@@ -62,7 +62,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="subnav subnav-fixed">
 		<ul class="nav nav-pills">
 			<?php if (isActiveOn("index")) { ?>
@@ -152,7 +152,7 @@
 				<small><?= $PAGE_desc ?></small>
 			</h1>
 		</div>
-		
+
 		<?php
 			// Generate the progress indicator automatically
 			if ( substr($SYS_script,0,12) == 'migrate-step' || substr($SYS_script,0,14) == 'migrate-export' ) {
@@ -171,7 +171,7 @@
 					}
 				}
 		?>
-		
+
 			<div class="progress progress-striped">
 				<div class="bar" style="width: <?= $percentage ?>%;"></div>
 			</div>

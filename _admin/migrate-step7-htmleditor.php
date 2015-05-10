@@ -96,7 +96,7 @@
 
 				// Stupid way of doing it ... no function yet to bind database table to the form, sorry =P
 				$PAGE_form[0]["content"] = $html;
-				
+
 				//$title = $row->title;
 
 			} else {

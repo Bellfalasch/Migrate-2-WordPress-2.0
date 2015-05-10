@@ -195,7 +195,7 @@ TODO: Get this working?
 */
 
 					if (formGet("save_finalize") != "Test Finalize") {
-					
+
 						// Update all the Links on ALL the pages on this site
 						$fixLinks = db_updateContentLinks( array(
 											'oldlink' => ' href="' . $oldlink,
