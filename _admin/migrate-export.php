@@ -121,7 +121,7 @@ EOT;
 		<wp:post_name>|||SLUG|||</wp:post_name>
 		<wp:status>publish</wp:status><!-- TODO - "draft" for content-less pages -->
 		<wp:post_parent>|||PARENT|||</wp:post_parent>
-		<wp:menu_order>15</wp:menu_order><!-- TODO - remove? -->
+		<wp:menu_order>|||I|||</wp:menu_order><!-- DONE? -->
 		<wp:post_type>page</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
@@ -143,11 +143,13 @@ EOT;
 
 			// Variable to store the entire XML file for later download
 			$XML_file = $XML_header;
+			$i = 0;
 
 			while ( $row = $result->fetch_object() )
 			{
 
 				$stop = false;
+				$i++;
 
 				// Waterfall-choose the best (cleanest) html from the database depending on which is available
 				if ( !is_null($row->ready) ) {
@@ -210,6 +212,7 @@ EOT;
 					$this_content = str_replace("|||CONTENT|||", $content, $this_content);
 					$this_content = str_replace("|||ID|||",      $id,      $this_content);
 					$this_content = str_replace("|||PARENT|||",  $parent,  $this_content);
+					$this_content = str_replace("|||I|||",       $i,       $this_content);
 
 					$this_content = htmlspecialchars($this_content, ENT_QUOTES, "UTF-8");
 
