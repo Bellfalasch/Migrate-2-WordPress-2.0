@@ -259,6 +259,7 @@ $XML_footer</pre>";
 					<input type="submit" name="save_move" value="Download XML" class="btn btn-primary btn-large" />
 				</p>
 
+				<h4>From WordPress.org</h4>
 				<p>
 					To import this information into a WordPress site follow these steps:
 				</p>
