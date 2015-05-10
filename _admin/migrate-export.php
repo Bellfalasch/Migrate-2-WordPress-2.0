@@ -119,19 +119,12 @@ EOT;
 		<wp:comment_status>closed</wp:comment_status>
 		<wp:ping_status>closed</wp:ping_status>
 		<wp:post_name>|||SLUG|||</wp:post_name>
+		<wp:status>|||STATUS|||</wp:status><!-- DONE? -->
 		<wp:post_parent>|||PARENT|||</wp:post_parent>
 		<wp:menu_order>|||I|||</wp:menu_order><!-- DONE? -->
 		<wp:post_type>page</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:postmeta><!-- TODO - remove? -->
-			<wp:meta_key>_edit_last</wp:meta_key>
-			<wp:meta_value><![CDATA[1]]></wp:meta_value>
-		</wp:postmeta>
-		<wp:postmeta><!-- TODO - remove? -->
-			<wp:meta_key>_wp_page_template</wp:meta_key>
-			<wp:meta_value><![CDATA[default]]></wp:meta_value>
-		</wp:postmeta>
 	</item>
 EOT;
 
@@ -203,7 +196,12 @@ EOT;
 					$slug = $row->page_slug;
 					$id = $row->id;
 					$parent = $row->page_parent;
-					$status = $content != "" ? "publish" : "draft"; // Is there any content, set page to publish, else set it to draft
+					$status = "publish";
+
+					// FFU specific: title starts with --- or === then don't publish this post
+					if ( mb_substr( $title, 0, 3) == "===" || mb_substr( $title, 0, 3) == "---" ) {
+						$status = "draft";
+					}
 
 					$this_content = $XML_content;
 					$this_content = str_replace("|||URL|||",     $newlink, $this_content);
