@@ -182,9 +182,14 @@
 					$fil = $mapparArr[count($mapparArr) - 1];
 					//$mapp = $mapparArr[count($mapparArr) - 2];
 
+					// Add parents slug to root URL if this is a child page
+					if ( !is_null($row->page_parent) ) {
+						$newlink = $row->parent_slug . "/" . $newlink;
+					}
+
 					// Re-build the full new URL for the page
 					$separator = "/";
-					if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) ) {
+					if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) == "/" ) {
 						$separator = "";
 					}
 					$newlink = $PAGE_sitenewurl . $separator . $newlink;

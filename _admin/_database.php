@@ -205,10 +205,12 @@
 	}
 	function db_getContentDataFromSite($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `page`, `content`, `wash`, `tidy`, `clean`, `ready`, `page_slug`
-			FROM `migrate_content`
-			WHERE `site` = {$in['site']}
-			ORDER BY `id` ASC
+			SELECT c.`id`, c.`page`, c.`content`, c.`wash`, c.`tidy`, c.`clean`, c.`ready`, c.`page_parent`, c.`page_slug`, cc.`page_slug` AS `parent_slug`
+			FROM `migrate_content` c
+			LEFT OUTER JOIN `migrate_content` cc
+			ON c.`page_parent` = cc.`id`
+			WHERE c.`site` = {$in['site']}
+			ORDER BY c.`id` ASC
 		");
 	}
 	function db_setReadyCode($in) { cleanup($in);
