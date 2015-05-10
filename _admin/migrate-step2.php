@@ -317,7 +317,7 @@
 	?>
 
 			<p>
-				Not so fast mister. You haven't even crawled your site yet in <a href="migrate-step1.php">Step 1</a>!
+				Not so fast mister. You haven't even crawled your site yet in <a href="<?= $SYS_pageroot ?>migrate-step1.php">Step 1</a>!
 				Do that first, then come back here.
 			</p>
 
