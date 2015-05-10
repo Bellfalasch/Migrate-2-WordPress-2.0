@@ -119,7 +119,6 @@ EOT;
 		<wp:comment_status>closed</wp:comment_status>
 		<wp:ping_status>closed</wp:ping_status>
 		<wp:post_name>|||SLUG|||</wp:post_name>
-		<wp:status>publish</wp:status><!-- TODO - "draft" for content-less pages -->
 		<wp:post_parent>|||PARENT|||</wp:post_parent>
 		<wp:menu_order>|||I|||</wp:menu_order><!-- DONE? -->
 		<wp:post_type>page</wp:post_type>
@@ -204,6 +203,7 @@ EOT;
 					$slug = $row->page_slug;
 					$id = $row->id;
 					$parent = $row->page_parent;
+					$status = $content != "" ? "publish" : "draft"; // Is there any content, set page to publish, else set it to draft
 
 					$this_content = $XML_content;
 					$this_content = str_replace("|||URL|||",     $newlink, $this_content);
@@ -213,6 +213,7 @@ EOT;
 					$this_content = str_replace("|||ID|||",      $id,      $this_content);
 					$this_content = str_replace("|||PARENT|||",  $parent,  $this_content);
 					$this_content = str_replace("|||I|||",       $i,       $this_content);
+					$this_content = str_replace("|||STATUS|||",  $status,  $this_content);
 
 					$this_content = htmlspecialchars($this_content, ENT_QUOTES, "UTF-8");
 
