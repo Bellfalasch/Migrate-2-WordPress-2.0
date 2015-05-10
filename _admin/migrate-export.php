@@ -108,7 +108,6 @@ EOT;
 		<title>|||TITLE|||</title>
 		<link>|||URL|||</link>
 		<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate><!-- DONE? -->
-		<pubDate>Fri, 09 Jan 2015 21:14:35 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator><!-- DONE? -->
 		<guid isPermaLink="false">|||URL|||</guid>
 		<description></description>
