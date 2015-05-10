@@ -142,6 +142,9 @@ EOT;
 
 			echo "<pre>" . $XML_header;
 
+			// Variable to store the entire XML file for later download
+			$XML_file = $XML_header;
+
 			while ( $row = $result->fetch_object() )
 			{
 
@@ -209,11 +212,15 @@ EOT;
 
 					echo $this_content;
 
+					$XML_file .= $this_content;
+
 				}
 
 			}
 
 			echo $XML_footer . "</pre>";
+
+			$XML_file .= $XML_footer;
 
 /*
 Test:
@@ -221,6 +228,10 @@ Test:
 $XML_content
 $XML_footer</pre>";
 */
+
+			// Uncomment to store the code as an actual xml-file on the server
+			//file_put_contents("site" . $PAGE_siteid . "_export.xml", $string);
+
 		}
 
 	}
@@ -243,19 +254,18 @@ $XML_footer</pre>";
 					<input type="submit" name="save_move" value="Download XML" class="btn btn-primary btn-large" />
 				</p>
 
-<p>To import this information into a WordPress site follow these steps:</p>
-<ol>
-<li>Log in to that site as an administrator.</li>
-<li>Go to Tools: Import in the WordPress admin panel.</li>
-<li>Install the "WordPress" importer from the list.</li>
-<li>Activate &amp; Run Importer.</li>
-<li>Upload this file using the form provided on that page.</li>
-<li>You will first be asked to map the authors in this export file to users</li>
-    on the site. For each author, you may choose to map to an</li>
-    existing user on the site or to create a new user.</li>
-<li>WordPress will then import each of the posts, pages, comments, categories, etc.</li>
-    contained in this file into your site.</li>
-<ol>
+				<p>
+					To import this information into a WordPress site follow these steps:
+				</p>
+				<ol>
+					<li>Log in to that site as an administrator.</li>
+					<li>Go to Tools: Import in the WordPress admin panel.</li>
+					<li>Install the "WordPress" importer from the list.</li>
+					<li>Activate &amp; Run Importer.</li>
+					<li>Upload this file using the form provided on that page.</li>
+					<li>You will first be asked to map the authors in this export file to users on the site. For each author, you may choose to map to an existing user on the site or to create a new user.</li>
+					<li>WordPress will then import each of the posts, pages, comments, categories, etc. contained in this file into your site.</li>
+				<ol>
 
 			</div>
 		</div>
