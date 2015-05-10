@@ -4,6 +4,10 @@ BETA
 Updates / Changes
 ----------------
 
+### Beta 0.5
+
+It is now possible to go from Step 1 all the way to a fully functional XML output. However, still loads and loads of fixes, improvements, refactorings, and bugs to be fixed. The XML you get now is just a printed string, so some manual labor is needed. Among a lot of other bits and pieces to sort out. Stay tuned for more!
+
 ### Beta 0.2
 
 Full work in progress! Removed most cookie-code and WordPress DB-code I could find. Also rewrote Step 7 into "Finalize" and got it to list pages, delete pages, calculate a Title for each page (also copied to Step 3), and open a modal window for HTML edit. The Save here doesn't work yet though. You can now also create brand new pages in this step!
