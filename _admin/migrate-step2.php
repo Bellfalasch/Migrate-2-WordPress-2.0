@@ -36,7 +36,7 @@
 
 
 <?php
-		
+
 	if (ISPOST)
 	{
 
@@ -93,7 +93,7 @@
 				{
 
 					echo "<strong class=\"text-info\">" . $row->page . "</strong><br />";
-					
+
 					$headerStart = 0;
 
 					$body = $row->html;
@@ -112,7 +112,7 @@
 						$footerNeedle = $PAGE_footerNeedle;
 						$headerNeedleLength = $PAGE_headerNeedleLength;
 						$footerNeedleLength = $PAGE_footerNeedleLength;
-					
+
 						$headerEnd = mb_strpos($body, $headerNeedle);
 
 						// If we can't find a needle we need to try other things that usually exists in the html
@@ -120,7 +120,7 @@
 							$headerNeedle = "<BODY";
 							$headerNeedleLength = mb_strlen($headerNeedle);
 							$headerEnd = mb_strpos($UC_body, $headerNeedle);
-							
+
 							// Find placement of body closing tag
 							$headerEnd = mb_strpos($UC_body, ">", $headerEnd) - 4;
 
@@ -130,7 +130,7 @@
 								$headerNeedle = "<HTML";
 								$headerNeedleLength = mb_strlen($headerNeedle);
 								$headerEnd = mb_strpos($UC_body, $headerNeedle);
-								
+
 								// Find placement of html closing tag
 								$headerEnd = mb_strpos($UC_body, ">", $headerEnd) - 4;
 
@@ -147,7 +147,7 @@
 						}
 
 						$headerEnd += $headerNeedleLength;
-						
+
 						$footerEnd = mb_strlen($body);
 
 						$footerStart = mb_strpos($body, $footerNeedle);
@@ -176,28 +176,28 @@
 						} else {
 							$header = "";
 						}
-						
+
 						if ($footerStart < mb_strlen($body) ) {
 							$footer = mb_substr( $body, $footerStart, $footerEnd-$footerStart );
 						} else {
 							$footer = "";
 						}
-					
+
 						//string substr ( string $string , int $start [, int $length ] )
 						//$body = str_replace( $footer, '', $body );
-						
+
 						//$line_array_head = preg_split( '/\n/', $header );
-						//$lines_head = count( $line_array_head ); 
+						//$lines_head = count( $line_array_head );
 						//echo 'Header lines: ' . $lines_head . '<br />';
-						
+
 						//$line_array_foot = preg_split( '/\n/', $footer );
-						//$lines_foot = count( $line_array_foot ); 
+						//$lines_foot = count( $line_array_foot );
 						//echo 'Footer lines: ' . $lines_foot . '<br />';
 
-						
+
 						// Start to cut from where the header ends, until the header and body total length is reached (where the footer starts)
 						$body = mb_substr( $body, $headerEnd, ( mb_strlen($body) - mb_strlen($header) - mb_strlen($footer) ) );
-						
+
 						switch($needleUsed) {
 							case "yours":
 								fn_infobox("", "<strong>Needle hit!</strong> Your Needles were found on this page, awesome!",'');
@@ -239,7 +239,7 @@
 					}
 
 					if (formGet("save_needle") == "Run needles") {
-						
+
 						echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
 
 						$content = trim( $content );
@@ -253,11 +253,11 @@
 							'step' => $PAGE_step,
 							'id' => $PAGE_siteid
 						) );
-					
+
 					} else {
-					
+
 						echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-					
+
 					}
 
 					echo "</div>"; // TODO: Looks like a bug. Ending the divs coming from inside a if ... investigate
@@ -276,7 +276,6 @@
 	<?php
 		outputErrors($SYS_errors);
 	?>
-
 
 
 <form class="well form-inline" action="" method="post">
@@ -312,7 +311,7 @@
 
 			<input type="submit" name="save_needle" value="Test needles" class="btn" />
 
-	<?php 
+	<?php
 		} else {
 	?>
 
