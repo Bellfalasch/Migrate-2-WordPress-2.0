@@ -23,6 +23,13 @@
 			$date = new DateTime();
 			$now = time();
 
+			// Enable function calls in Heredocs
+			// http://stackoverflow.com/questions/104516/calling-php-functions-within-heredoc-strings
+			function fn($data) {
+				return $data;
+			}
+			$fn = 'fn';
+
 			// Define XML export header as a Heredoc
 			$XML_header = <<< EOT
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -41,14 +48,14 @@
 >
 
 <channel>
-	<title>Final Fantasy XII</title><!-- TODO -->
-	<link>http://guide.ffuniverse.nu/ff12</link><!-- TODO -->
-	<description>Guider på svenska, Final Fantasy Universe</description><!-- TODO -->
-	<pubDate>Sat, 11 Apr 2015 12:37:34 +0000</pubDate><!-- TODO -->
+	<title>$PAGE_sitename</title>
+	<link>$PAGE_sitenewurl</link>
+	<description>No description</description>
+	<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate><!-- DONE? -->
 	<language>en-US</language><!-- TODO -->
 	<wp:wxr_version>1.2</wp:wxr_version>
 	<wp:base_site_url>http://guide.ffuniverse.nu/</wp:base_site_url><!-- TODO -->
-	<wp:base_blog_url>http://guide.ffuniverse.nu/ff12</wp:base_blog_url><!-- TODO -->
+	<wp:base_blog_url>$PAGE_sitenewurl</wp:base_blog_url>
 
 	<wp:author>
 		<wp:author_id>1</wp:author_id>
@@ -93,40 +100,26 @@ EOT;
 </rss>
 EOT;
 
-			// Enable function calls in Heredocs
-			// http://stackoverflow.com/questions/104516/calling-php-functions-within-heredoc-strings
-			function fn($data) {
-				return $data;
-			}
-			$fn = 'fn';
-
 			// Reference: http://devtidbits.com/2011/03/16/the-wordpress-extended-rss-wxr-exportimport-xml-document-format-decoded-and-explained/
 
 			$XML_content = <<< EOT
 
 	<item>
-		<title>Utvecklarna</title><!-- TODO -->
-		<link>http://guide.ffuniverse.nu/ff12/utvecklarna/</link><!-- TODO -->
+		<title>|||TITLE|||</title>
+		<link>|||URL|||</link>
 		<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate><!-- DONE? -->
 		<pubDate>Fri, 09 Jan 2015 21:14:35 +0000</pubDate>
-		<dc:creator><![CDATA[admin]]></dc:creator><!-- TODO -->
-		<guid isPermaLink="false">http://localhost/wordpress/utvecklarna/</guid><!-- TODO -->
+		<dc:creator><![CDATA[admin]]></dc:creator><!-- DONE? -->
+		<guid isPermaLink="false">|||URL|||</guid>
 		<description></description>
-		<!-- TODO -->
-		<content:encoded><![CDATA[<h2>Hironobu Sakaguchi</h2>
-<div class="sidebar_img"><img class="alignnone size-full wp-image-919" src="http://guide.ffuniverse.nu/ff12/wp-content/uploads/sites/11/2015/01/dev_sakaguchi.jpg" alt="dev_sakaguchi" width="129" height="118" /></div>
-<p><strong>Roll: </strong>Gud (Final Fantasy-seriens skapare)</p>
-<p>Hironobu Sakaguchi skapade denna serie då han skulle avgå från (då) Square. Han hade tidigare gjort bilspel och dylikt åt företaget. Men strax innan hade Enix släppt superhiten Dragon Quest till NES och Sega hade släppt Phantasy Star till Master System. Så Sakaguchi intresserade sig för rollspel och ville som sitt sista spel skapa ett sådant, sin sista fantasi - Final Fantasy. Men han slutade inte utan har fortsatt med serien sen dess. Nu har han dock lämnat Square Enix för att börja på en egen spelserie som ska bli bättre än Final Fantasy. Hans nya företag heter Mist Walker. Det enda han gjort med Final Fantasy XII är att godkänna Matsunos grundidé för spelet.
-</p>]]></content:encoded>
+		<content:encoded><![CDATA[|||CONTENT|||]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>292</wp:post_id><!-- TODO - remove? -->
 		<wp:post_date>{$date->format('Y-m-d H:i:s')}</wp:post_date><!-- DONE? -->
-		<wp:post_date>2015-01-09 22:14:35</wp:post_date>
 		<wp:post_date_gmt>{$date->format('Y-m-d H:i:s')}</wp:post_date_gmt><!-- DONE? -->
-		<wp:post_date_gmt>2015-01-09 21:14:35</wp:post_date_gmt>
 		<wp:comment_status>closed</wp:comment_status>
 		<wp:ping_status>closed</wp:ping_status>
-		<wp:post_name>utvecklarna</wp:post_name><!-- TODO -->
+		<wp:post_name>|||SLUG|||</wp:post_name>
 		<wp:status>publish</wp:status><!-- TODO - "draft" for content-less pages -->
 		<wp:post_parent>0</wp:post_parent><!-- TODO -->
 		<wp:menu_order>15</wp:menu_order><!-- TODO -->
@@ -143,6 +136,11 @@ EOT;
 		</wp:postmeta>
 	</item>
 EOT;
+
+			$XML_header = htmlspecialchars($XML_header, ENT_QUOTES, "UTF-8");
+			$XML_footer = htmlspecialchars($XML_footer, ENT_QUOTES, "UTF-8");
+
+			echo "<pre>" . $XML_header;
 
 			while ( $row = $result->fetch_object() )
 			{
@@ -178,22 +176,46 @@ EOT;
 
 				if ( !$stop ) {
 
-					// TODO: Generate XML
-					// TODO: Use variable $content
+					//Calculate the URL for every content
+					$newlink = $row->page_slug;
+
+					// Add parents slug to root URL if this is a child page
+					if ( $row->page_parent > 0 ) {
+						$newlink = $row->parent_slug . "/" . $newlink;
+					}
+
+					// Re-build the full new URL for the page
+					$separator = "/";
+					if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) == "/" ) {
+						$separator = "";
+					}
+					$newlink = $PAGE_sitenewurl . $separator . $newlink;
+
+					$title = $row->title;
+					$slug = $row->page_slug;
+
+					$this_content = $XML_content;
+					$this_content = str_replace("|||URL|||", $newlink, $this_content);
+					$this_content = str_replace("|||TITLE|||", $title, $this_content);
+					$this_content = str_replace("|||SLUG|||", $slug, $this_content);
+					$this_content = str_replace("|||CONTENT|||", $content, $this_content);
+
+					$this_content = htmlspecialchars($XML_content, ENT_QUOTES, "UTF-8");
+
+					echo $this_content;
 
 				}
 
 			}
 
-			// Test:
-			$XML_header = htmlspecialchars($XML_header, ENT_QUOTES, "UTF-8");
-			$XML_content = htmlspecialchars($XML_content, ENT_QUOTES, "UTF-8");
-			$XML_footer = htmlspecialchars($XML_footer, ENT_QUOTES, "UTF-8");
+			echo $XML_footer . "</pre>";
 
+/*
+Test:
 			echo "<pre>$XML_header
 $XML_content
 $XML_footer</pre>";
-
+*/
 		}
 
 	}
