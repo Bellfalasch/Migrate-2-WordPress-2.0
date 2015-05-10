@@ -220,36 +220,6 @@
 		");
 	}
 
-/*
-	// NB! Old style - can't be changed because we're sending in the table name
-	function db_getPageFromWordpress($wptable, $postid) {
-		return wp_MAIN("
-			SELECT ID, post_content, post_title, post_status, post_name, post_modified, post_parent, guid, post_type
-			FROM `" . $wptable . "_posts`
-			WHERE ID = " . $postid . "
-		");
-	}
-
-	// NB! Old style - can't be changed because we're sending in the table name
-	function db_updateWPwithText($wptable, $content, $postid) {
-		global $mysqWP;
-		return wp_MAIN("
-			UPDATE `" . $wptable . "_posts`
-			SET post_content = '" . $mysqWP->real_escape_string($content) . "'
-			WHERE `id` = " . $postid . "
-			LIMIT 1
-		");
-	}
-	function db_updateWPwithNewLinks($wptable, $oldlink, $newlink) {
-		//global $mysqWP;
-		return wp_EXEC("
-			UPDATE `" . $wptable . "_posts`
-			SET post_content = REPLACE(post_content, '" . $oldlink . "', '" . $newlink . "')
-			WHERE `post_status` = 'publish'
-		");
-	}
-*/
-
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// PROJECTS
