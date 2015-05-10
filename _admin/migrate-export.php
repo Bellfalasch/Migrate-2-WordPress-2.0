@@ -54,7 +54,7 @@
 	<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate><!-- DONE? -->
 	<language>en-US</language><!-- TODO -->
 	<wp:wxr_version>1.2</wp:wxr_version>
-	<wp:base_site_url>http://guide.ffuniverse.nu/</wp:base_site_url><!-- TODO -->
+	<wp:base_site_url>$PAGE_sitenewurl</wp:base_site_url><!-- DONE? -->
 	<wp:base_blog_url>$PAGE_sitenewurl</wp:base_blog_url>
 
 	<wp:author>
@@ -66,7 +66,7 @@
 		<wp:author_last_name><![CDATA[]]></wp:author_last_name>
 	</wp:author>
 
-	<wp:category><!-- TODO - Remove? -->
+	<wp:category><!-- TODO - Remove? Test "create new site" first -->
 		<wp:term_id>1</wp:term_id>
 		<wp:category_nicename>uncategorized</wp:category_nicename>
 		<wp:category_parent></wp:category_parent>
