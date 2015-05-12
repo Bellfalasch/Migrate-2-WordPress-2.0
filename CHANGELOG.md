@@ -4,6 +4,10 @@ BETA
 Updates / Changes
 ----------------
 
+### Beta 0.6
+
+Second Ajax-function introduced (we sure need more of those), this time on Step 3. When you Manage your page structure it's now possible to update Title and/or the slug of a page by just changing its values in the fields directly in the table. When you leave the field the change is automatically stored. No save buttons! Ultra-smooth. Some more tweaking on this will come during the beta, ofc.
+
 ### Beta 0.5
 
 It is now possible to go from Step 1 all the way to a fully functional XML output. However, still loads and loads of fixes, improvements, refactorings, and bugs to be fixed. The XML you get now is just a printed string, so some manual labor is needed. Among a lot of other bits and pieces to sort out. Stay tuned for more!
