@@ -444,5 +444,5 @@ label .help-block {
 .code .needle {
 	color: #fff;
 	background-color: #468847;
-	display: block;
+	/*display: block;*/
 }

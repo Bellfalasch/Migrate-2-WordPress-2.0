@@ -1,5 +1,8 @@
 <?php
-	/* Set up template variables */
+
+	/* PAGE CALLED WITH AJAX - ONLY */
+
+	// Set up template variables
 	$PAGE_title = "HTML editor";
 ?>
 <?php require('_global.php'); ?>
