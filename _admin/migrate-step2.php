@@ -200,7 +200,7 @@
 
 						switch($needleUsed) {
 							case "yours":
-								fn_infobox("", "<strong>Needle hit!</strong> Your Needles were found on this page, awesome!",'');
+								fn_infobox("", "<strong>Needle hit!</strong> Your Needles were found on this page, awesome! Check the code to see it highlighted.",'');
 								break;
 
 							case "body":
@@ -223,6 +223,12 @@
 						$header = htmlspecialchars($header, ENT_QUOTES, "UTF-8");
 						$body   = htmlspecialchars($body, ENT_QUOTES, "UTF-8");
 						$footer = htmlspecialchars($footer, ENT_QUOTES, "UTF-8");
+
+						// Wrap the needles in an extra span so we can style it to stand out more
+						if ($needleUsed == "yours") {
+							$header = str_replace( htmlspecialchars($headerNeedle, ENT_QUOTES, "UTF-8"), "<span class=\"needle\">" . htmlspecialchars($headerNeedle, ENT_QUOTES, "UTF-8") . "</span>", $header);
+							$footer = str_replace( htmlspecialchars($footerNeedle, ENT_QUOTES, "UTF-8"), "<span class=\"needle\">" . htmlspecialchars($footerNeedle, ENT_QUOTES, "UTF-8") . "</span>", $footer);
+						}
 
 						// Ugly little presentation of how the needles work on each page.
 						echo "<div class='column'><strong>Original code:</strong>";

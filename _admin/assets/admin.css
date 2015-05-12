@@ -441,3 +441,8 @@ label .help-block {
 .subnav li {
 	font-size: 9pt;
 }
+.code .needle {
+	color: #fff;
+	background-color: #468847;
+	display: block;
+}
