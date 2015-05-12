@@ -39,6 +39,11 @@
 	function fn_getSlugFromTitle($title) {
 
 		$slug = trim( mb_strtolower($title) );
+		$slug = str_replace('å', 'a', $slug); // Replace Nordic letters
+		$slug = str_replace('ä', 'a', $slug);
+		$slug = str_replace('æ', 'a', $slug);
+		$slug = str_replace('ö', 'o', $slug);
+		$slug = str_replace('ø', 'o', $slug);
 		$slug = str_replace(' ', '-', $slug); // Space to dash
 		$slug = str_replace(',', '', $slug); // Everything else removed
 		$slug = str_replace('.', '', $slug);

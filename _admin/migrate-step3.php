@@ -1,9 +1,9 @@
 <?php
-	/* Set up template variables */
+	// Set up template variables
 	$PAGE_step  = 3;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'manage your pages - split, duplicate, or delete';
+	$PAGE_desc = 'manage your pages: split, duplicate, or delete';
 ?>
 <?php require('_global.php'); ?>
 
@@ -454,6 +454,14 @@ Code to test with. First the regex, then that same code translated into our more
 	{
 
 ?>
+		<p class="muted">
+			<small>
+				To update the title (and/or slug) of a page, you can just edit the Title-field and
+				the slug field will update automatically. Leave the field to save your changes (this is instant).
+				Press Ctrl + Z (or Cmd + Z on Mac) to regret any of your changes before leaving the input field.
+			</small>
+		</p>
+		<input type="hidden" name="ajaxurl" class="input_ajaxurl" value="<?= $SYS_pageroot ?>migrate-step3-savetitle.php" />
 
 		<table>
 			<thead>
@@ -468,9 +476,11 @@ Code to test with. First the regex, then that same code translated into our more
 
 <?php
 
+		$i = 0;
 		while ( $row = $result->fetch_object() )
 		{
 			$addclass = "";
+			$i++;
 
 			// Add child-class to children so you see it visually
 			if ( $row->page_parent > 0 ) {
@@ -501,8 +511,10 @@ Code to test with. First the regex, then that same code translated into our more
 				$title = "<em>- Unknown -</em>";
 			}
 
-			echo "<td>" . $title . "</td>";
-			echo "<td>" . $row->page_slug . "</td>";
+			//echo "<td>" . $title . "</td>";
+			echo "<td><input type=\"text\" name=\"" . $row->id . "_title\" value=\"" . $title . "\" /></td>"; // This hinders us from changing slug too: tabindex=\"" . $i . "\"
+			//echo "<td>" . $row->page_slug . "</td>";
+			echo "<td><input type=\"text\" name=\"" . $row->id . "_slug\" value=\"" . $row->page_slug . "\" /></td>";
 			echo "<td>";
 
 			if ( $row->crawled == "1" ) {

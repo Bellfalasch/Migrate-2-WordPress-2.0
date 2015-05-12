@@ -30,6 +30,41 @@ $(function() {
 
 	});
 
+	// Leaving focus on a field should Ajax-post it and save the changes
+	$("body.migrate-step3 table input").blur( function() {
+
+		// Extract all sent data and split it up to be sent with our post request
+		var value = $(this).val();
+		var name = $(this).attr("name");
+		var split = name.split('_');
+		var id = split[0];
+		var type = split[1]; // slug or page
+
+		// Secure/validate data
+		if ( type == "slug" ) {
+			type = "slug";
+		} else {
+			type = "title";
+		}
+
+		$.ajax({
+			type: "POST",
+			url: $(".input_ajaxurl").val(),
+			data: {
+				"id": id,
+				"type": type,
+				"value": value
+			},
+			success: function() {
+				console.log("Field name: " + name);
+				console.log("Page ID: " + id);
+				console.log("Change what: " + type);
+				console.log("To: " + value);
+			}
+		});
+
+	});
+
 
 	// "Finalize"
 	//////////////////////////////////////////////////////////////
