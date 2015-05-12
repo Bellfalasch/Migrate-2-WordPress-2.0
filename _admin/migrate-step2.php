@@ -226,8 +226,10 @@
 
 						// Wrap the needles in an extra span so we can style it to stand out more
 						if ($needleUsed == "yours") {
-							$header = str_replace( htmlspecialchars($headerNeedle, ENT_QUOTES, "UTF-8"), "<span class=\"needle\">" . htmlspecialchars($headerNeedle, ENT_QUOTES, "UTF-8") . "</span>", $header);
-							$footer = str_replace( htmlspecialchars($footerNeedle, ENT_QUOTES, "UTF-8"), "<span class=\"needle\">" . htmlspecialchars($footerNeedle, ENT_QUOTES, "UTF-8") . "</span>", $footer);
+							$markHeaderNeedle = htmlspecialchars($headerNeedle, ENT_QUOTES, "UTF-8");
+							$markFooterNeedle = htmlspecialchars($footerNeedle, ENT_QUOTES, "UTF-8");
+							$header = str_replace( $markHeaderNeedle, "<span class=\"needle\">" . $markHeaderNeedle . "</span>", $header);
+							$footer = str_replace( $markFooterNeedle, "<span class=\"needle\">" . $markFooterNeedle . "</span>", $footer);
 						}
 
 						// Ugly little presentation of how the needles work on each page.
