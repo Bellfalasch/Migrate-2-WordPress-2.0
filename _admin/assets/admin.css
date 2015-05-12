@@ -437,3 +437,7 @@ label .help-block {
 .thumbnail {
 	text-align: center;
 }
+.subnav li a,
+.subnav li {
+	font-size: 9pt;
+}
