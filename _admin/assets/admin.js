@@ -57,6 +57,8 @@ $(function() {
 				var sibling = elem.parent().siblings("td").children("input");
 			}
 
+			var container = elem.parent();
+
 			$.ajax({
 				type: "POST",
 				url: $(".input_ajaxurl").val(), // A hidden input field from the calling html page (needed some PHP parsing of the URL)
@@ -78,6 +80,12 @@ $(function() {
 						sibling.attr("data-original-value", slug);
 						sibling.val(slug);
 					}
+					container.addClass("success");
+					setTimeout( function() { container.removeClass("success"); }, 1000);
+				},
+				error: function() {
+					container.addClass("error");
+					setTimeout( function() { container.removeClass("error"); }, 1000);
 				}
 			});
 
