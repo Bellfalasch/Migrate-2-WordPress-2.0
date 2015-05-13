@@ -34,34 +34,45 @@ $(function() {
 	$("body.migrate-step3 table input").blur( function() {
 
 		// Extract all sent data and split it up to be sent with our post request
-		var value = $(this).val();
-		var name = $(this).attr("name");
-		var split = name.split('_');
-		var id = split[0];
-		var type = split[1]; // slug or page
+		var elem = $(this);
+		var orgvalue = elem.attr("data-original-value");
+		var value = elem.val();
 
-		// Secure/validate data
-		if ( type == "slug" ) {
-			type = "slug";
-		} else {
-			type = "title";
-		}
+		// Only continue if we actually change anything in the field
+		if ( orgvalue != value ) {
 
-		$.ajax({
-			type: "POST",
-			url: $(".input_ajaxurl").val(),
-			data: {
-				"id": id,
-				"type": type,
-				"value": value
-			},
-			success: function() {
-				console.log("Field name: " + name);
-				console.log("Page ID: " + id);
-				console.log("Change what: " + type);
-				console.log("To: " + value);
+			var name = elem.attr("name");
+
+			var split = name.split('_');
+			var id = split[0];
+			var type = split[1]; // slug or page
+
+			// Secure/validate data
+			if ( type == "slug" ) {
+				type = "slug";
+			} else {
+				type = "title";
 			}
-		});
+
+			$.ajax({
+				type: "POST",
+				url: $(".input_ajaxurl").val(), // A hidden input field from the calling html page (needed some PHP parsing of the URL)
+				data: {
+					"id": id,
+					"type": type,
+					"value": value
+				},
+				success: function() {
+					console.log("Field name: " + name);
+					console.log("Page ID: " + id);
+					console.log("Change what: " + type);
+					console.log("To: " + value);
+
+					elem.attr("data-original-value", value); // Update the original-value data attribute
+				}
+			});
+
+		}
 
 	});
 

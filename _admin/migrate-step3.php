@@ -512,9 +512,9 @@ Code to test with. First the regex, then that same code translated into our more
 			}
 
 			//echo "<td>" . $title . "</td>";
-			echo "<td><input type=\"text\" name=\"" . $row->id . "_title\" value=\"" . $title . "\" /></td>"; // This hinders us from changing slug too: tabindex=\"" . $i . "\"
+			echo "<td><input type=\"text\" name=\"" . $row->id . "_title\" data-original-value=\"" . $title . "\" value=\"" . $title . "\" /></td>"; // This hinders us from changing slug too: tabindex=\"" . $i . "\"
 			//echo "<td>" . $row->page_slug . "</td>";
-			echo "<td><input type=\"text\" name=\"" . $row->id . "_slug\" value=\"" . $row->page_slug . "\" /></td>";
+			echo "<td><input type=\"text\" name=\"" . $row->id . "_slug\" data-original-value=\"" . $row->page_slug . "\" value=\"" . $row->page_slug . "\" /></td>";
 			echo "<td>";
 
 			if ( $row->crawled == "1" ) {
