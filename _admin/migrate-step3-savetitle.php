@@ -1,9 +1,7 @@
 <?php
+	header('content-type: text/html; charset: utf-8'); 
 
 	/* PAGE CALLED WITH AJAX - ONLY */
-
-	// Set up template variables
-	$PAGE_title = "Title changer";
 ?>
 <?php require('_global.php'); ?>
 <?php
@@ -13,20 +11,9 @@
 
 	if (ISPOST)
 	{
-		/*
-		 TODO:
-		 * Validate form
-		 * What will we edit, slug or title?
-		 * Which page id?
-		 * Fetch this page from the DB
-		 * Compare and validate, can we access it?
-		 * Calculate a new slug if Title change
-		 * Save back to DB
-		 */
-
 		$PAGE_dbid = formget("id");
-		$type = formget("type");
-		$value = formget("value");
+		$type = urldecode( formget("type") );
+		$value = urldecode( formget("value") );
 
 		// Secure/validate data
 		if ( $type == "slug" ) {
@@ -84,14 +71,15 @@
 				// (On update they return -1 on error, and 0 on "no new text added, but the SQL worked", and > 0 for the updated posts id.)
 				if ($result >= 0) {
 					//fn_infobox("Save successful", "Data updated",'');
-					//header('Location: ' . $SYS_pageself . '?saved=true');
 					echo $slug;
 				} else {
 					//pushError("Data could not be saved, do retry.");
+					echo "Couldn't save!";
 				}
 
 			} else {
 				//pushError("Couldn't find the requested page's HTML!");
+				echo "Couldn't find the page!";
 			}
 
 		}

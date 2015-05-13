@@ -37,8 +37,7 @@
 
 	// Convert page title into something more URL friendly, later to be the WP slug
 	function fn_getSlugFromTitle($title) {
-
-		$slug = trim( mb_strtolower($title) );
+		$slug = trim( mb_strtolower($title,"UTF-8") ); // UTF-8 forced or Ajax won't work
 		$slug = str_replace('å', 'a', $slug); // Replace Nordic letters
 		$slug = str_replace('ä', 'a', $slug);
 		$slug = str_replace('æ', 'a', $slug);
