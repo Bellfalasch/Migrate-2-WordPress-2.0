@@ -38,7 +38,7 @@ $(function() {
 		var orgvalue = elem.attr("data-original-value");
 		var value = elem.val();
 
-		// Only continue if we actually change anything in the field
+		// Only continue if we actually changed anything in the field
 		if ( orgvalue != value ) {
 
 			var name = elem.attr("name");
@@ -68,10 +68,10 @@ $(function() {
 					"value": value
 				},
 				success: function(slug) {
-					console.log("Field name: " + name);
-					console.log("Page ID: " + id);
-					console.log("Change what: " + type);
-					console.log("To: " + value);
+					//console.log("Field name: " + name);
+					//console.log("Page ID: " + id);
+					//console.log("Change what: " + type);
+					//console.log("To: " + value);
 
 					elem.attr("data-original-value", value); // Update the original-value data attribute
 
