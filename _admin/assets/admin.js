@@ -52,6 +52,9 @@ $(function() {
 				type = "slug";
 			} else {
 				type = "title";
+
+				// Title is about to change, fetch the slug field too because the database will update that too (automatically)
+				var sibling = elem.parent().siblings("td").children("input");
 			}
 
 			$.ajax({
@@ -62,13 +65,19 @@ $(function() {
 					"type": type,
 					"value": value
 				},
-				success: function() {
+				success: function(slug) {
 					console.log("Field name: " + name);
 					console.log("Page ID: " + id);
 					console.log("Change what: " + type);
 					console.log("To: " + value);
 
 					elem.attr("data-original-value", value); // Update the original-value data attribute
+
+					// We update a title, so also the slug will need to be updated (sent from the server)
+					if ( sibling ) {
+						sibling.attr("data-original-value", slug);
+						sibling.val(slug);
+					}
 				}
 			});
 
