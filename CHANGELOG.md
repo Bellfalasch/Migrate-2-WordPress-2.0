@@ -4,6 +4,10 @@ BETA
 Updates / Changes
 ----------------
 
+### Beta 0.7
+
+Third Ajax-function: delete. On Step 3 you can now in a very simple and fast way delete pages. You can also undo this as we flag the delete in the database and are not really deleting the data. Also made huge UX improvements to the Split-function. And a lot of other minor adjustments, improvements, and bug fixes. Like better sorting of page lists.
+
 ### Beta 0.6
 
 Second Ajax-function introduced (we sure need more of those), this time on Step 3. When you Manage your page structure it's now possible to update Title and/or the slug of a page by just changing its values in the fields directly in the table. When you leave the field the change is automatically stored. No save buttons! Ultra-smooth. Some more tweaking on this will come during the beta, ofc.

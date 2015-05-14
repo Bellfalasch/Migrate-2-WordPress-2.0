@@ -238,6 +238,7 @@
 			LEFT OUTER JOIN `migrate_content` cc
 			ON c.`page_parent` = cc.`id`
 			WHERE c.`site` = {$in['site']}
+			  AND c.`deleted` = 0
 			ORDER BY c.`id` ASC
 		");
 	}
