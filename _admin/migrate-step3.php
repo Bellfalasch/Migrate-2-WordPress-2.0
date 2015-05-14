@@ -24,6 +24,13 @@
 ?>
 <?php include('_header.php'); ?>
 
+<?php
+	// Don't display all the messages while in split mode
+	$split_id = qsGet("split");
+	if ( $split_id === "" ) $split_id = 0;
+	
+	if ( $split_id === 0 ) {
+?>
 	<div class="alert">
 		<h4>Optional step!</h4>
 		<p>This step is not mandatory =)</p>
@@ -57,6 +64,7 @@
 		</div>
 
 	</div>
+<?php } ?>
 
 <?php
 
@@ -75,8 +83,6 @@
 	///////////////////////////////////////////////////
 	// Handle posted split form setting/value
 	///////////////////////////////////////////////////
-
-	$split_id = qsGet("split");
 
 	if ( $split_id > 0 ) {
 
@@ -410,6 +416,10 @@
 							if ( $last_title == $title && $title != "" ) {
 								$show_output = false;
 								fn_infobox("No more matches!", "That's all the possible matching subpages we could find on the page you submitted. Tweak your 'split-code' if this isn't what you wanted.", ' alert-info');
+								// Output a button so the user can return to the main table with all data
+								if (formGet("split") == "Run split") {
+									echo "<p class=\"text-center\"><a href=\"" . $SYS_pageself . "\" class=\"btn btn-primary btn-large\">Cool, return to page list!</a></p>";
+								}
 							}
 
 							$title = "NO MATCHING TITLE FOR THIS PAGE!!!"; // This should skip the split
@@ -434,6 +444,12 @@
 
 							echo $content;
 							echo "</pre>";
+							if (formGet("split") == "Run split") {
+								//echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
+							} else {
+								echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
+							}
+							echo "<hr />";
 						}
 
 					}
@@ -465,6 +481,8 @@
 
 	}
 
+
+if ( $split_id === 0 ) {
 
 	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
 
@@ -556,6 +574,7 @@
 <?php
 
 	}
+}
 
 ?>
 
