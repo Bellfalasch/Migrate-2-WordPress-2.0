@@ -3,7 +3,7 @@
 	$PAGE_step  = 5;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'fix old html with PHP tidy-component';
+	$PAGE_desc  = 'fix old html with PHP tidy-component';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
@@ -61,11 +61,14 @@
 						"sort-attributes" => 'alpha',
 	//					"tab-size" => 4,
 						"char-encoding" => 'utf8',
-						"doctype" => 'omit'
+						"doctype" => 'omit',
+						"show-body-only" => true
 					);
 				$html = tidy_parse_string($html, $options,'UTF8');
 				//$tidy = tidy_parse_string($row->content, $options);
 				tidy_clean_repair($html);
+/*
+	// Setting "show-body-only" => true removes the need for this as no html, head, or style will be output
 
 				// Tidy leaves some code that we do not want inside WP, so let's remove it
 				$html = str_replace('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"', '', $html);
@@ -80,7 +83,7 @@
 
 				// Regexp that will go and find the style-tag in the beginning of the file and remove it and ALL contents!
 				$html = preg_replace( '/<style[^>]*?>.*?<\/style>/siu', '', $html );
-
+*/
 				// Some more garbage code from tidy (remove all classes it creates on styled items)
 				$html = preg_replace('/ class="c[1-9]+"/i', "", $html);
 
