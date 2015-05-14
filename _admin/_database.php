@@ -178,6 +178,7 @@
 			SELECT `id`, `page`, `content`, `wash`, `tidy`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
+			  AND `deleted` = 0
 			ORDER BY `page` ASC
 		");
 	}
