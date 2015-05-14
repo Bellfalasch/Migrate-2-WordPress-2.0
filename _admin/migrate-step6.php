@@ -38,42 +38,12 @@
 				// Start replacing old bad markup
 				///////////////////////////////////////////////////
 
+				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
 				// Convert old school attributes to classes instead
-				$html = str_replace(' width="15" height="15"', ' class="psx_button"', $html);
+				$html = preg_replace('/ (width|height)="?15"? (width|height)="?15"?/i', ' class="psx_button"', $html );
 				$html = str_replace(' width="30" height="15"', ' class="psx_button wide"', $html);
-				$html = str_replace(' width="10" height="10"', ' class="materia"', $html);
-				$html = str_replace(' height="15" width="15"', ' class="psx_button"', $html);
 				$html = str_replace(' height="15" width="30"', ' class="psx_button wide"', $html);
-				$html = str_replace(' height="10" width="10"', ' class="materia small"', $html);
-				$html = str_replace(' height="20" width="20"', ' class="materia"', $html);
-				$html = str_replace(' width="20" height="20"', ' class="materia"', $html);
 				$html = str_replace(' height="18" width="15"', ' class="acc_icon"', $html);
-
-				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
-				$html = str_replace('0=0 0 0 ', '<img src="b/0=0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $html);
-				$html = str_replace('0=0 0 ', '<img src="b/0=0.jpg" /><img src="b/0.jpg" />', $html);
-				$html = str_replace('0=0 ', '<img src="b/0=0.jpg" />', $html);
-				$html = str_replace('0 0 0 0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $html);
-				$html = str_replace('0 0 0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $html);
-				$html = str_replace('0 0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $html);
-				$html = str_replace('0 0 0 ', '<img src="b/0.jpg" /><img src="b/0.jpg" /><img src="b/0.jpg" />', $html);
-				$html = str_replace('<img src="b/0=0.jpg" />', '<span class="materia-slots double">0=0</span>', $html);
-				$html = str_replace('<img src="b/0.jpg" />', '<span class="materia-slots">0</span>', $html);
-
-				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
-				$html = str_replace('<span class="color-yellow">*</span>****', '<span class="stars"><span class="lit">*</span>****</span>', $html);
-				$html = str_replace('<span class="color-yellow">**</span>***', '<span class="stars"><span class="lit">**</span>***</span>', $html);
-				$html = str_replace('<span class="color-yellow">***</span>**', '<span class="stars"><span class="lit">***</span>**</span>', $html);
-				$html = str_replace('<span class="color-yellow">****</span>*', '<span class="stars"><span class="lit">****</span>*</span>', $html);
-				$html = str_replace('<span class="color-yellow">*****</span>', '<span class="stars"><span class="lit">*****</span></span>', $html);
-				$html = str_replace('<span class="color-yellow">****</span>', '<span class="stars"><span class="lit">****</span></span>', $html);
-				$html = str_replace('<span class="color-yellow">***</span>*', '<span class="stars"><span class="lit">***</span>*</span>', $html);
-				$html = str_replace('<span class="color-yellow">**</span>**', '<span class="stars"><span class="lit">**</span>**</span>', $html);
-				$html = str_replace('<span class="color-yellow">*</span>***', '<span class="stars"><span class="lit">*</span>***</span>', $html);
-				$html = str_replace('<span class="color-yellow">**</span>', '<span class="stars"><span class="lit">**</span></span>', $html);
-				$html = str_replace('<span class="color-yellow">*</span>*', '<span class="stars"><span class="lit">*</span>*</span>', $html);
-
-				$html = str_replace('<strong>***</strong>', '<span class="stars"><span class="lit">***</span></span>', $html);
 
 				////////////////////////////////////////////////////////
 				// Old school attributes that should be remove (because of CSS now handling them)
@@ -87,6 +57,9 @@
 
 				// Remove all width attributes
 				$html = preg_replace('/ width="?[\d]*%?"?/i', "", $html);
+
+				// Remove all height attributes
+				$html = preg_replace('/ height="?[\d]*%?"?/i', "", $html);
 
 				// Remove all border, cellpadding, and cellspacing, attributes
 				$html = preg_replace('/ border="?[\d]*"?/i', "", $html);
