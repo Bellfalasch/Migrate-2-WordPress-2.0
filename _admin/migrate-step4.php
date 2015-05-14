@@ -88,8 +88,10 @@
 				// Can't remove trailing font-tag or Tidy in next step will go nuts
 				//$html = str_replace('</FONT>', '</span>', $html);
 
-				// Trying to regexp-remove all the remaining font start tags, no matter what they contain
-				$html = preg_replace( '/<FONT[^>]*?>/siu', '', $html );
+				if ( formGet('font') ) {
+					// Trying to regexp-remove all the remaining font start tags, no matter what they contain
+					$html = preg_replace( '/<FONT[^>]*?>/siu', '', $html );
+				}
 
 				// Some markup we can improve
 				$html = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $html);
@@ -182,6 +184,12 @@
 				<input type="checkbox" name="comments" value="yes"<?php if (isset($_POST['comments'])) { ?> checked="checked"<?php } ?> />
 				Remove all HTML-comments and their contents?
 			</label>
+
+			<label class="checkbox">
+				<input type="checkbox" name="font" value="yes"<?php if (isset($_POST['font'])) { ?> checked="checked"<?php } ?> />
+				Remove all old FONT-tags completely (not content)
+			</label>
+
 			<br />
 
 			<input type="submit" name="save_wash" value="Run wash" class="btn btn-primary" />
