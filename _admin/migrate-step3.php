@@ -477,11 +477,10 @@ Code to test with. First the regex, then that same code translated into our more
 
 <?php
 
-		$i = 0;
+		$i = 1; // Used for tabindexing on the input fields, so not a normal row incrementor
 		while ( $row = $result->fetch_object() )
 		{
 			$addclass = "";
-			$i++;
 
 			// Add child-class to children so you see it visually
 			if ( $row->page_parent > 0 ) {
@@ -513,9 +512,9 @@ Code to test with. First the regex, then that same code translated into our more
 			}
 
 			//echo "<td>" . $title . "</td>";
-			echo "<td class=\"control-group\"><input type=\"text\" name=\"" . $row->id . "_title\" data-original-value=\"" . $title . "\" value=\"" . $title . "\" /></td>"; // This hinders us from changing slug too: tabindex=\"" . $i . "\"
+			echo "<td class=\"control-group\"><input type=\"text\" name=\"" . $row->id . "_title\" data-original-value=\"" . $title . "\" value=\"" . $title . "\" tabindex=\"" . $i++ . "\" /></td>";
 			//echo "<td>" . $row->page_slug . "</td>";
-			echo "<td class=\"control-group\"><input type=\"text\" name=\"" . $row->id . "_slug\" data-original-value=\"" . $row->page_slug . "\" value=\"" . $row->page_slug . "\" /></td>";
+			echo "<td class=\"control-group\"><input type=\"text\" name=\"" . $row->id . "_slug\" data-original-value=\"" . $row->page_slug . "\" value=\"" . $row->page_slug . "\" tabindex=\"" . $i++ . "\" /></td>";
 			echo "<td>";
 
 			if ( $row->crawled == "1" ) {
