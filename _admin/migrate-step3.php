@@ -455,7 +455,9 @@
 				//$codeoutput = htmlentities( $codeoutput );
 				$codeoutput = htmlspecialchars($codeoutput, ENT_QUOTES, "UTF-8");
 
-				echo "<pre>" . $codeoutput . "</pre>";
+				echo "
+					<h4>Source code</h4>
+					<pre>" . $codeoutput . "</pre>";
 
 			}
 
