@@ -29,32 +29,6 @@
 				// Start replacing old bad markup ... at the moment very manual work =/
 				///////////////////////////////////////////////////
 
-				// These are tags from some of my own private projects that needed to get improved markup, just delete of you don't need which I guess you don't.
-				$html = str_replace('<B><FONT COLOR="Orange">*</FONT>****</B>',         '<span class="stars"><span class="lit">*</span>****</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>****</B>',  '<span class="stars"><span class="lit">*</span>****</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>***</B>',         '<span class="stars"><span class="lit">**</span>***</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>***',             '<span class="stars"><span class="lit">**</span>***</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">**</FONT></B><B>***</B>',  '<span class="stars"><span class="lit">**</span>***</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">**</FONT><B>***</B>',      '<span class="stars"><span class="lit">**</span>***</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">***</FONT>**</B>',         '<span class="stars"><span class="lit">***</span>**</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">****</FONT>*</B>',         '<span class="stars"><span class="lit">****</span>*</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">*****</FONT></B>',         '<span class="stars"><span class="lit">*****</span></span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">****</FONT></B>',        '<span class="stars"><span class="lit">****</span></span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">***</FONT>*</B>',        '<span class="stars"><span class="lit">***</span>*</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">***</FONT>*',            '<span class="stars"><span class="lit">***</span>*</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>**</B>',        '<span class="stars"><span class="lit">**</span>**</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">*</FONT>***</B>',        '<span class="stars"><span class="lit">*</span>***</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">*</FONT></B><B>***</B>', '<span class="stars"><span class="lit">*</span>***</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">***</FONT></B>',      '<span class="stars"><span class="lit">***</span></span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>*</B>',      '<span class="stars"><span class="lit">**</span>*</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">**</FONT>*',          '<span class="stars"><span class="lit">**</span>*</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">*</FONT>**</B>',      '<span class="stars"><span class="lit">*</span>**</span>', $html);
-				$html = str_replace('<B><font size="2" COLOR="Orange">**</font><font size="2">*</font></B>', '<span class="stars"><span class="lit">**</span>*</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange" size="2">***</FONT></B>', '<span class="stars"><span class="lit">***</span></span>', $html);
-				$html = str_replace('<B><font size="2" COLOR="Orange">*</font><font size="2">**</font></B>', '<span class="stars"><span class="lit">*</span>**</span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">**</FONT></B>', '<span class="stars"><span class="lit">**</span></span>', $html);
-				$html = str_replace('<B><FONT COLOR="Orange">*</FONT>*</B>', '<span class="stars"><span class="lit">*</span>*</span>', $html);
-
 				// Old footer copyright notice from an old site of mine, remove if you like
 				$html = str_replace('<BR><CENTER><IMG SRC="../hr.jpg" WIDTH="430" HEIGHT="2"><FONT size="2" FACE="Arial" COLOR="#bbbbbb"><SMALL><BR>', '', $html);
 				$html = str_replace('Site graphics, layout, text and parts of this site is &copy;opyright to <FONT COLOR="white">&lt;=- The Final Fantasy VIII Universe -=&gt;</FONT><BR>', '', $html);
@@ -79,27 +53,27 @@
 				// Some markup we need to delete
 				$html = str_replace('<A HREF=#Upp><B>Upp</B></A>', '', $html);
 				$html = str_replace('<IMG SRC="hr.jpg" WIDTH="436" HEIGHT="2"><BR><BR>', '', $html);
-				$html = str_replace('<FONT STYLE="font-size:10pt">', '', $html);
 				$html = str_replace('<td WIDTH="6"><FONT COLOR="black">.</font></td>', '', $html);
 				$html = str_replace('<TD NAME="space2" WIDTH=3><IMG SRC="trans.gif" WIDTH=3 HEIGHT=1></TD>', '', $html);
 				$html = str_replace('<BR><BR></TD></TR></TABLE>', '', $html);
 				$html = str_replace(' NOWRAP>', '>', $html);
 
-				// Can't remove trailing font-tag or Tidy in next step will go nuts
-				//$html = str_replace('</FONT>', '</span>', $html);
-
-				if ( formGet('font') ) {
-					// Trying to regexp-remove all the remaining font start tags, no matter what they contain
-					$html = preg_replace( '/<FONT[^>]*?>/siu', '', $html );
-				}
-
 				// Some markup we can improve
 				$html = str_replace('<HR WIDTH="750" COLOR="black" NOSHADE>', '<hr />', $html);
 
-				// Old old tags used for design that we now can set with CSS instead. Just removed the tags.
-				$html = preg_replace('/<[\/]?center>/i', "", $html); // [\/]+ removes start and ending tag
-				$html = preg_replace('/<[\/]?u>/i', "", $html);
-				$html = preg_replace('/<[\/]?small>/i', "", $html);
+				if ( formGet('old') ) {
+					// IMPORTANT! Can't remove trailing font-tag or Tidy in next step will go nuts
+					// Trying to regexp-remove all the remaining font start tags, no matter what they contain
+					$html = preg_replace( '/<FONT[^>]*?>/siu', '', $html );
+					
+					// Old old tags used for design that we now can set with CSS instead. Just removed the tags.
+					$html = preg_replace('/<[\/]?center>/i', "", $html); // [\/]+ removes start and ending tag
+					$html = preg_replace('/<[\/]?u>/i', "", $html);
+				}
+
+				if ( formGet('other') ) {
+					$html = preg_replace('/<[\/]?small>/i', "", $html);
+				}
 
 				// Old e-mails and names we wanna clean up
 				$html = str_replace('cro075t@tninet.se', 'webmaster@ffuniverse.nu', $html);
@@ -186,8 +160,13 @@
 			</label>
 
 			<label class="checkbox">
-				<input type="checkbox" name="font" value="yes"<?php if (isset($_POST['font'])) { ?> checked="checked"<?php } ?> />
-				Remove all old FONT-tags completely (not content)
+				<input type="checkbox" name="old" value="yes"<?php if (isset($_POST['old'])) { ?> checked="checked"<?php } ?> />
+				Remove deprecated html tags completely (not content). Affected tags: &lt;FONT&gt;, &lt;CENTER&gt;, &lt;U&gt;
+			</label>
+
+			<label class="checkbox">
+				<input type="checkbox" name="other" value="yes"<?php if (isset($_POST['other'])) { ?> checked="checked"<?php } ?> />
+				Remove other older html-tags (not deprecated). Affected tags: &lt;SMALL&gt;
 			</label>
 
 			<br />
