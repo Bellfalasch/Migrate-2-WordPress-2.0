@@ -94,21 +94,33 @@
 
 					// I owe a lot to http://regex101.com/ for getting this correct! #regex_noob
 
-					//$splitcode = str_replace('\\', '\\\\', $splitcode);
+					// Escape these chars (because they have special meaning in regex)
+					$splitcode = str_replace('\\', '\\\\', $splitcode);
+					$splitcode = str_replace('.', '\.', $splitcode);
+					$splitcode = str_replace('*', '\*', $splitcode);
+					$splitcode = str_replace('?', '\?', $splitcode);
+					$splitcode = str_replace('+', '\+', $splitcode);
+					$splitcode = str_replace('$', '\$', $splitcode);
+					$splitcode = str_replace('^', '\^', $splitcode);
+					$splitcode = str_replace('{', '\{', $splitcode);
+					$splitcode = str_replace('}', '\}', $splitcode);
 					$splitcode = str_replace('(', '\(', $splitcode);
 					$splitcode = str_replace(')', '\)', $splitcode);
-					$splitcode = str_replace('.', '\.', $splitcode);
-					$splitcode = str_replace('&', '\&', $splitcode);
+
+					// Our magic placeholders
+					$splitcode = str_replace('[\*]', '.*', $splitcode);
+					$splitcode = str_replace('[\?]', '(.*?)', $splitcode);
+
+					$splitcode = str_replace('[', '\[', $splitcode);
+					$splitcode = str_replace(']', '\]', $splitcode);
+
+					// Other replacements
+					//$splitcode = str_replace('&', '\&', $splitcode);
 					$splitcode = str_replace('/', '\/', $splitcode);
-					$splitcode = str_replace('\'', '', $splitcode);
-					//$splitcode = str_replace('<', '\<', $splitcode);
-					//$splitcode = str_replace('>', '\>', $splitcode);
-					$splitcode = str_replace('[*]', '.*', $splitcode);
-					$splitcode = str_replace('[?]', '(.*?)', $splitcode);
+					//$splitcode = str_replace('\'', '', $splitcode);
 
 				} else {
 
-					//echo "<div class='alert alert-block alert-error'><h4>Hey now!</h4><p>No [?] added (or more than one), and we need that to find names for the new pages!</p></div>";
 					pushError("No [?] added (or more than one), and we need that to find names for the new pages!");
 
 				}
@@ -267,7 +279,7 @@
 				$arr_titles  = array();
 
 				$arr_content = preg_split( "/" . $splitcode . "/Ui", $codeoutput ); // Find the content
-				preg_match_all( "/" . $splitcode . "/Ui", $codeoutput, $arr_titles ); // Find the names
+				preg_match_all( "/" . $splitcode . "/Ui", $codeoutput, $arr_titles ); // Find the names//titles
 
 				//var_dump( $arr_content );
 				//var_dump( $arr_titles );
@@ -278,152 +290,156 @@
 
 				//exit;
 
-				//$codeoutput = htmlentities( $codeoutput );
-
 				echo "<h3>We found these sub pages:</h3>";
-//				echo "<pre>";
 
-				$length_arr = count($arr_content);
-				$length_title = count($arr_titles[1]);
+				// Did we match anything?
+				if ( $arr_content !== false && $arr_titles !== false ) {
 
-				$last_title = "";
-				$title = "";
-				$slug = "";
+					$length_arr = count($arr_content);
+					$length_title = count($arr_titles[1]);
 
-				for ($i = 0; $i < $length_arr; $i++ ) {
+					$last_title = "";
+					$title = "";
+					$slug = "";
 
-					$show_output = true;
+					for ($i = 0; $i < $length_arr; $i++ ) {
 
-					if ($i <= $length_title && $i+1 < $length_arr) {
+						$show_output = true;
 
-						// arr_titles first array dimension: 0 contains entire matching area, index 1 only the extracted match.
+						if ($i <= $length_title && $i+1 < $length_arr) {
 
-						$title   = $arr_titles[1][$i];
-						$last_title = $title;
+							// arr_titles first array dimension: 0 contains entire matching area, index 1 only the extracted match.
 
-/*
-						// What to get is controlled by a setting (getting only the exact match is default).
-						if ( formGet('keep') == "yes") {
-							$title   = $arr_titles[0][$i];
-						} else {
 							$title   = $arr_titles[1][$i];
-						}
-*/
+							$last_title = $title;
 
-// This function is totally wrong ... it should go from first match and to beginning of file, not increment the array counter
-if ( 1 === 3 ) {
-						if ( formGet('prematch') == "sub") {
-							$content = $arr_content[$i]; // Do not skip first content (setting tells us to create a subpage out of it)
-						} else {
-							$content = $arr_content[$i+1]; // Skip first content (because of same setting)
-
-							// Setting to save everything before first match as parent content
-							if ($i === 1 && formGet('prematch') == "parent") {
-								$parentcontent = $arr_content[$i];
-								// TODO: Add this to parent content ...
+	/*
+							// What to get is controlled by a setting (getting only the exact match is default).
+							if ( formGet('keep') == "yes") {
+								$title   = $arr_titles[0][$i];
+							} else {
+								$title   = $arr_titles[1][$i];
 							}
-						}
-}
+	*/
 
-						$content = $arr_content[$i+1];
+	// This function is totally wrong ... it should go from first match and to beginning of file, not increment the array counter
+	if ( 1 === 3 ) {
+							if ( formGet('prematch') == "sub") {
+								$content = $arr_content[$i]; // Do not skip first content (setting tells us to create a subpage out of it)
+							} else {
+								$content = $arr_content[$i+1]; // Skip first content (because of same setting)
 
-						// Setting tells us to keep the entire match inside the content of new page
-						if ( formGet('keep') == "yes") {
-							$content = $arr_titles[0][$i] . $content;
-						}
+								// Setting to save everything before first match as parent content
+								if ($i === 1 && formGet('prematch') == "parent") {
+									$parentcontent = $arr_content[$i];
+									// TODO: Add this to parent content ...
+								}
+							}
+	}
 
-						// Convert page title into something more URL friendly
-						$slug = fn_getSlugFromTitle($title);
+							$content = $arr_content[$i+1];
 
-						$content_db = trim( $content );
-
-						if (formGet("split") == "Run split") {
-
-							$result = db_setNewPage( array(
-										'site' => $PAGE_siteid,
-										'html' => 'CREATED BY SPLIT-FUNCTION - not from crawl!',
-										'page' => $baseurl . '/' . $slug,
-										'content' => $content_db,
-										'page_slug' => $slug,
-										'page_parent' => $baseid,
-										'crawled' => 0,
-										'title' => $title
-									) );
-
-							if ( $result > 0 ) {
-
-								//echo '<div class="alert alert-success"><h4>Save successful</h4><p>New page for ' . $title . ' created, id: ' . $result . '</p></div>';
-								fn_infobox("Save successful", 'New page for ' . $title . ' created, id: ' . $result,'');
-
+							// Setting tells us to keep the entire match inside the content of new page
+							if ( formGet('keep') == "yes") {
+								$content = $arr_titles[0][$i] . $content;
 							}
 
-/*
-Code to test with. First the regex, then that same code translated into our more simpler format
+							// Convert page title into something more URL friendly
+							$slug = fn_getSlugFromTitle($title);
 
-<a name="\.*"><\/a><\/p>
-<table cellpadding="1">
-<tr>
-<th>(.*?)<\/span> <span class="td_svag">\(.* HP\)<\/th>
-<\/tr>
-<\/table>
+							$content_db = trim( $content );
 
-<a name="[*]"></a></p>
-<table cellpadding="1">
-<tr>
-<th>[?]</span> <span class="td_svag">([*] HP)</th>
-</tr>
-</table>
-*/
+							if (formGet("split") == "Run split") {
+
+								$result = db_setNewPage( array(
+											'site' => $PAGE_siteid,
+											'html' => 'CREATED BY SPLIT-FUNCTION - not from crawl!',
+											'page' => $baseurl . '/' . $slug,
+											'content' => $content_db,
+											'page_slug' => $slug,
+											'page_parent' => $baseid,
+											'crawled' => 0,
+											'title' => $title
+										) );
+
+								if ( $result > 0 ) {
+
+									//echo '<div class="alert alert-success"><h4>Save successful</h4><p>New page for ' . $title . ' created, id: ' . $result . '</p></div>';
+									fn_infobox("Save successful", 'New page for ' . $title . ' created, id: ' . $result,'');
+
+								}
+
+	/*
+	Code to test with. First the regex, then that same code translated into our more simpler format
+
+	<a name="\.*"><\/a><\/p>
+	<table cellpadding="1">
+	<tr>
+	<th>(.*?)<\/span> <span class="td_svag">\(.* HP\)<\/th>
+	<\/tr>
+	<\/table>
+
+	<a name="[*]"></a></p>
+	<table cellpadding="1">
+	<tr>
+	<th>[?]</span> <span class="td_svag">([*] HP)</th>
+	</tr>
+	</table>
+	*/
+
+							} else {
+
+								// Test split (print debugging info)
+
+								var_dump( array(
+											'site' => $PAGE_siteid,
+											'html' => 'CREATED BY SPLIT-FUNCTION - not from crawl!',
+											'page' => $baseurl . '/' . $slug,
+											'content' => $content_db,
+											'page_slug' => $slug,
+											'page_parent' => $baseid,
+											'crawled' => 0,
+											'title' => $title
+										) );
+
+							}
 
 						} else {
 
-							// Test split (print debugging info)
+							// Code for handling EOF on the page when split matches has been found earlier
+							if ( $last_title == $title && $title != "" ) {
+								$show_output = false;
+								fn_infobox("No more matches!", "That's all the possible matching subpages we could find on the page you submitted. Tweak your 'split-code' if this isn't what you wanted.", 'error');
+							}
 
-							var_dump( array(
-										'site' => $PAGE_siteid,
-										'html' => 'CREATED BY SPLIT-FUNCTION - not from crawl!',
-										'page' => $baseurl . '/' . $slug,
-										'content' => $content_db,
-										'page_slug' => $slug,
-										'page_parent' => $baseid,
-										'crawled' => 0,
-										'title' => $title
-									) );
+							$title = "NO MATCHING TITLE FOR THIS PAGE!!!"; // This should skip the split
+							$content = "no matching content for this page!";
+
+							// Error message for when we found zero hits of that string on this page
+							if ( $show_output ) {
+								//fn_infobox("Couldn't save", "New page for following code could not be created!<br />If this error appears at the end of a list of new, splitted, pages then it just means we didn't find any more pages.", 'error');
+								$show_output = false;
+								fn_infobox("Nothing found", "The 'split-code' you submitted didn't exist anywhere on the current page. Try again!", 'error');
+							}
 
 						}
 
-					} else {
-
-						// Code for handling EOF on the page when split matches has been found earlier
-						if ( $last_title == $title && $title != "" ) {
-							$show_output = false;
-							fn_infobox("No more matches!", "That's all the possible matching subpages we could find on the page you submitted. Tweak your 'split-code' if this isn't what you wanted.", 'error');
-						}
-
-						$title = "NO MATCHING TITLE FOR THIS PAGE!!!"; // This should skip the split
-						$content = "no matching content for this page!";
-
-						// Error message for when we found zero hits of that string on this page
 						if ( $show_output ) {
-							//fn_infobox("Couldn't save", "New page for following code could not be created!<br />If this error appears at the end of a list of new, splitted, pages then it just means we didn't find any more pages.", 'error');
-							$show_output = false;
-							fn_infobox("Nothing found", "The 'split-code' you submitted didn't exist anywhere on the current page. Try again!", 'error');
+							echo "<h4>" . $title . "</h4>";
+							echo "<p><span class=\"text-info\">" . $baseurl . '/<strong>' . $slug . "</strong></span></p>";
+							echo "<pre>";
+
+							$content = htmlspecialchars($content, ENT_QUOTES, "UTF-8");
+							$content = trim( $content );
+
+							echo $content;
+							echo "</pre>";
 						}
 
 					}
 
-					if ( $show_output ) {
-						echo "<h4>" . $title . "</h4>";
-						echo "<p><span class=\"text-info\">" . $baseurl . '/<strong>' . $slug . "</strong></span></p>";
-						echo "<pre>";
-
-						$content = htmlspecialchars($content, ENT_QUOTES, "UTF-8");
-						$content = trim( $content );
-
-						echo $content;
-						echo "</pre>";
-					}
-
+				} else {
+					fn_infobox("Nothing found", "The 'split-code' you submitted didn't exist anywhere on the current page. Try again!", 'error');
 				}
 
 //				echo "</pre>";
