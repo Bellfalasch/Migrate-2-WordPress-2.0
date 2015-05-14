@@ -1,9 +1,5 @@
 <?php
-
 	/* PAGE CALLED WITH AJAX - ONLY */
-
-	// Set up template variables
-	$PAGE_title = "HTML editor";
 ?>
 <?php require('_global.php'); ?>
 <?php
@@ -11,7 +7,7 @@
 	// Form generator
 	addField( array(
 		"label" => "HTML source:",
-		"id" => "html",
+		"id" => "html_" . $PAGE_dbid,
 		"type" => "area(6*12)",
 //		"description" => "Change the washed and cleaned HTML. Don't forget to save!",
 		"min" => "1",

@@ -211,13 +211,14 @@
 	function db_setPageSimple($in) { cleanup($in);
 		return db_MAIN("
 			INSERT INTO `migrate_content`
-				(`title`, `site`, `page`, `html`, `crawled`)
+				(`title`, `site`, `page`, `html`, `crawled`, `page_slug`)
 			VALUES(
 				{$in['title']},
 				{$in['site']},
 				'-',
 				'<!-- Empty page, created in Migrate 2 WordPress -->',
-				0
+				0,
+				{$in['slug']}
 			)
 		");
 	}

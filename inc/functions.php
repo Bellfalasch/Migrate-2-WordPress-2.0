@@ -49,6 +49,8 @@
 		$slug = str_replace('&', '', $slug);
 		$slug = str_replace('%', '', $slug);
 		$slug = str_replace('#', '', $slug);
+		$slug = str_replace('=', '', $slug);
+		$slug = str_replace('---', '', $slug); // FFU special
 		$slug = str_replace('\'', '', $slug);
 		$slug = str_replace('"', '', $slug);
 		$slug = urlencode( $slug );

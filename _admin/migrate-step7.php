@@ -38,6 +38,8 @@
 
 		// Stupid way of getting all the form data into variables for use to save the data.
 		$formTitle = $PAGE_form[0]["content"];
+		
+		$slug = fn_getSlugFromTitle($formTitle);
 
 		// If no errors:
 		if (empty($SYS_errors)) {
@@ -45,7 +47,8 @@
 			// Call insert-function from our database-file for admin.
 			$result = db_setPageSimple( array(
 						'title' => $formTitle,
-						'site' => $PAGE_siteid
+						'site' => $PAGE_siteid,
+						'slug' => $slug
 					) );
 
 			// If the insert worked we will now have the created id in this variable, otherwhise we will have 0 or -1.
