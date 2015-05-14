@@ -129,16 +129,19 @@ $(function() {
 				if ( do_del === "true" ) {
 					container.addClass("hidden"); // Hide row with data
 					// Add undo row and attach this same click event to the undo button
-					var new_row = container.after("<tr class='deleted'><td colspan='6'>Page deleted! <button class='btn btn-mini btn-primary' data-delete-id='" + del_id + "' data-delete='false'>Undo this?</button></td></tr>");
-					var new_btn = new_row.find("button");
+					var new_row = $("<tr class='deleted'><td colspan='6'>Page deleted! <button class='btn btn-mini btn-primary' data-delete-id='" + del_id + "' data-delete='false'>Undo this?</button></td></tr>");
+					container.after(new_row);
+					var new_btn = new_row.find("td button");
 					//new_btn.click( ajax_delete_page( new_btn ) ); // This way will start an eternal loop
 					//new_btn.bind('click', { param: new_btn }, ajax_delete_page); // This didn't work
-					new_btn.click( function() {
-						ajax_delete_page( new_btn ); // Anonymous function
+					new_btn.on( 'click', function() { // .on is the new jQuery way after .live and others
+						ajax_delete_page( $(this) );
 					});
+					console.log( new_row );
+					console.log( new_btn );
 				} else {
 					container.prev().removeClass("hidden");
-					container.removeData(); // Destroy the undo-row
+					container.remove(); // Destroy the undo-row
 				}
 
 			},
