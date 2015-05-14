@@ -390,7 +390,7 @@
 							} else {
 
 								// Test split (print debugging info)
-
+/*
 								var_dump( array(
 											'site' => $PAGE_siteid,
 											'html' => 'CREATED BY SPLIT-FUNCTION - not from crawl!',
@@ -401,7 +401,7 @@
 											'crawled' => 0,
 											'title' => $title
 										) );
-
+*/
 							}
 
 						} else {
@@ -409,7 +409,7 @@
 							// Code for handling EOF on the page when split matches has been found earlier
 							if ( $last_title == $title && $title != "" ) {
 								$show_output = false;
-								fn_infobox("No more matches!", "That's all the possible matching subpages we could find on the page you submitted. Tweak your 'split-code' if this isn't what you wanted.", 'error');
+								fn_infobox("No more matches!", "That's all the possible matching subpages we could find on the page you submitted. Tweak your 'split-code' if this isn't what you wanted.", ' alert-info');
 							}
 
 							$title = "NO MATCHING TITLE FOR THIS PAGE!!!"; // This should skip the split
