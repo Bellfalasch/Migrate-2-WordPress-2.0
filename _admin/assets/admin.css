@@ -446,3 +446,15 @@ label .help-block {
 	background-color: #468847;
 	/*display: block;*/
 }
+tr.deleted {
+	background-color: #ddd;
+}
+tr.deleted:hover {
+	background-color: #ddd;
+}
+tr.deleted td {
+	text-align: center;
+}
+tr.hidden {
+	display: none;
+}

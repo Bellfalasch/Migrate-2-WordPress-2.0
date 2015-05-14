@@ -22,9 +22,8 @@
 		");
 	}
 
-	/* Step 1 */
+	/* STEP 1 */
 	/* **************************************************************************** */
-
 	// Also used in Step 3
 	function db_setNewPage($in) { cleanup($in);
 		return db_MAIN("
@@ -62,7 +61,7 @@
 		");
 	}
 
-	/* Step 2 */
+	/* STEP 2 */
 	/* **************************************************************************** */
 	function db_setContentCode($in) { cleanup($in);
 		return db_MAIN("
@@ -92,7 +91,7 @@
 		");
 	}
 
-	/* Step 3 */
+	/* STEP 3 */
 	/* **************************************************************************** */
 	// Also used in Step 7
 	function db_getHtmlFromPage($in) { cleanup($in);
@@ -104,19 +103,20 @@
 			LIMIT 1
 		");
 	}
-
+	// Also used in Step 7
 	function db_getPagesFromSite($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `title`, `page`, `crawled`, `page_slug`, `page_parent`
+			SELECT `id`, `title`, `page`, `crawled`, `page_slug`, `page_parent`, `deleted`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			ORDER BY `page` ASC
 		");
 	}
-
+	// Also used in Step 7
 	function db_delPage($in) { cleanup($in);
 		return db_MAIN("
-			DELETE FROM `migrate_content`
+			UPDATE `migrate_content`
+			SET `deleted` = {$in['deleted']}
 			WHERE `site` = {$in['site']}
 			AND `id` = {$in['id']}
 			LIMIT 1
@@ -155,7 +155,7 @@
 		");
 	}
 
-	/* Step 4 */
+	/* STEP 4 */
 	/* **************************************************************************** */
 	function db_setWashCode($in) { cleanup($in);
 		return db_MAIN("
@@ -176,7 +176,7 @@
 		");
 	}
 
-	/* Step 5 */
+	/* STEP 5 */
 	/* **************************************************************************** */
 	function db_setTidyCode($in) { cleanup($in);
 		return db_MAIN("
@@ -187,7 +187,7 @@
 		");
 	}
 
-	/* Step 6 */
+	/* STEP 6 */
 	/* **************************************************************************** */
 	// Also used in Step 7
 	function db_setCleanCode($in) { cleanup($in);
@@ -199,7 +199,7 @@
 		");
 	}
 
-	/* Step 7 */
+	/* STEP 7 */
 	/* **************************************************************************** */
 	function db_setPageSimple($in) { cleanup($in);
 		return db_MAIN("
@@ -215,7 +215,7 @@
 		");
 	}
 
-	/* Step 8 */
+	/* STEP 8 */
 	/* **************************************************************************** */
 	function db_updateContentLinks($in) { cleanup($in);
 		return db_MAIN("

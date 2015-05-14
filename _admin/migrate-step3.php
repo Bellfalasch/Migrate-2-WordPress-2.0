@@ -141,28 +141,6 @@
 
 
 	///////////////////////////////////////////////////
-	// Delete page
-	///////////////////////////////////////////////////
-
-	$del_id = qsGet("del");
-
-	if ( $del_id > 0 ) {
-
-		$del = db_delPage( array(
-					'id' => $del_id,
-					'site' => $PAGE_siteid
-				) );
-
-		if ($del >= 0) {
-			fn_infobox("Delete successful", "The selected page has been deleted.",'');
-		} else {
-			pushError("Delete of page failed, please try again.");
-		}
-
-	}
-
-
-	///////////////////////////////////////////////////
 	// Duplicate page
 	///////////////////////////////////////////////////
 
@@ -458,17 +436,8 @@
 					fn_infobox("Nothing found", "The 'split-code' you submitted didn't exist anywhere on the current page. Try again!", 'error');
 				}
 
-//				echo "</pre>";
-
 			} else {
-/*
-				if ( mb_detect_encoding($codeoutput, "utf-8, iso-8859-1") == "UTF-8" ) {
-					$codeoutput;
-				} else {
-					$codeoutput = iconv("iso-8859-1", "utf-8", $codeoutput);
-				}
-*/
-				//$codeoutput = htmlentities( $codeoutput );
+
 				$codeoutput = htmlspecialchars($codeoutput, ENT_QUOTES, "UTF-8");
 
 				echo "
@@ -498,7 +467,8 @@ if ( $split_id === 0 ) {
 			<strong>Undo:</strong> Press Ctrl + Z (or Cmd + Z on Mac) to regret any of your changes before leaving the input field.<br />
 			<strong>Visual Feedback:</strong> The input field will light up green for a short while when changes have been stored, or red if an error occured.
 		</p>
-		<input type="hidden" name="ajaxurl" class="input_ajaxurl" value="<?= $SYS_pageroot ?>migrate-step3-savetitle.php" />
+		<input type="hidden" name="ajaxurl_title" class="input_ajaxurl_title" value="<?= $SYS_pageroot ?>migrate-step3-savetitle.php" />
+		<input type="hidden" name="ajaxurl_del" class="input_ajaxurl_del" value="<?= $SYS_pageroot ?>migrate-step3-delete.php" />
 
 		<table>
 			<thead>
@@ -526,8 +496,13 @@ if ( $split_id === 0 ) {
 				$addclass = " selected";
 			}
 
+			// Deleted page?
+			if ( $row->deleted ) {
+				$addclass .= " hidden";
+			}
+
 			echo "<tr";
-			if ($addclass != "" ) {
+			if ( trim($addclass) != "" ) {
 				echo " class=\"" . trim( $addclass ) . "\"";
 			}
 			echo ">";
@@ -563,7 +538,7 @@ if ( $split_id === 0 ) {
 
 			echo "</td>";
 			echo "<td><a href=\"" . $SYS_pageself . "?dup=" . $row->id . "\" class=\"btn btn-mini btn-warning\">Duplicate</a></td>";
-			echo "<td><a href=\"" . $SYS_pageself . "?del=" . $row->id . "\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
+			echo "<td><button data-delete=\"true\" data-delete-id=\"" . $row->id . "\" class=\"btn btn-mini btn-danger delete\">Delete</button></td>";
 			echo '</tr>';
 		}
 

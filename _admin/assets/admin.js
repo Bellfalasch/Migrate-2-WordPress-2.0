@@ -22,6 +22,7 @@ $(function() {
 
 	// "Manage"
 	//////////////////////////////////////////////////////////////
+/*
 	$("body.migrate-step3 .btn-danger").click( function() {
 
 		var answer = confirm("Are you sure you want to delete this entire page and all of its content? This action can't be undone!");
@@ -29,7 +30,7 @@ $(function() {
 		return answer;
 
 	});
-
+*/
 	// Leaving focus on a field should Ajax-post it and save the changes
 	$("body.migrate-step3 table input").blur( function() {
 
@@ -61,7 +62,7 @@ $(function() {
 
 			$.ajax({
 				type: "POST",
-				url: $(".input_ajaxurl").val(), // A hidden input field from the calling html page (needed some PHP parsing of the URL)
+				url: $(".input_ajaxurl_title").val(), // A hidden input field from the calling html page (needed some PHP parsing of the URL)
 				data: {
 					"id": id,
 					"type": type,
@@ -92,6 +93,62 @@ $(function() {
 		}
 
 	});
+
+	// Leaving focus on a field should Ajax-post it and save the changes
+	$("body.migrate-step3 table button.delete").click( function() {
+
+		ajax_delete_page( $(this) );
+
+	});
+
+	function ajax_delete_page(elem) {
+		// Extract all sent data and split it up to be sent with our post request
+		var del_id = elem.attr("data-delete-id"); // Page to "delete"
+		var do_del = elem.attr("data-delete"); // Delete or undo the delete? true/false
+
+		// Secure/validate data
+		if ( do_del == "true" ) {
+			do_del = "true";
+		} else {
+			do_del = "false";
+		}
+
+		var container = elem.parent().parent(); // The wrapping tr
+
+		$.ajax({
+			type: "POST",
+			url: $(".input_ajaxurl_del").val(), // A hidden input field from the calling html page (needed some PHP parsing of the URL)
+			data: {
+				"id": del_id,
+				"delete": do_del
+			},
+			success: function(html) {
+				console.log("Page ID: " + del_id);
+				console.log("delete: " + do_del);
+
+				if ( do_del === "true" ) {
+					container.addClass("hidden"); // Hide row with data
+					// Add undo row and attach this same click event to the undo button
+					var new_row = container.after("<tr class='deleted'><td colspan='6'>Page deleted! <button class='btn btn-mini btn-primary' data-delete-id='" + del_id + "' data-delete='false'>Undo this?</button></td></tr>");
+					var new_btn = new_row.find("button");
+					//new_btn.click( ajax_delete_page( new_btn ) ); // This way will start an eternal loop
+					//new_btn.bind('click', { param: new_btn }, ajax_delete_page); // This didn't work
+					new_btn.click( function() {
+						ajax_delete_page( new_btn ); // Anonymous function
+					});
+				} else {
+					container.prev().removeClass("hidden");
+					container.removeData(); // Destroy the undo-row
+				}
+
+			},
+			error: function(html) {
+				container.addClass("error");
+				setTimeout( function() { container.removeClass("error"); }, 1000);
+				alert(html);
+			}
+		});	
+	}
 
 
 	// "Finalize"
