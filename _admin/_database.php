@@ -109,7 +109,7 @@
 			SELECT `id`, `title`, `page`, `crawled`, `page_slug`, `page_parent`, `deleted`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
-			ORDER BY `page` ASC
+			ORDER BY `page` ASC, page_parent ASC
 		");
 	}
 	// Also used in Step 7
