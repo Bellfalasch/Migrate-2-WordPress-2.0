@@ -171,10 +171,21 @@
 
 		while ( $row = $result->fetch_object() )
 		{
-			echo "<tr";
+			$addclass = "";
+
 			// Add child-class to children so you see it visually
 			if ( $row->page_parent > 0 ) {
-				echo " class=\"child\"";
+				$addclass = "child";
+			}
+
+			// Deleted page?
+			if ( $row->deleted ) {
+				$addclass .= " hidden";
+			}
+
+			echo "<tr";
+			if ( trim($addclass) != "" ) {
+				echo " class=\"" . trim( $addclass ) . "\"";
 			}
 			echo ">";
 
