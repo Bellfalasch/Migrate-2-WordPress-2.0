@@ -454,12 +454,13 @@ Code to test with. First the regex, then that same code translated into our more
 	{
 
 ?>
-		<p class="muted">
-			<small>
-				To update the title (and/or slug) of a page, you can just edit the Title-field and
-				the slug field will update automatically. Leave the field to save your changes (this is instant).
-				Press Ctrl + Z (or Cmd + Z on Mac) to regret any of your changes before leaving the input field.
-			</small>
+		<h4>Updating pages</h4>
+		<p>
+			To update the title (and/or slug) of a page, you can just edit the Title-field and
+			the slug field will update automatically.<br />
+			<strong>Save:</strong> Leave the field to save your changes instantly (you can use the tab button too).<br />
+			<strong>Undo:</strong> Press Ctrl + Z (or Cmd + Z on Mac) to regret any of your changes before leaving the input field.<br />
+			<strong>Visual Feedback:</strong> The input field will light up green for a short while when changes have been stored, or red if an error occured.
 		</p>
 		<input type="hidden" name="ajaxurl" class="input_ajaxurl" value="<?= $SYS_pageroot ?>migrate-step3-savetitle.php" />
 
