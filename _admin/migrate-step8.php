@@ -250,11 +250,6 @@
 
 ?>
 
-	<div class="alert">
-		<h4>Optional step!</h4>
-		<p>This step is not mandatory =)</p>
-	</div>
-
 <form class="well form" action="" method="post">
 
 	<div class="row">
