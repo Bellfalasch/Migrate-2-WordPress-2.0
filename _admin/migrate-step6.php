@@ -144,6 +144,7 @@
 					//$html = str_replace("<p><br /></p>", "", $html);
 					$html = preg_replace('/<p><br\s?[\/]?><\/p>\s*/i', "", $html);
 					$html = str_replace("<p><br /><br /></p>\n", "", $html);
+					$html = str_replace("<p><br />", "<p>", $html);
 					$html = str_replace("<pre>\n</pre>\n", "", $html);
 					$html = str_replace("<pre>\n<br />\n</pre>\n", "", $html);
 					$html = str_replace("<pre>\n<br />\n\n</pre>\n", "", $html);
