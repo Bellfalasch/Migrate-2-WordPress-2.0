@@ -254,20 +254,6 @@ $XML_footer</pre>";
 			echo "<textarea class=\"code\">";
 			echo "INSERT INTO `ffu_redirects` (`site`,`old`,`new`) VALUES\n";
 			echo join( $crawled, ",\n");
-			//$PAGE_siteid
-//			$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
-//			if ( isset( $result ) )
-//			{
-//				while ( $row = $result->fetch_object() )
-//				{
-//					if ( $row->crawled && !$row->deleted ) {
-//						echo "(" . $PAGE_siteid . ", '" . $row->page . "', '" .  . "')";
-//			(1, 'http://www.ffuniverse.nu/ff1/default.aspx?page=bossar', 'http://guide.ffuniverse.nu/ff1/boss/'),
-//			(1, 'http://www.ffuniverse.nu/ff1/default.aspx?page=kartor', 'http://guide.ffuniverse.nu/ff1/kartor/'),
-//			(1, 'http://www.ffuniverse.nu/ff1/default.aspx?page=kar', 'http://guide.ffuniverse.nu/ff1/karaktar/')
-//					}
-//				}
-//			}
 			echo "</textarea>";
 
 		}
