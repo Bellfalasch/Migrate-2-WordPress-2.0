@@ -212,7 +212,7 @@ EOT;
 						$status = "draft";
 					}
 
-					if ( $row->crawled && !$row->deleted ) {
+					if ( $row->crawled ) {
 						array_push( $crawled, "(" . $PAGE_siteid . ", '" . $row->page . "', '" . $newlink . "')" );
 					}
 
