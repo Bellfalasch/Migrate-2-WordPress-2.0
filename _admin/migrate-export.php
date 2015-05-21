@@ -22,6 +22,11 @@
 		{
 			$date = new DateTime();
 			$now = time();
+			
+			$fullurl = rtrim( $PAGE_sitenewurl, "/" );
+			$folders = explode("/", $fullurl);
+			array_pop($folders); // Remove last
+			$PAGE_sitenewurl_base = join("/", $folders) . "/";
 
 			// Enable function calls in Heredocs
 			// http://stackoverflow.com/questions/104516/calling-php-functions-within-heredoc-strings
@@ -29,6 +34,7 @@
 				return $data;
 			}
 			$fn = 'fn';
+
 
 			// Define XML export header as a Heredoc
 			$XML_header = <<< EOT
@@ -51,10 +57,10 @@
 	<title>$PAGE_sitename</title>
 	<link>$PAGE_sitenewurl</link>
 	<description>No description</description>
-	<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate><!-- DONE? -->
-	<language>en-US</language><!-- TODO -->
+	<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate>
+	<language>en-US</language>
 	<wp:wxr_version>1.2</wp:wxr_version>
-	<wp:base_site_url>$PAGE_sitenewurl</wp:base_site_url><!-- DONE? -->
+	<wp:base_site_url>$PAGE_sitenewurl_base</wp:base_site_url>
 	<wp:base_blog_url>$PAGE_sitenewurl</wp:base_blog_url>
 
 	<wp:author>
