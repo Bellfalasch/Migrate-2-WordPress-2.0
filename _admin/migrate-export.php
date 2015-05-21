@@ -212,6 +212,7 @@ EOT;
 						$status = "draft";
 					}
 
+					// Add row for the SQL-redirect statement we'll add att the end so you can redirect old page URL's to the correct new ones.
 					if ( $row->crawled ) {
 						array_push( $crawled, "(" . $PAGE_siteid . ", '" . $row->page . "', '" . $newlink . "')" );
 					}
