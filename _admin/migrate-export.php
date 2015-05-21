@@ -20,8 +20,8 @@
 		$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
-			$date = new DateTime();
-			$now = time();
+//			$date = new DateTime();
+			$now = time() - 2 * 60 * 60;
 			
 			$fullurl = rtrim( $PAGE_sitenewurl, "/" );
 			$folders = explode("/", $fullurl);
@@ -44,7 +44,7 @@
 <!-- You may use this file to transfer that content from one site to another. -->
 <!-- This file is not intended to serve as a complete backup of your site. -->
 
-<!-- generator="Migrate 2 WordPress" created="{$date->format('Y-m-d H:i')}" -->
+<!-- generator="Migrate 2 WordPress" created="{$fn( date('Y-m-d H:i', $now) )}" -->
 <rss version="2.0"
 	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -71,8 +71,11 @@
 		<wp:author_first_name><![CDATA[Migrate 2 WordPress]]></wp:author_first_name>
 		<wp:author_last_name><![CDATA[]]></wp:author_last_name>
 	</wp:author>
+	<generator>https://github.com/Bellfalasch/Migrate-2-WordPress-2.0/</generator>
+EOT;
 
-	<wp:category><!-- TODO - Remove? Test "create new site" first -->
+/*
+	<wp:category>
 		<wp:term_id>1</wp:term_id>
 		<wp:category_nicename>uncategorized</wp:category_nicename>
 		<wp:category_parent></wp:category_parent>
@@ -96,9 +99,7 @@
 		<wp:category_parent></wp:category_parent>
 		<wp:cat_name><![CDATA[Disclaimer]]></wp:cat_name>
 	</wp:category>
-
-	<generator>https://github.com/Bellfalasch/Migrate-2-WordPress-2.0/</generator>
-EOT;
+*/
 
 			// Define XML export footer as a Heredoc
 			$XML_footer = <<< EOT
@@ -113,21 +114,21 @@ EOT;
 	<item>
 		<title>|||TITLE|||</title>
 		<link>|||URL|||</link>
-		<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate><!-- DONE? -->
-		<dc:creator><![CDATA[admin]]></dc:creator><!-- DONE? -->
+		<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">|||URL|||</guid>
 		<description></description>
 		<content:encoded><![CDATA[|||CONTENT|||]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
-		<wp:post_id>|||ID|||</wp:post_id><!-- DONE? -->
-		<wp:post_date>{$date->format('Y-m-d H:i:s')}</wp:post_date><!-- DONE? -->
-		<wp:post_date_gmt>{$date->format('Y-m-d H:i:s')}</wp:post_date_gmt><!-- DONE? -->
+		<wp:post_id>|||ID|||</wp:post_id>
+		<wp:post_date>{$fn( date('Y-m-d H:i', $now) )}</wp:post_date>
+		<wp:post_date_gmt>{$fn( date('Y-m-d H:i', $now) )}</wp:post_date_gmt>
 		<wp:comment_status>closed</wp:comment_status>
 		<wp:ping_status>closed</wp:ping_status>
 		<wp:post_name>|||SLUG|||</wp:post_name>
-		<wp:status>|||STATUS|||</wp:status><!-- DONE? -->
+		<wp:status>|||STATUS|||</wp:status>
 		<wp:post_parent>|||PARENT|||</wp:post_parent>
-		<wp:menu_order>|||I|||</wp:menu_order><!-- DONE? -->
+		<wp:menu_order>|||I|||</wp:menu_order>
 		<wp:post_type>page</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
@@ -137,7 +138,9 @@ EOT;
 			$XML_header = htmlspecialchars($XML_header, ENT_QUOTES, "UTF-8");
 			$XML_footer = htmlspecialchars($XML_footer, ENT_QUOTES, "UTF-8");
 
-			echo "<pre>" . $XML_header;
+			echo "<textarea class=\"code\">" . $XML_header;
+
+			$crawled = array();
 
 			// Variable to store the entire XML file for later download
 			$XML_file = $XML_header;
@@ -209,6 +212,10 @@ EOT;
 						$status = "draft";
 					}
 
+					if ( $row->crawled && !$row->deleted ) {
+						array_push( $crawled, "(" . $PAGE_siteid . ", '" . $row->page . "', '" . $newlink . "')" );
+					}
+
 					$this_content = $XML_content;
 					$this_content = str_replace("|||URL|||",     $newlink, $this_content);
 					$this_content = str_replace("|||TITLE|||",   $title,   $this_content);
@@ -229,7 +236,7 @@ EOT;
 
 			}
 
-			echo $XML_footer . "</pre>";
+			echo $XML_footer . "</textarea>";
 
 			$XML_file .= $XML_footer;
 
@@ -242,6 +249,26 @@ $XML_footer</pre>";
 
 			// Uncomment to store the code as an actual xml-file on the server
 			//file_put_contents("site" . $PAGE_siteid . "_export.xml", $string);
+
+			// Generate the redirect SQL
+			echo "<textarea class=\"code\">";
+			echo "INSERT INTO `ffu_redirects` (`site`,`old`,`new`) VALUES\n";
+			echo join( $crawled, ",\n");
+			//$PAGE_siteid
+//			$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
+//			if ( isset( $result ) )
+//			{
+//				while ( $row = $result->fetch_object() )
+//				{
+//					if ( $row->crawled && !$row->deleted ) {
+//						echo "(" . $PAGE_siteid . ", '" . $row->page . "', '" .  . "')";
+//			(1, 'http://www.ffuniverse.nu/ff1/default.aspx?page=bossar', 'http://guide.ffuniverse.nu/ff1/boss/'),
+//			(1, 'http://www.ffuniverse.nu/ff1/default.aspx?page=kartor', 'http://guide.ffuniverse.nu/ff1/kartor/'),
+//			(1, 'http://www.ffuniverse.nu/ff1/default.aspx?page=kar', 'http://guide.ffuniverse.nu/ff1/karaktar/')
+//					}
+//				}
+//			}
+			echo "</textarea>";
 
 		}
 

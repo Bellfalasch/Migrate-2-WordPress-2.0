@@ -458,3 +458,10 @@ tr.deleted td {
 tr.hidden {
 	display: none;
 }
+textarea.code {
+	font-size: 7pt;
+	background-color: #ddd;
+	font-family: monospace;
+	width: 98%;
+	height: 500px;
+}
