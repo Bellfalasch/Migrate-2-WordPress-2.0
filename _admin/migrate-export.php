@@ -253,8 +253,8 @@ $XML_footer</pre>";
 
 			// Generate the redirect SQL
 			echo "<textarea class=\"code\">";
-			echo "INSERT INTO `ffu_redirects` (`site`,`old`,`new`) VALUES\n";
-			echo join( $crawled, ",\n");
+			echo "INSERT INTO `ffu_redirects` (`site`,`old`,`new`) VALUES";
+			echo join( $crawled, ",\n") . ";";
 			echo "</textarea>";
 
 		}
