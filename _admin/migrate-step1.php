@@ -402,6 +402,11 @@ function getsite($url)
 				// Don't collect garbage links (only # in the href, or mailto-links)
 				if ($linklist[$j] != "#" && substr( $linklist[$j], 0, 7 ) != "mailto:")
 				{
+					// TODO: Make this better and smarter, for now just hardcode this madness to get crawling working faster
+					if ( substr($linklist[$j],0,5) === "/ff8/" ) {
+						$linklist[$j] = str_replace("/ff8/", "", $linklist[$j]);
+					}
+
 					// Create full http links with domain name and all
 					$link_full = $PAGE_siteurl . $linklist[$j];
 
