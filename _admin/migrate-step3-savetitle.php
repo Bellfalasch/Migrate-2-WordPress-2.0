@@ -1,6 +1,5 @@
 <?php
 	header('content-type: text/html; charset: utf-8'); 
-
 	/* PAGE CALLED WITH AJAX - ONLY */
 ?>
 <?php require('_global.php'); ?>

@@ -94,11 +94,9 @@ $(function() {
 
 	});
 
-	// Leaving focus on a field should Ajax-post it and save the changes
+	// Delete pages
 	$("body.migrate-step3 table button.delete").click( function() {
-
 		ajax_delete_page( $(this) );
-
 	});
 
 	function ajax_delete_page(elem) {
@@ -142,6 +140,59 @@ $(function() {
 				} else {
 					container.prev().removeClass("hidden");
 					container.remove(); // Destroy the undo-row
+				}
+
+			},
+			error: function(html) {
+				container.addClass("error");
+				setTimeout( function() { container.removeClass("error"); }, 1000);
+				alert(html);
+			}
+		});	
+	}
+
+	// Make a page into the child of any selected parent page
+	$("body.migrate-step3 table button.addChild").click( function() {
+		ajax_makePageIntoChild( $(this) );
+	});
+
+	function ajax_makePageIntoChild(elem) {
+		// Extract all sent data and split it up to be sent with our post request
+		var parent_id = elem.attr("data-makeparent-parent");
+		var child_id = elem.attr("data-makeparent-child");
+		var undo = elem.attr("data-makeparent-undo");
+
+		// Secure/validate data
+		if ( undo == "false" ) {
+			undo = "false";
+		} else {
+			undo = "true";
+		}
+		var container = elem.parent().parent(); // The wrapping tr
+
+		console.log($(".input_ajaxurl_child").val());
+
+		$.ajax({
+			type: "POST",
+			url: $(".input_ajaxurl_child").val(), // A hidden input field from the calling html page (needed some PHP parsing of the URL)
+			data: {
+				"parent": parent_id,
+				"child": child_id,
+				"undo": undo
+			},
+			success: function(html) {
+				console.log("parent_id: " + parent_id);
+				console.log("child_id: " + child_id);
+
+				if ( undo === "false" ) {
+					container.addClass("child");
+					// Toggle button behaviour now that it is a child
+					elem.text("Undo");
+					elem.attr("data-makeparent-undo", "true");
+				} else {
+					container.removeClass("child");
+					elem.text("Add child");
+					elem.attr("data-makeparent-undo", "false");
 				}
 
 			},

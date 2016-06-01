@@ -161,6 +161,15 @@
 		");
 	}
 
+	function db_setPageAsChild($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			WHERE `id` = {$in['id']}
+			  AND `site` = {$in['site']}
+			LIMIT 1
+		");
+	}
+
 	/* STEP 4 */
 	/* **************************************************************************** */
 	function db_setWashCode($in) { cleanup($in);

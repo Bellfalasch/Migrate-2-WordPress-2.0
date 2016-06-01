@@ -25,6 +25,10 @@
 <?php include('_header.php'); ?>
 
 <?php
+	// Parent: add children-mode
+	$makeparent_id = qsGet("parent");
+	if ( $makeparent_id === "" ) $makeparent_id = 0;
+
 	// Don't display all the messages while in split mode
 	$split_id = qsGet("split");
 	if ( $split_id === "" ) $split_id = 0;
@@ -469,9 +473,11 @@ if ( $split_id === 0 ) {
 		</p>
 		<input type="hidden" name="ajaxurl_title" class="input_ajaxurl_title" value="<?= $SYS_pageroot ?>migrate-step3-savetitle.php" />
 		<input type="hidden" name="ajaxurl_del" class="input_ajaxurl_del" value="<?= $SYS_pageroot ?>migrate-step3-delete.php" />
+		<input type="hidden" name="ajaxurl_child" class="input_ajaxurl_child" value="<?= $SYS_pageroot ?>migrate-step3-setparent.php" />
 
-		<table>
+		<table id="pageTable">
 			<thead>
+				<th>-</th>
 				<th>-</th>
 				<th>Title</th>
 				<th>Slug</th>
@@ -492,7 +498,7 @@ if ( $split_id === 0 ) {
 			if ( $row->page_parent > 0 ) {
 				$addclass = "child";
 			}
-			if ($row->id == $split_id ) {
+			if ($row->id == $split_id || $row->id == $makeparent_id ) {
 				$addclass = " selected";
 			}
 
@@ -507,10 +513,22 @@ if ( $split_id === 0 ) {
 			}
 			echo ">";
 
-			if ($split_id > 0) {
+			// Split-column
+			if ($split_id > 0 || $makeparent_id > 0) {
 				echo "<td>-</td>";
 			} else {
 				echo "<td><a href=\"" . $SYS_pageself . "?split=" . $row->id . "\" class=\"btn btn-mini btn-primary\">Split</a></td>";
+			}
+
+			// "Select as parent, then select it's children"-column
+			if ($makeparent_id > 0 || $split_id > 0) {
+				if ($row->id == $makeparent_id ) {
+					echo "<td><a href=\"" . $SYS_pageself . "#pageTable\" class=\"btn btn-mini btn-primary\">Done</a></td>";
+				} else {
+					echo "<td><button data-makeparent-undo=\"false\" data-makeparent-parent=\"" . $makeparent_id . "\" data-makeparent-child=\"" . $row->id . "\" class=\"btn btn-mini addChild\">Add child</button></td>";
+				}
+			} else {
+				echo "<td><a href=\"" . $SYS_pageself . "?parent=" . $row->id . "#pageTable\" class=\"btn btn-mini btn-primary\">Parent</a></td>";
 			}
 
 			$page = $row->page;
