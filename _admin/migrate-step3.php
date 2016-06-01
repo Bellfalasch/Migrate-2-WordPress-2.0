@@ -525,10 +525,20 @@ if ( $split_id === 0 ) {
 				if ($row->id == $makeparent_id ) {
 					echo "<td><a href=\"" . $SYS_pageself . "#pageTable\" class=\"btn btn-mini btn-primary\">Done</a></td>";
 				} else {
-					echo "<td><button data-makeparent-undo=\"false\" data-makeparent-parent=\"" . $makeparent_id . "\" data-makeparent-child=\"" . $row->id . "\" class=\"btn btn-mini addChild\">Add child</button></td>";
+					echo "<td>";
+					if ($row->page_parent == 0 ) {
+						echo "<button data-makeparent-undo=\"false\" data-makeparent-parent=\"" . $makeparent_id . "\" data-makeparent-child=\"" . $row->id . "\" class=\"btn btn-mini addChild\">Add child</button>";
+					} else {
+						echo "-";
+					}
+					echo "</td>";
 				}
 			} else {
-				echo "<td><a href=\"" . $SYS_pageself . "?parent=" . $row->id . "#pageTable\" class=\"btn btn-mini btn-primary\">Parent</a></td>";
+				if ($row->page_parent == 0 ) {
+					echo "<td><a href=\"" . $SYS_pageself . "?parent=" . $row->id . "#pageTable\" class=\"btn btn-mini btn-primary\">Parent</a></td>";
+				} else {
+					echo "<td>-</td>";
+				}
 			}
 
 			$page = $row->page;
