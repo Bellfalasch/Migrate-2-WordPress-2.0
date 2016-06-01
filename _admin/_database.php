@@ -164,6 +164,7 @@
 	function db_setPageAsChild($in) { cleanup($in);
 		return db_MAIN("
 			UPDATE `migrate_content`
+			SET `page_parent` = {$in['parent']}
 			WHERE `id` = {$in['id']}
 			  AND `site` = {$in['site']}
 			LIMIT 1
