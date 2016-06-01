@@ -4,6 +4,10 @@ BETA
 Updates / Changes
 ----------------
 
+### Beta 0.7.9
+
+Fourth Ajax-function: select parent, and then add other pages as its children. This also happens on Step 3. When first selecting any page (that is not a child) as parent, you reload the page. Now you can click buttons for each page you want to add as child to the selected parent. This is done smoothly with ajax. You can undo your action too. But you cannot promote existing children into parents ... yet.
+
 ### Beta 0.7
 
 Third Ajax-function: delete. On Step 3 you can now in a very simple and fast way delete pages. You can also undo this as we flag the delete in the database and are not really deleting the data. Also made huge UX improvements to the Split-function. And a lot of other minor adjustments, improvements, and bug fixes. Like better sorting of page lists.
