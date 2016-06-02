@@ -160,7 +160,7 @@
 	{
 
 ?>
-		<table id="pageTable">
+		<table>
 			<thead>
 				<th>Sort</th>
 				<th>-</th>
@@ -169,7 +169,7 @@
 				<th>URL</th>
 				<th>-</th>
 			</thead>
-			<tbody>
+			<tbody id="pageTableBody">
 
 <?php
 
@@ -226,6 +226,21 @@
 ?>
 			</tbody>
 		</table>
+
+		<div id="pageTable2">
+			<div class="rows">
+				<span class="move-handle">Drag me 1</span>
+				<span>Don't drag me 1</span>
+			</div>
+			<div class="rows">
+				<span class="move-handle">Drag me 2</span>
+				<span>Don't drag me 2</span>
+			</div>
+			<div class="rows">
+				<span class="move-handle">Drag me 3</span>
+				<span>Don't drag me 3</span>
+			</div>
+		</div>
 
 		<!-- Modal -->
 		<div id="html-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

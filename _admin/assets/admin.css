@@ -475,3 +475,6 @@ td.centered .btn-danger {
 td.centered .btn {
 	margin-left: 0;
 }
+td.move-handle {
+	cursor: move;
+}

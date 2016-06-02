@@ -308,10 +308,11 @@ $(function() {
 	// Make table sortable
 	if ( $("body.migrate-step7") ) {
 		// List with handle
-		var pageTable = document.getElementById("pageTable");
+		var pageTable = document.getElementById("pageTable2");
 		var sortable = Sortable.create(pageTable, {
-			handle: '.icon-move',
+			handle: '.move-handle',
 			draggable: '.rows',
+			filter: '.btn',
 			animation: 150
 		});
 	};
