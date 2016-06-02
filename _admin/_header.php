@@ -30,6 +30,7 @@
 	<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/admin.css?v=<?php if (DEV_ENV) echo rand(); ?>" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="<?= $SYS_pageroot ?>assets/bootstrap.min.js"></script>
+	<script src="<?= $SYS_pageroot ?>assets/sortable-1.4.2-min.js"></script>
 	<script src="<?= $SYS_pageroot ?>assets/admin.js"></script>
 </head>
 <body class="<?= $SYS_script ?>">

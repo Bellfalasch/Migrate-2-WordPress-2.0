@@ -155,6 +155,7 @@ $(function() {
 	$("body.migrate-step3 table button.addChild").click( function() {
 		ajax_makePageIntoChild( $(this) );
 	});
+	
 
 	function ajax_makePageIntoChild(elem) {
 		// Extract all sent data and split it up to be sent with our post request
@@ -303,5 +304,16 @@ $(function() {
 
 		});
 	});
+
+	// Make table sortable
+	if ( $("body.migrate-step7") ) {
+		// List with handle
+		var pageTable = document.getElementById("pageTable");
+		var sortable = Sortable.create(pageTable, {
+			handle: '.icon-move',
+			draggable: '.rows',
+			animation: 150
+		});
+	};
 
 });

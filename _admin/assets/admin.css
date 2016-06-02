@@ -465,3 +465,13 @@ textarea.code {
 	width: 98%;
 	height: 500px;
 }
+td.centered {
+	text-align: center;
+	padding-left: 0;
+}
+td.centered .btn-danger {
+	float: none;
+}
+td.centered .btn {
+	margin-left: 0;
+}

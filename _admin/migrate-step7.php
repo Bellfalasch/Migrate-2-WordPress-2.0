@@ -160,8 +160,9 @@
 	{
 
 ?>
-		<table>
+		<table id="pageTable">
 			<thead>
+				<th>Sort</th>
 				<th>-</th>
 				<th>Title</th>
 				<th>Slug</th>
@@ -174,11 +175,11 @@
 
 		while ( $row = $result->fetch_object() )
 		{
-			$addclass = "";
+			$addclass = "rows";
 
 			// Add child-class to children so you see it visually
 			if ( $row->page_parent > 0 ) {
-				$addclass = "child";
+				$addclass = " child";
 			}
 
 			// Deleted page?
@@ -201,7 +202,9 @@
 				$title = "<em>- Unknown -</em>";
 			}
 
-			echo "<td><a href=\"" . $SYS_pageroot . "migrate-step7-htmleditor.php?id=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-title=\"" . $title . "\" data-toggle=\"modal\" data-target=\"#html-modal\">Edit HTML</a></td>";
+			echo "<td class=\"centered move-handle\"><span class=\"icon-move\" aria-hidden=\"true\"></span></td>";
+
+			echo "<td class=\"centered\"><a href=\"" . $SYS_pageroot . "migrate-step7-htmleditor.php?id=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-title=\"" . $title . "\" data-toggle=\"modal\" data-target=\"#html-modal\">Edit HTML</a></td>";
 
 			echo "<td>" . $title . "</td>";
 			echo "<td>" . $row->page_slug . "</td>";
@@ -216,7 +219,7 @@
 			}
 
 			echo "</td>";
-			echo "<td><a href=\"" . $SYS_pageself . "?del=" . $row->id . "\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
+			echo "<td class=\"centered\"><a href=\"" . $SYS_pageself . "?del=" . $row->id . "\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
 			echo '</tr>';
 		}
 
