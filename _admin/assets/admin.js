@@ -308,7 +308,7 @@ $(function() {
 	// Make table sortable
 	if ( $("body.migrate-step7") ) {
 		// List with handle
-		var pageTable = document.getElementById("pageTable2");
+		var pageTable = document.getElementById("pageTableBody");
 		var sortable = Sortable.create(pageTable, {
 			handle: '.move-handle',
 			draggable: '.rows',
