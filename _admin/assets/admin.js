@@ -191,8 +191,12 @@ $(function() {
 					elem.attr("data-makeparent-undo", "true");
 				} else {
 					container.removeClass("child");
-					elem.text("Add child");
-					elem.attr("data-makeparent-undo", "false");
+					if (parent_id > 0) {
+						elem.text("Add child");
+						elem.attr("data-makeparent-undo", "false");
+					} else {
+						elem.hide();
+					}
 				}
 
 			},

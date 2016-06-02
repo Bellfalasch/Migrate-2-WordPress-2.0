@@ -25,10 +25,10 @@
 		// If no errors:
 		if (empty($SYS_errors)) {
 
-			// Fetch parent page data (so we know it exists)
+			// Fetch child page data (so we know it exists)
 			$result = db_getPageTitleSlug( array(
 							'site' => $PAGE_siteid,
-							'id' => $parent
+							'id' => $child
 						) );
 
 			if (!is_null($result))

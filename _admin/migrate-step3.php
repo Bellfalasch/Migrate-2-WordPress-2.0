@@ -537,7 +537,7 @@ if ( $split_id === 0 ) {
 				if ($row->page_parent == 0 ) {
 					echo "<td><a href=\"" . $SYS_pageself . "?parent=" . $row->id . "#pageTable\" class=\"btn btn-mini btn-primary\">Parent</a></td>";
 				} else {
-					echo "<td>-</td>";
+					echo "<td><button data-makeparent-undo=\"true\" data-makeparent-parent=\"0\" data-makeparent-child=\"" . $row->id . "\" class=\"btn btn-mini addChild\">Un-child</button></td>";
 				}
 			}
 
