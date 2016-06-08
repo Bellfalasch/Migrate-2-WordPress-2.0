@@ -477,4 +477,7 @@ td.centered .btn {
 }
 td.move-handle {
 	cursor: move;
+	cursor: -webkit-grabbing;
+	text-align: center;
+	padding-left: 0;
 }

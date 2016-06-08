@@ -202,7 +202,7 @@
 				$title = "<em>- Unknown -</em>";
 			}
 
-			echo "<td class=\"centered move-handle\"><span class=\"icon-move\" aria-hidden=\"true\"></span></td>";
+			echo "<td class=\"move-handle\"><span class=\"icon-move\" aria-hidden=\"true\"></span></td>";
 
 			echo "<td class=\"centered\"><a href=\"" . $SYS_pageroot . "migrate-step7-htmleditor.php?id=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-title=\"" . $title . "\" data-toggle=\"modal\" data-target=\"#html-modal\">Edit HTML</a></td>";
 
