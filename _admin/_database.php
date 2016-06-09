@@ -106,13 +106,14 @@
 	// Also used in Step 7
 	function db_getPagesFromSite($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `title`, `page`, `crawled`, `page_slug`, `page_parent`, `deleted`
+			SELECT `id`, `title`, `page`, `crawled`, `page_slug`, `page_parent`, `page_sort`, `deleted`
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			ORDER BY
 				CASE 
 				WHEN `page_parent` = 0
-				THEN `id`
+				THEN
+					CASE WHEN `page_sort` = 0 THEN `id` ELSE `page_sort` END
 				ELSE `page_parent`
 				END
 			ASC, `id` ASC
@@ -230,6 +231,23 @@
 				0,
 				{$in['slug']}
 			)
+		");
+	}
+
+	function db_getParentPagesFromSite($in) { cleanup($in);
+		return db_MAIN("
+			SELECT `id`, `title`, `page`, `crawled`, `page_slug`, `page_parent`, `page_sort`, `deleted`
+			FROM `migrate_content`
+			WHERE `site` = {$in['site']}
+			AND `page_parent` = 0
+			ORDER BY
+				CASE 
+				WHEN `page_parent` = 0
+				THEN
+					CASE WHEN `page_sort` = 0 THEN `id` ELSE `page_sort` END
+				ELSE `page_parent`
+				END
+			ASC, `id` ASC
 		");
 	}
 

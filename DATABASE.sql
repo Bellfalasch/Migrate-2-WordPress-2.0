@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `migrate_content` (
   `ready` longtext DEFAULT NULL,
   `page_slug` varchar(50) DEFAULT NULL,
   `page_parent` int(11) NOT NULL '0',
+  `page_sort` int(11) NOT NULL '0',
   `deleted` tinyint NOT NULL DEFAULT '0'
   PRIMARY KEY (`id`),
   INDEX (`page`),

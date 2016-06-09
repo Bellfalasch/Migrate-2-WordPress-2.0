@@ -170,7 +170,11 @@
 // List pages
 // ****************************************************************************
 
-	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
+	if (!$sortOn) {
+		$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
+	} else {
+		$result = db_getParentPagesFromSite( array('site'=>$PAGE_siteid) );
+	}
 
 	if ( isset( $result ) )
 	{
