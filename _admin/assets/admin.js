@@ -350,7 +350,6 @@ $(function() {
 	// TODO: Store this data thru ajax. Send a list of all the ID's in the order they are now, split it and store it server-side.
 	$("body.migrate-step7 .saveOrder").click( function(e) {
 		e.preventDefault();
-
 		console.log("*** Let's save! *** (work in progress)");
 
 		// 1. Collect all the ID's, in order
@@ -367,22 +366,18 @@ $(function() {
 
 		// 3. Send ajax call with string, handle response
 		console.log("** Step 3");
-
-		console.log(callUrl);
 		var callUrl = $(".input_ajaxurl_savesort").val(); // A hidden input field from the calling html page (needed some PHP parsing of the URL)
+		console.log(callUrl);
 
 		$.ajax({
 			type: "POST",
 			url: callUrl,
 			data: {
-				"parent": parent_id,
-				"child": child_id,
-				"undo": undo
+				"order": orderString
 			},
 			success: function(html) {
-				console.log("parent_id: " + parent_id);
-				console.log("child_id: " + child_id);
-
+				console.log("Data stored!!!");
+/*
 				if ( undo === "false" ) {
 					container.addClass("child");
 					// Toggle button behaviour now that it is a child
@@ -397,7 +392,7 @@ $(function() {
 						elem.hide();
 					}
 				}
-
+*/
 			},
 			error: function(html) {
 				container.addClass("error");
