@@ -18,8 +18,10 @@
 
 			// TODO:
 			// Split array
+			$orderArray = explode('|', $order);
 			// Loop through each element in array
 			// Make sure with regex it is only numbers, else skip
+			$sanitizedValues = array_filter($orderArray, 'ctype_digit');
 			// If valid, build an SQL
 			// In the end, if SQL-string is populated, send it to database
 
