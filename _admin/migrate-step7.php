@@ -27,6 +27,17 @@
 <?php
 
 	////////////////////////////////////////////////////////
+	// Handle "sort mode"
+
+	$sortOn = qsGet("sort");
+	if ( $sortOn === "on" ) {
+		$sortOn = true;	
+	} else {
+		$sortOn = false;
+	}
+
+
+	////////////////////////////////////////////////////////
 	// HANDLE POST AND SAVE CHANGES
 
 	if (ISPOST)
@@ -80,13 +91,6 @@
 				Hit the big "Sort" button to activate sorting of pages. This is easy and intuitive, just drag and drop all pages into the order you'd like. To make sorting easier for you we hide all other buttons. Just remember to hit the "Save new order"-button when done sorting so that it all is saved into the database before next step.
 			</p>
 
-			<div class="alert alert-block alert-success">
-				<h4>No Save-button!?</h4>
-				<p>
-					When you're ready with your page structure, manually <a href="<?= $SYS_pageroot ?>migrate-step8.php">go to Step 8</a>.
-				</p>
-			</div>
-
 		</div>
 
 		<div class="span4 offset1">
@@ -116,7 +120,7 @@
 	</div>
 	<div class="row">
 		<div class="span12 centered">
-			<a href="#" class="btn btn-large btn-info">Activate "Sort mode"</a>
+			<a href="<?= $SYS_pageself ?>?sort=on" class="btn btn-large btn-info">Activate "Sort mode"</a>
 		</div>
 	</div>
 
@@ -234,21 +238,6 @@
 			</tbody>
 		</table>
 
-		<div id="pageTable2">
-			<div class="rows">
-				<span class="move-handle">Drag me 1</span>
-				<span>Don't drag me 1</span>
-			</div>
-			<div class="rows">
-				<span class="move-handle">Drag me 2</span>
-				<span>Don't drag me 2</span>
-			</div>
-			<div class="rows">
-				<span class="move-handle">Drag me 3</span>
-				<span>Don't drag me 3</span>
-			</div>
-		</div>
-
 		<!-- Modal -->
 		<div id="html-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-header">
@@ -269,6 +258,13 @@
 	}
 
 ?>
+
+			<div class="alert alert-block alert-success">
+				<h4>No Run-button!?</h4>
+				<p>
+					When you're ready with your page structure, manually <a href="<?= $SYS_pageroot ?>migrate-step8.php">go to Step 8</a>.
+				</p>
+			</div>
 
 		</div>
 	</div>
