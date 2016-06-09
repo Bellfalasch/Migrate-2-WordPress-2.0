@@ -96,7 +96,7 @@
 					<a href="<?= $SYS_pageself ?>?sort=on" class="btn btn-large btn-info">Activate "Sort mode"</a>
 				<?php } ?>
 				<?php if ($sortOn) { ?>
-					<a href="<?= $SYS_pageself ?>" class="btn btn-primary btn-large">Store new order</a>
+					<a href="<?= $SYS_pageself ?>" class="btn btn-primary btn-large saveOrder">Store new order</a>
 					<a href="<?= $SYS_pageself ?>" class="btn btn-large">Cancel "sort mode"</a>
 				<?php } ?>
 			</div>
@@ -268,6 +268,8 @@
 
 	}
 
+	if (!$sortOn) {
+
 ?>
 
 			<div class="alert alert-block alert-success">
@@ -276,6 +278,15 @@
 					When you're ready with your page structure, manually <a href="<?= $SYS_pageroot ?>migrate-step8.php">go to Step 8</a>.
 				</p>
 			</div>
+
+		<?php } else { ?>
+
+			<div class="centered">
+				<a href="<?= $SYS_pageself ?>" class="btn btn-primary btn-large saveOrder">Store new order</a>
+				<a href="<?= $SYS_pageself ?>" class="btn btn-large">Cancel "sort mode"</a>
+			</div>
+
+		<?php } ?>
 
 		</div>
 	</div>
