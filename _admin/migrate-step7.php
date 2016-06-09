@@ -180,6 +180,9 @@
 	{
 
 ?>
+
+		<input type="hidden" class="input_ajaxurl_savesort" value="<?= $SYS_pageroot ?>migrate-step7-savesort.php" />
+
 		<table>
 			<thead>
 				<?php if ($sortOn) { ?><th>Sort</th><?php } ?>

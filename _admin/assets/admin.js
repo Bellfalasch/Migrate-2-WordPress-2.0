@@ -206,7 +206,7 @@ $(function() {
 				setTimeout( function() { container.removeClass("error"); }, 1000);
 				alert(html);
 			}
-		});	
+		});
 	}
 
 
@@ -286,7 +286,6 @@ $(function() {
 	// Destroy the contents of the modal when it closes so we can use it again on another page
 	// Why: - http://stackoverflow.com/questions/12286332/twitter-bootstrap-remote-modal-shows-same-content-everytime
 	$('#html-modal').on('hide', function () {
-
 		console.log("Modal hiding");
 
 		$form = $('#ajax-form');
@@ -366,14 +365,46 @@ $(function() {
 		var orderString = order.join('|');
 		console.log(orderString);
 
-		// 3. Send ajax call with string
+		// 3. Send ajax call with string, handle response
 		console.log("** Step 3");
 
-		// 4. Handle response (success)
-		console.log("** Step 4");
+		console.log(callUrl);
+		var callUrl = $(".input_ajaxurl_savesort").val(); // A hidden input field from the calling html page (needed some PHP parsing of the URL)
 
-		// 5. Handle response with errors, etc
-		console.log("** Step 5");
+		$.ajax({
+			type: "POST",
+			url: callUrl,
+			data: {
+				"parent": parent_id,
+				"child": child_id,
+				"undo": undo
+			},
+			success: function(html) {
+				console.log("parent_id: " + parent_id);
+				console.log("child_id: " + child_id);
+
+				if ( undo === "false" ) {
+					container.addClass("child");
+					// Toggle button behaviour now that it is a child
+					elem.text("Undo");
+					elem.attr("data-makeparent-undo", "true");
+				} else {
+					container.removeClass("child");
+					if (parent_id > 0) {
+						elem.text("Add child");
+						elem.attr("data-makeparent-undo", "false");
+					} else {
+						elem.hide();
+					}
+				}
+
+			},
+			error: function(html) {
+				container.addClass("error");
+				setTimeout( function() { container.removeClass("error"); }, 1000);
+				alert(html);
+			}
+		});
 
 		console.log("*** Done! ***");
 	});
