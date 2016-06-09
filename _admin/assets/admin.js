@@ -349,29 +349,33 @@ $(function() {
 
 	// Store the manual sorting of the table with ajax
 	// TODO: Store this data thru ajax. Send a list of all the ID's in the order they are now, split it and store it server-side.
-	$("body.migrate-step7 .saveOrder").click( function() {
-		console.log("Let's save!");
+	$("body.migrate-step7 .saveOrder").click( function(e) {
+		e.preventDefault();
+
+		console.log("*** Let's save! *** (work in progress)");
 
 		// 1. Collect all the ID's, in order
-		console.log("Step 1");
-		// Location: data-pageid on each tr
+		console.log("** Step 1");
+		var order = new Array();
+		$("#pageTableBody tr").each( function() {
+			order.push($(this).attr("data-pageid"));
+		});
 
 		// 2. Build a splittable string of them
-		console.log("Step 2");
+		console.log("** Step 2");
+		var orderString = order.join('|');
+		console.log(orderString);
 
-		// 3. Send ajax call
-		console.log("Step 3");
+		// 3. Send ajax call with string
+		console.log("** Step 3");
 
-		// 4. Send string
-		console.log("Step 4");
+		// 4. Handle response (success)
+		console.log("** Step 4");
 
-		// 5. Reseive response
-		console.log("Step 5");
+		// 5. Handle response with errors, etc
+		console.log("** Step 5");
 
-		// 6. Handle response .. and errors
-		console.log("Step 6");
-
-		console.log("Done!");
+		console.log("*** Done! ***");
 	});
 
 });
