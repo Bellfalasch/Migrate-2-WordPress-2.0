@@ -466,7 +466,6 @@ textarea.code {
 	height: 500px;
 }
 td.centered {
-	text-align: center;
 	padding-left: 0;
 }
 td.centered .btn-danger {
@@ -480,4 +479,7 @@ td.move-handle {
 	cursor: -webkit-grabbing;
 	text-align: center;
 	padding-left: 0;
+}
+.centered {
+	text-align: center;
 }

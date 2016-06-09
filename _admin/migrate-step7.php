@@ -91,30 +91,33 @@
 
 		<div class="span4 offset1">
 
-<form class="well form" action="" method="post">
+			<form class="well form" action="" method="post">
 
-			<h4>Create new Pages</h4>
-			<p>
-				Sometimes you just need a few brand new pages to import into WordPress. Just create them here.
-			</p>
+				<h4>Create new Pages</h4>
+				<p>
+					Sometimes you just need a few brand new pages to import into WordPress. Just create them here.
+				</p>
 
-			<?php
+				<?php
 
-				// This is the output area, where all the field's html should be generated for empty field's SQL inserts, and already filled in field's SQL updates.
-				// The fields data/content is generated in the upper parts of this document. Just call this function to get the html out.
+					// This is the output area, where all the field's html should be generated for empty field's SQL inserts, and already filled in field's SQL updates.
+					// The fields data/content is generated in the upper parts of this document. Just call this function to get the html out.
 
-				outputFormFields();
+					outputFormFields();
 
-			?>
+				?>
 
+				<button type="submit" class="btn btn-primary">Create Page</button>
 
-			<button type="submit" class="btn btn-primary">Create Page</button>
-
-
-</form>
+			</form>
 
 		</div>
 
+	</div>
+	<div class="row">
+		<div class="span12 centered">
+			<a href="#" class="btn btn-large btn-info">Activate "Sort mode"</a>
+		</div>
 	</div>
 
 <?php
