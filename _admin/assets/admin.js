@@ -311,15 +311,18 @@ $(function() {
 		var pageTable = document.getElementById("pageTableBody");
 		var sortable = Sortable.create(pageTable, {
 			sort: true,
+			group: 'page-list',
 			handle: '.move-handle',
 			draggable: '.rows',
 			filter: '.hidden, .btn',
 			animation: 150,
 			// Called by any change to the list (add / update / remove)
 			onSort: function (/**Event*/evt) {
-				var itemEl = evt.item;  // dragged HTMLElement
+				// TODO: open banner that sorting is not saved?
+				//var itemEl = evt.item;  // dragged HTMLElement
 				// + indexes from onEnd
 			},
+			// TODO: Totally remove entire store part here, no point since button-pres will store data in another way.
 			store: {
 				/**
 				 * Get the order of elements. Called once during initialization.
@@ -328,6 +331,7 @@ $(function() {
 				 */
 				get: function (sortable) {
 					var order = localStorage.getItem(sortable.options.group);
+					// TODO: Fetch data from server? Naah .. not important
 					return order ? order.split('|') : [];
 				},
 
@@ -342,5 +346,31 @@ $(function() {
 			}
 		});
 	};
+
+	// Store the manual sorting of the table with ajax
+	// TODO: Store this data thru ajax. Send a list of all the ID's in the order they are now, split it and store it server-side.
+	$("body.migrate-step7 .saveOrder").click( function() {
+		console.log("Let's save!");
+
+		// 1. Collect all the ID's, in order
+		console.log("Step 1");
+
+		// 2. Build a splittable string of them
+		console.log("Step 2");
+
+		// 3. Send ajax call
+		console.log("Step 3");
+
+		// 4. Send string
+		console.log("Step 4");
+
+		// 5. Reseive response
+		console.log("Step 5");
+
+		// 6. Handle response .. and errors
+		console.log("Step 6");
+
+		console.log("Done!");
+	});
 
 });
