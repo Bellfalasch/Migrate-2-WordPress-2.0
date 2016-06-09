@@ -88,11 +88,17 @@
 			</p>
 			<p>
 				<strong>Sorting:</strong>
-				Hit the big "Sort" button to activate sorting of pages. This is easy and intuitive, just drag and drop all pages into the order you'd like. To make sorting easier for you we hide all other buttons. Just remember to hit the "Save new order"-button when done sorting so that it all is saved into the database before next step.
+				Hit the big "Sort" button to activate sorting of pages. This is easy and intuitive, just drag and drop all pages into the order you'd like. To make sorting easier for you we hide all other buttons. Just remember to hit the "Store new order"-button when done sorting so that it all is saved into the database before next step.
 			</p>
 
 			<div class="centered">
-				<a href="<?= $SYS_pageself ?>?sort=on" class="btn btn-large btn-info">Activate "Sort mode"</a>
+				<?php if (!$sortOn) { ?>
+					<a href="<?= $SYS_pageself ?>?sort=on" class="btn btn-large btn-info">Activate "Sort mode"</a>
+				<?php } ?>
+				<?php if ($sortOn) { ?>
+					<a href="<?= $SYS_pageself ?>" class="btn btn-primary btn-large">Store new order</a>
+					<a href="<?= $SYS_pageself ?>" class="btn btn-large">Cancel "sort mode"</a>
+				<?php } ?>
 			</div>
 
 		</div>
