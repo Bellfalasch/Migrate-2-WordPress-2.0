@@ -10,28 +10,22 @@
 
 	if (ISPOST)
 	{
-/*
-		$PAGE_dbid = formget("id");
-		$type = urldecode( formget("type") );
-		$value = urldecode( formget("value") );
-
-		// Secure/validate data
-		if ( $type == "slug" ) {
-			$type = "slug";
-		} else {
-			$type = "title";
-		}
-
-		// Secure but allow " and ' in title
-		$value = str_replace( "\"", "&quot;", $value );
-		$value = str_replace( "'", "\'", $value );
-		$value = str_replace( "\\", "\\\\", $value );
-
+		$order = urldecode( formget("order") );
 //		pushError("Debugging");
 
 		// If no errors:
 		if (empty($SYS_errors)) {
 
+			// TODO:
+			// Split array
+			// Loop through each element in array
+			// Make sure with regex it is only numbers, else skip
+			// If valid, build an SQL
+			// In the end, if SQL-string is populated, send it to database
+
+			// Or ... should we for each page double check that it exists and then update them one and one? Very very slow though on huge sites =/ But more "perfect" in that it would handle bad data better. Low prio now that I think about it.
+
+/*
 			// Fetch page data
 			$result = db_getPageTitleSlug( array(
 							'site' => $PAGE_siteid,
@@ -81,9 +75,9 @@
 				//pushError("Couldn't find the requested page's HTML!");
 				echo "Couldn't find the page!";
 			}
+*/
 
 		}
-*/
 	}
 
 ?>
