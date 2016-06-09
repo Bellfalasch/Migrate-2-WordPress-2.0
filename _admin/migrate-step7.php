@@ -91,6 +91,10 @@
 				Hit the big "Sort" button to activate sorting of pages. This is easy and intuitive, just drag and drop all pages into the order you'd like. To make sorting easier for you we hide all other buttons. Just remember to hit the "Save new order"-button when done sorting so that it all is saved into the database before next step.
 			</p>
 
+			<div class="centered">
+				<a href="<?= $SYS_pageself ?>?sort=on" class="btn btn-large btn-info">Activate "Sort mode"</a>
+			</div>
+
 		</div>
 
 		<div class="span4 offset1">
@@ -117,11 +121,6 @@
 
 		</div>
 
-	</div>
-	<div class="row">
-		<div class="span12 centered">
-			<a href="<?= $SYS_pageself ?>?sort=on" class="btn btn-large btn-info">Activate "Sort mode"</a>
-		</div>
 	</div>
 
 <?php
@@ -173,12 +172,12 @@
 ?>
 		<table>
 			<thead>
-				<th>Sort</th>
-				<th>-</th>
+				<?php if ($sortOn) { ?><th>Sort</th><?php } ?>
+				<?php if (!$sortOn) { ?><th>-</th><?php } ?>
 				<th>Title</th>
 				<th>Slug</th>
 				<th>URL</th>
-				<th>-</th>
+				<?php if (!$sortOn) { ?><th>-</th><?php } ?>
 			</thead>
 			<tbody id="pageTableBody">
 
@@ -213,9 +212,13 @@
 				$title = "<em>- Unknown -</em>";
 			}
 
-			echo "<td class=\"move-handle\"><span class=\"icon-move\" aria-hidden=\"true\"></span></td>";
+			if ($sortOn) {
+				echo "<td class=\"move-handle\"><span class=\"icon-move\" aria-hidden=\"true\"></span></td>";
+			}
 
-			echo "<td class=\"centered\"><a href=\"" . $SYS_pageroot . "migrate-step7-htmleditor.php?id=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-title=\"" . $title . "\" data-toggle=\"modal\" data-target=\"#html-modal\">Edit HTML</a></td>";
+			if (!$sortOn) {
+				echo "<td class=\"centered\"><a href=\"" . $SYS_pageroot . "migrate-step7-htmleditor.php?id=" . $row->id . "\" class=\"btn btn-mini btn-primary\" data-title=\"" . $title . "\" data-toggle=\"modal\" data-target=\"#html-modal\">Edit HTML</a></td>";
+			}
 
 			echo "<td>" . $title . "</td>";
 			echo "<td>" . $row->page_slug . "</td>";
@@ -230,7 +233,9 @@
 			}
 
 			echo "</td>";
-			echo "<td class=\"centered\"><a href=\"" . $SYS_pageself . "?del=" . $row->id . "\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
+			if (!$sortOn) {
+				echo "<td class=\"centered\"><a href=\"" . $SYS_pageself . "?del=" . $row->id . "\" class=\"btn btn-mini btn-danger\">Delete</a></td>";
+			}
 			echo '</tr>';
 		}
 
