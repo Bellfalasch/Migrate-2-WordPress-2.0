@@ -73,7 +73,11 @@
 		<div class="span7">
 			<h2>Structure pages</h2>
 			<p>
-				Now's the chance to fine tune your pages HTML and a quick and easy way. You can also create new pages, if that's something you'd want.
+				Now's the chance to fine tune your page's HTML in a quick and easy way. You can also create new pages, if that's something you'd want. Should you regret any of the pages here you can of course also delete them.
+			</p>
+			<p>
+				<strong>Sorting:</strong>
+				Hit the big "Sort" button to activate sorting of pages. This is easy and intuitive, just drag and drop all pages into the order you'd like. To make sorting easier for you we hide all other buttons. Just remember to hit the "Save new order"-button when done sorting so that it all is saved into the database before next step.
 			</p>
 
 			<div class="alert alert-block alert-success">
