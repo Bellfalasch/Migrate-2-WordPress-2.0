@@ -354,6 +354,7 @@ $(function() {
 
 		// 1. Collect all the ID's, in order
 		console.log("Step 1");
+		// Location: data-pageid on each tr
 
 		// 2. Build a splittable string of them
 		console.log("Step 2");

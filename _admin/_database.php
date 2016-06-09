@@ -240,6 +240,7 @@
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			AND `page_parent` = 0
+			AND `deleted` = 0
 			ORDER BY
 				CASE 
 				WHEN `page_parent` = 0

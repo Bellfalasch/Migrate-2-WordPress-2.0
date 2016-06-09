@@ -207,7 +207,7 @@
 				$addclass .= " hidden";
 			}
 
-			echo "<tr";
+			echo "<tr data-pageid=\"" . $row->id . "\"";
 			if ( trim($addclass) != "" ) {
 				echo " class=\"" . trim( $addclass ) . "\"";
 			}
