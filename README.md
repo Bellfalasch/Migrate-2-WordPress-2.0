@@ -51,13 +51,16 @@ This admin is based and tested on:
 * Version 5.5.20
 * InnoDB used as engine
 
+### JavaScript
+* RubaXa's Sortable.js - version 1.4.2 - https://github.com/RubaXa/Sortable
+
 ### Bobby CMS
 * Version 0.9.2.1
 * Developed by me =)
 * https://github.com/Bellfalasch/Bobby-CMS
 * Used as included files
 
-Bobby CMS uses Bootstrap 2.3.1 (because I started the project when that was the latest and greatest, and not changed because I don't like the new flat style of Boostrap 3), TinyMCE, and jQuery 1.8.1. All included. Update/remove at own risk!
+Bobby CMS uses Bootstrap 2.3.1 (because I started the project when that was the latest and greatest, and I have not changed because I don't like the new flat style of Boostrap 3), TinyMCE, and jQuery 2.1.3. All included. Update/remove at own risk!
 
 
 Basic file structure and form-generation:
