@@ -252,6 +252,15 @@
 		");
 	}
 
+	function db_setNewPageOrder($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `page_sort` = {$in['sort']}
+			WHERE `id` = {$in['id']}
+			AND `site` = {$in['site']}
+		");
+	}
+
 	/* STEP 8 */
 	/* **************************************************************************** */
 	function db_updateContentLinks($in) { cleanup($in);
