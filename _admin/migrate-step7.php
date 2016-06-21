@@ -235,6 +235,7 @@
 
 			echo "<td>" . $title . "</td>";
 			echo "<td>" . $row->page_slug . "</td>";
+			echo "<td>" . $row->generated_path . "</td>";
 			echo "<td>";
 
 			if ( $row->crawled == 1 ) {

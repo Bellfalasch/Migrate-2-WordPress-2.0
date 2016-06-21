@@ -104,19 +104,16 @@
 		");
 	}
 	// Also used in Step 7
+	// Thx too this thread: http://forums.phpfreaks.com/topic/235439-sorting-results-with-child-under-parent-results/
 	function db_getPagesFromSite($in) { cleanup($in);
 		return db_MAIN("
-			SELECT `id`, `title`, `page`, `crawled`, `page_slug`, `page_parent`, `page_sort`, `deleted`
-			FROM `migrate_content`
-			WHERE `site` = {$in['site']}
-			ORDER BY
-				CASE 
-				WHEN `page_parent` = 0
-				THEN
-					CASE WHEN `page_sort` = 0 THEN `id` ELSE `page_sort` END
-				ELSE `page_parent`
-				END
-			ASC, `id` ASC
+			SELECT 
+			p1.`id`, p1.`title`, p1.`page`, p1.`crawled`, p1.`page_slug`, p1.`page_parent`, p1.`page_sort`, p1.`deleted`,
+			CONCAT( IF(ISNULL(p2.`id`), '', CONCAT('/', p2.`id`)), '/', p1.`id`) AS `generated_path`
+			FROM `migrate_content` p1
+			LEFT JOIN `migrate_content` p2 ON p1.`page_parent` = p2.`id`
+			WHERE p1.`site` = {$in['site']}
+			ORDER BY `generated_path`
 		");
 	}
 	// Also used in Step 7
