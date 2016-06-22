@@ -47,12 +47,17 @@
 		$slug = str_replace(',', '', $slug); // Everything else removed
 		$slug = str_replace('.', '', $slug);
 		$slug = str_replace('&', '', $slug);
+		$slug = str_replace('(', '', $slug);
+		$slug = str_replace(')', '', $slug);
+		$slug = str_replace(':', '', $slug);
+		$slug = str_replace(';', '', $slug);
 		$slug = str_replace('%', '', $slug);
 		$slug = str_replace('#', '', $slug);
 		$slug = str_replace('=', '', $slug);
 		$slug = str_replace('---', '', $slug); // FFU special
 		$slug = str_replace('\'', '', $slug);
 		$slug = str_replace('"', '', $slug);
+		$slug = str_replace('--', '-', $slug);
 		$slug = urlencode( $slug );
 		return $slug;
 	}
