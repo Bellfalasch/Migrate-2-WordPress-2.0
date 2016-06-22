@@ -5,69 +5,37 @@
 <?php require('_global.php'); ?>
 <?php
 
-	////////////////////////////////////////////////////////
-	// HANDLE POST AND SAVE CHANGES
-
 	if (ISPOST)
 	{
 		$order = urldecode( formget("order") );
 //		pushError("Debugging");
 
-		// If no errors:
 		if (empty($SYS_errors)) {
 
-			// Split array
 			$orderArray = explode('|', $order);
-			// Loop through each element in array
-			// Make sure it is only numbers, else skip
+
+			// Loop through each element in array, make sure it is only numbers, else skip ("ctype_digit" does this magic)
 			$sanitizedValues = array_filter($orderArray, 'ctype_digit');
+
 			// TODO:
-			// If valid, build an SQL
-			// In the end, if SQL-string is populated, send it to database
+			// Should we for each page double check that it exists and then update them one and one? Very very slow though on huge sites =/ But more "perfect" in that it would handle bad data better. Low prio now that I think about it.
 
-			// Or ... should we for each page double check that it exists and then update them one and one? Very very slow though on huge sites =/ But more "perfect" in that it would handle bad data better. Low prio now that I think about it.
+			for ($i = 0; $i < count($sanitizedValues); $i++) { 
 
-/*
-			// Fetch page data
-			$result = db_getPageTitleSlug( array(
-							'site' => $PAGE_siteid,
-							'id' => $PAGE_dbid
+				$newSort = $i + 1;
+
+				$result = db_setNewPageOrder( array(
+							'id' => $sanitizedValues[$i],
+							'sort' => $newSort,
+							'site' => $PAGE_siteid
 						) );
 
-			// If anything was found, put it into pur PAGE_form
-			if (!is_null($result))
-			{
-				$row = $result->fetch_object();
-
-				$slug = $row->page_slug;
-				$title = $row->title;
-				$crawled = $row->crawled; // Might use in future to also update/set URL (but why would we need that?)
-*/
-				// Call function in "_database.php" that does the db-handling, send in an array with data
-				for ($i = 0; $i < count($sanitizedValues); $i++) { 
-
-					$newSort = $i + 1;
-
-					$result = db_setNewPageOrder( array(
-								'id' => $sanitizedValues[$i],
-								'sort' => $newSort,
-								'site' => $PAGE_siteid
-							) );
-					// This is the result from the db-handling in my files.
-					// (On update they return -1 on error, and 0 on "no new text added, but the SQL worked", and > 0 for the updated posts id.)
-					if ($result >= 0) {
-						echo "Page ID " . $sanitizedValues[$i] . " got sort value " . $newSort . "\n";
-					} else {
-						echo "Couldn't save!\n";
-					}
+				if ($result >= 0) {
+					echo "Page ID " . $sanitizedValues[$i] . " got sort value " . $newSort . "\n";
+				} else {
+					echo "Couldn't save!\n";
 				}
-
-/*
-			} else {
-				//pushError("Couldn't find the requested page's HTML!");
-				echo "Couldn't find the page!";
 			}
-*/
 
 		}
 	}
