@@ -4,6 +4,10 @@ BETA
 Updates / Changes
 ----------------
 
+### Beta 0.8
+
+Finally we have sorting of pages (only parents). This is a Step 7 functionality. You hit a button and can then drag and drop to reorder the pages. When pressing the "save" button, an ajax call will store the pages in the background and then redirect you back. This sort order is respected in both step 3 and 7 when listing pages. This is yet another pretty huge function that makes great improvements to this project. We use RubaXa's Sortable.js to get this type of functionality.
+
 ### Beta 0.7.9
 
 Fourth Ajax-function: select parent, and then add other pages as its children. This also happens on Step 3. When first selecting any page (that is not a child) as parent, you reload the page. Now you can click buttons for each page you want to add as child to the selected parent. This is done smoothly with ajax. You can undo your action too. But you cannot promote existing children into parents ... yet.
