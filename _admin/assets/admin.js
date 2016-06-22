@@ -320,37 +320,15 @@ $(function() {
 				// TODO: open banner that sorting is not saved?
 				//var itemEl = evt.item;  // dragged HTMLElement
 				// + indexes from onEnd
-			},
-			// TODO: Totally remove entire store part here, no point since button-pres will store data in another way.
-			store: {
-				/**
-				 * Get the order of elements. Called once during initialization.
-				 * @param   {Sortable}  sortable
-				 * @returns {Array}
-				 */
-				get: function (sortable) {
-					var order = localStorage.getItem(sortable.options.group);
-					// TODO: Fetch data from server? Naah .. not important
-					return order ? order.split('|') : [];
-				},
-
-				/**
-				 * Save the order of elements. Called onEnd (when the item is dropped).
-				 * @param {Sortable}  sortable
-				 */
-				set: function (sortable) {
-					var order = sortable.toArray();
-					localStorage.setItem(sortable.options.group, order.join('|'));
-				}
 			}
 		});
 	};
 
 	// Store the manual sorting of the table with ajax
-	// TODO: Store this data thru ajax. Send a list of all the ID's in the order they are now, split it and store it server-side.
+	// Sends a list of all the ID's in the order they are now, split it and store it server-side.
 	$("body.migrate-step7 .saveOrder").click( function(e) {
 		e.preventDefault();
-		console.log("*** Let's save! *** (work in progress)");
+		console.log("*** Let's save! ***");
 
 		// 1. Collect all the ID's, in order
 		console.log("** Step 1");
@@ -377,22 +355,7 @@ $(function() {
 			},
 			success: function(html) {
 				console.log("Data stored!!!");
-/*
-				if ( undo === "false" ) {
-					container.addClass("child");
-					// Toggle button behaviour now that it is a child
-					elem.text("Undo");
-					elem.attr("data-makeparent-undo", "true");
-				} else {
-					container.removeClass("child");
-					if (parent_id > 0) {
-						elem.text("Add child");
-						elem.attr("data-makeparent-undo", "false");
-					} else {
-						elem.hide();
-					}
-				}
-*/
+				window.location.replace( $(".input_ajaxurl_closesort").val() );;
 			},
 			error: function(html) {
 				container.addClass("error");
