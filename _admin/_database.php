@@ -105,11 +105,31 @@
 	}
 	// Also used in Step 7
 	// Thx too this thread: http://forums.phpfreaks.com/topic/235439-sorting-results-with-child-under-parent-results/
+	// Tricky stuff here, you need to treat all ID's as strings, concatanate them, but start with current page's sort id, or find parent's sort id. Eventually you have a sortable string that outlines it all perfectly.
 	function db_getPagesFromSite($in) { cleanup($in);
 		return db_MAIN("
 			SELECT 
-			p1.`id`, p1.`title`, p1.`page`, p1.`crawled`, p1.`page_slug`, p1.`page_parent`, p1.`page_sort`, p1.`deleted`,
-			CONCAT( IF(ISNULL(p2.`id`), '', CONCAT('/', p2.`id`)), '/', p1.`id`) AS `generated_path`
+			p1.`id`, p2.`id` AS pid2, p1.`title`, p1.`page`, p1.`crawled`, p1.`page_slug`, p1.`page_parent`, p1.`page_sort`, p1.`deleted`,
+			CONCAT(
+				IF(
+					ISNULL(p2.`id`),
+					CONCAT(
+						LPAD(p1.`page_sort`,3,'0'),
+						'_'
+					),
+					CONCAT(
+						LPAD(p2.`page_sort`,3,'0'),
+						'_'
+					)
+				),
+				IF(
+					ISNULL(p2.`id`),
+					'',
+					CONCAT('/', p2.`id`)
+				),
+				'/',
+				p1.`id`
+			) AS `generated_path`
 			FROM `migrate_content` p1
 			LEFT JOIN `migrate_content` p2 ON p1.`page_parent` = p2.`id`
 			WHERE p1.`site` = {$in['site']}
