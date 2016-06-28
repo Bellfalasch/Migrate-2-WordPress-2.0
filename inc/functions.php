@@ -44,6 +44,7 @@
 		$slug = str_replace('ö', 'o', $slug);
 		$slug = str_replace('ø', 'o', $slug);
 		$slug = str_replace(' ', '-', $slug); // Space to dash
+		$slug = str_replace('/', '-', $slug);
 		$slug = str_replace(',', '', $slug); // Everything else removed
 		$slug = str_replace('.', '', $slug);
 		$slug = str_replace('&', '', $slug);
