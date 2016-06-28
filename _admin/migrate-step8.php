@@ -62,66 +62,16 @@
 						$content = str_replace('<a href="', '<a class="fix" href="', $content);
 					}
 
-//					$getWP = db_getPageFromWordpress($wp_table, $row->wp_postid);
+					// Add the review page flag
+					if ( formGet("flag") === "yes" ) {
 
-//					if (!is_null($getWP)) {
-/*
-						// Update all links
-						$newlink = $row->page_slug;
-						$oldlink = $row->page;
-
-						if ($newlink != "" && !is_null($newlink))
-						{
-
-							$mapparArr = explode('/', $oldlink);
-							$fil = $mapparArr[count($mapparArr) - 1];
-							//$mapp = $mapparArr[count($mapparArr) - 2];
-
-							// Re-build the full new URL for the page
-							$separator = "/";
-							if ( mb_substr($newlink,1) == "/" || mb_substr($PAGE_sitenewurl,-1) ) {
-								$separator = "";
-							}
-							$newlink = $PAGE_sitenewurl . $separator . $newlink;
-
-							// Content with links that has the class="fix" added should get that removed now
-							if ( formGet("fix") === "yes" ) {
-								$content = str_replace( " class=\"fix\" href=\"" . $fil, " href=\"" . $newlink, $content );
-							}
-
-							// Replace all the old href URLs with the new one in the current text
-							$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content, $counter );
-
-							// This will turn out bad on WP folder navigation, we need full root linking!
-							//$newlink = str_replace( $PAGE_sitenewurl,'',$newlink);
-							//str_replace( $PAGE_sitenewurl, "/", $newlink )
-
-							echo "<strong>Changed links from</strong> \"" . $fil . "\" <strong>to</strong> \"" . $newlink . "\" - ";
-
-//							echo "<span class=\"badge badge-success\">" . $counter . "</span>";
-							echo "<br />";
-
-						}
-						// End link updater
-*/
-						// Add the review page flag
-						if ( formGet("flag") === "yes" ) {
-
-							$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
-						}
-
-						// Add the page separator?
-						// TODO: Make smarter ... or move?
-						if ( formGet("separator") === "yes" ) {
-
-							$content .= "<hr /><hr /><hr />";
-						}
-
+						$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
+					}
 
 //						echo "<p>";
-						echo "<strong>Updating:</strong> \"<span class=\"text-info\">" . str_replace( $PAGE_siteurl, "/", $row->page ) . "</span>\"";
+					echo "<strong>Updating:</strong> \"<span class=\"text-info\">" . str_replace( $PAGE_siteurl, "/", $row->page ) . "</span>\"";
 //						echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $newlink ) . "\"";
-						echo " <span class=\"label label-success\">OK</span>";
+					echo " <span class=\"label label-success\">OK</span>";
 //						echo "</p>";
 //						echo "<br />";
 
@@ -269,11 +219,6 @@
 				<input type="checkbox" name="fix" value="yes"<?php if ( formGet('fix') === "yes" ) { ?> checked="checked"<?php } ?> />
 				Add the class "fix" to links and "imgfix" to images inside content (easily spot them in admin and on site if you style them)
 				<span class="help-block">The class on links is removed on all links we can manage to update to the new correct links automatically.</span>
-			</label>
-			<label>
-				<input type="checkbox" name="separator" value="yes"<?php if ( formGet('separator') === "yes" ) { ?> checked="checked"<?php } ?> />
-				When pages get smashed together in one WP-page, add a separator?
-				<span class="help-block">Without this, existing content in WordPress will be removed!</span>
 			</label>
 			<label>
 				<input type="checkbox" name="flag" value="yes"<?php if ( formGet('flag') === "yes" ) { ?> checked="checked"<?php } ?> />
