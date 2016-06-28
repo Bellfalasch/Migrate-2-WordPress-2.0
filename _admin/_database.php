@@ -207,6 +207,7 @@
 			FROM `migrate_content`
 			WHERE `site` = {$in['site']}
 			  AND `deleted` = 0
+			  AND `content` IS NOT NULL
 			ORDER BY `page` ASC
 		");
 	}
