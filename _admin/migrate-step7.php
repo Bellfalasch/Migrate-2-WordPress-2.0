@@ -154,7 +154,8 @@
 
 		$del = db_delPage( array(
 					'id' => $del_id,
-					'site' => $PAGE_siteid
+					'site' => $PAGE_siteid,
+					'deleted' => 1
 				) );
 
 		if ($del >= 0) {
