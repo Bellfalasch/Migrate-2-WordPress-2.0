@@ -13,13 +13,135 @@
 <?php include('_header.php'); ?>
 
 
+	<div class="row">
+		<div class="span12">
+
+			<h3>Crawling / scraping</h3>
+			<p>
+				What we'll do here is go to your start page (the one entered on the Project page) and find any
+				link we can identify. We add all these links to a list of items to crawl. After the first page
+				is crawled we go to the first link in the list we created. Here we do the same thing as before,
+				we find all valid links on that page too but we only add it to the list if it's not already there.
+				This way we never crawl a page twice! After all the links in the list have been crawled we're
+				done here.
+			</p>
+		</div>
+	</div>
+
 	<?php
 		outputErrors($SYS_errors);
 	?>
 
+	<form class="well form" action="" method="post">
+
+		<div class="row">
+			<div class="span11">
+
+				<p>
+					The crawler will find any links on the URL you've set up on the settings page "Project" for this Project. Only valid links
+					that are located in the same folder/root as the URL you gave will be fetched. After the first page is crawled, the crawler will
+					continue to follow every link it can find.
+				</p>
+				<p>
+					We will crawl <strong><?= $PAGE_siteurl ?></strong> for you and fetch all unique links there.
+				</p>
+
+				<div class="row">
+					<div class="span5">
+						<h4>Fetch these filetypes</h4>
+
+						<?php
+							// Valid file endings to crawl
+							$optionArray = array("aspx","asp","htm","html","php");
+							if (isset($_POST['filetype'])) {
+								$optionArray = $_POST['filetype'];
+							}
+						?>
+						<label><input type="checkbox" name="filetype[]" value="aspx"<?php if (in_array("aspx",$optionArray)) { ?> checked="checked"<?php } ?> /> aspx</label>
+						<label><input type="checkbox" name="filetype[]" value="asp"<?php if (in_array("asp",$optionArray)) { ?> checked="checked"<?php } ?> /> asp</label>
+						<label><input type="checkbox" name="filetype[]" value="html"<?php if (in_array("html",$optionArray)) { ?> checked="checked"<?php } ?> /> html</label>
+						<label><input type="checkbox" name="filetype[]" value="htm"<?php if (in_array("htm",$optionArray)) { ?> checked="checked"<?php } ?> /> htm</label>
+						<label><input type="checkbox" name="filetype[]" value="php"<?php if (in_array("php",$optionArray)) { ?> checked="checked"<?php } ?> /> php</label>
+					</div>
+
+					<div class="span5 offset1">
+						<h4>Perform HTTP-status check</h4>
+						<label><input type="checkbox" name="header" value="yes"<?php if (isset($_POST['header'])) { ?> checked="checked"<?php } ?> /> Yes! (skip all pages giving errors)</label>
+
+						<br />
+						<h4>Debug-mode</h4>
+						<label>
+							<input type="checkbox" name="debug" value="yes"<?php if (isset($_POST['debug'])) { ?> checked="checked"<?php } ?> />
+							Active (output extra debug-information during crawl)
+						</label>
+					</div>
+				</div>
+
+				<p class="text-error">
+					Crawling of a website can take a very long time, depending on how many pages and links it has.
+				</p>
+
+				<input type="submit" name="save_crawl" value="Run crawl" class="btn btn-primary" />
+
+				<input type="submit" name="save_crawl" value="Test crawl" class="btn" />
+
+			</div>
+		</div>
+
+	</form>
+
+<?php if (ISPOST) { ?>
+
+	<h3>Legend</h3>
+	<div class="row">
+		<div class="span4">
+
+			<h4>Requesting a page:</h4>
+			<p>
+				<span class="label label-success">OK</span> - A link to a valid page has been successfully crawled.
+			</p>
+			<p>
+				<span class="label label-important">HTTP ERROR</span> - The URL to be crawled didn't give a valid response,
+				so it has been skipped. You'd better check this issue up manually.
+			</p>
+	
+		</div>
+		<div class="span4">
+
+			<h4>Found links:</h4>
+			<p>
+				<span class="label label-info">Added</span> - Found a new link, it's added to the list of
+				pages/links we will collect later.
+			</p>
+			<p>
+				<span class="label">Skipped</span> - This link is already crawled, it will not be
+				crawled again.
+			</p>
+			<p>
+				<span class="label">Not a page</span> - This link is not a page with content (images or something similar), it will not be
+				crawled.
+			</p>
+
+		</div>
+		<div class="span4">
+
+			<h4>Storing HTML:</h4>
+			<p>
+				<span class="label label-success">Saved</span> - All the found links have been crawled
+				and the html saved to your database.
+			</p>
+			<p>
+				<span class="label label-important">Not saved</span> - All the found links have been crawled,
+				but none of them have been saved to your database. Click the "Run crawl"-button instead to
+				save your data (existing data will be replaced!).
+			</p>
+		</div>
+	</div>
+
+<?php } ?>
 
 	<div class="row">
-		<div class="span7">
+		<div class="span12">
 
 <?php
 
@@ -503,113 +625,10 @@ function getsite($url)
 	}
 
 ?>
-		</div>
 
-		<div class="span4 offset1">
-
-			<h3>Crawling / scraping</h3>
-			<p>
-				What we'll do here is go to your start page (the one entered on the Project page) and find any
-				link we can identify. We add all these links to a list of items to crawl. After the first page
-				is crawled we go to the first link in the list we created. Here we do the same thing as before,
-				we find all valid links on that page too but we only add it to the list if it's not already there.
-				This way we never crawl a page twice! After all the links in the list have been crawled we're
-				done here.
-			</p>
-
-			<h3>Legend</h3>
-			<h4>Requesting a page:</h4>
-			<p>
-				<span class="label label-success">OK</span> - A link to a valid page has been successfully crawled.
-			</p>
-			<p>
-				<span class="label label-important">HTTP ERROR</span> - The URL to be crawled didn't give a valid response,
-				so it has been skipped. You'd better check this issue up manually.
-			</p>
-			<h4>Found links:</h4>
-			<p>
-				<span class="label label-info">Added</span> - Found a new link, it's added to the list of
-				pages/links we will collect later.
-			</p>
-			<p>
-				<span class="label">Skipped</span> - This link is already crawled, it will not be
-				crawled again.
-			</p>
-			<p>
-				<span class="label">Not a page</span> - This link is not a page with content (images or something similar), it will not be
-				crawled.
-			</p>
-			<h4>Storing HTML:</h4>
-			<p>
-				<span class="label label-success">Saved</span> - All the found links have been crawled
-				and the html saved to your database.
-			</p>
-			<p>
-				<span class="label label-important">Not saved</span> - All the found links have been crawled,
-				but none of them have been saved to your database. Click the "Run crawl"-button instead to
-				save your data (existing data will be replaced!).
-			</p>
-		</div>
-	</div>
-
-
-<form class="well form" action="" method="post">
-
-	<div class="row">
-		<div class="span11">
-
-			<p>
-				The crawler will find any links on the URL you've set up on the settings page "Project" for this Project. Only valid links
-				that are located in the same folder/root as the URL you gave will be fetched. After the first page is crawled, the crawler will
-				continue to follow every link it can find.
-			</p>
-			<p>
-				We will crawl <strong><?= $PAGE_siteurl ?></strong> for you and fetch all unique links there.
-			</p>
-
-			<div class="row">
-				<div class="span5">
-					<h4>Fetch these filetypes</h4>
-
-					<?php
-						// Valid file endings to crawl
-						$optionArray = array("aspx","asp","htm","html","php");
-						if (isset($_POST['filetype'])) {
-							$optionArray = $_POST['filetype'];
-						}
-					?>
-					<label><input type="checkbox" name="filetype[]" value="aspx"<?php if (in_array("aspx",$optionArray)) { ?> checked="checked"<?php } ?> /> aspx</label>
-					<label><input type="checkbox" name="filetype[]" value="asp"<?php if (in_array("asp",$optionArray)) { ?> checked="checked"<?php } ?> /> asp</label>
-					<label><input type="checkbox" name="filetype[]" value="html"<?php if (in_array("html",$optionArray)) { ?> checked="checked"<?php } ?> /> html</label>
-					<label><input type="checkbox" name="filetype[]" value="htm"<?php if (in_array("htm",$optionArray)) { ?> checked="checked"<?php } ?> /> htm</label>
-					<label><input type="checkbox" name="filetype[]" value="php"<?php if (in_array("php",$optionArray)) { ?> checked="checked"<?php } ?> /> php</label>
-				</div>
-
-				<div class="span5 offset1">
-					<h4>Perform HTTP-status check</h4>
-					<label><input type="checkbox" name="header" value="yes"<?php if (isset($_POST['header'])) { ?> checked="checked"<?php } ?> /> Yes! (skip all pages giving errors)</label>
-
-					<br />
-					<h4>Debug-mode</h4>
-					<label>
-						<input type="checkbox" name="debug" value="yes"<?php if (isset($_POST['debug'])) { ?> checked="checked"<?php } ?> />
-						Active (output extra debug-information during crawl)
-					</label>
-				</div>
-			</div>
-
-			<p class="text-error">
-				Crawling of a website can take a very long time, depending on how many pages and links it has.
-			</p>
-
-			<input type="submit" name="save_crawl" value="Run crawl" class="btn btn-primary" />
-
-			<input type="submit" name="save_crawl" value="Test crawl" class="btn" />
 
 		</div>
 	</div>
-
-</form>
 
 
 <?php require('_footer.php'); ?>
