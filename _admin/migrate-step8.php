@@ -3,7 +3,7 @@
 	$PAGE_step  = 8;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'finalize your content before exporting it';
+	$PAGE_desc = 'some final settings before export';
 ?>
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
@@ -223,15 +223,16 @@
 			<label>
 				<input type="checkbox" name="flag" value="yes"<?php if ( formGet('flag') === "yes" ) { ?> checked="checked"<?php } ?> />
 				Add a "Text not manually checked" on top of every moved page in WordPress?
-				<span class="help-block">This helps you to keep track if you're gonna manually edit all pages when they're in WordPress</span>
+				<span class="help-block">This helps you to keep track if you're gonna manually edit all pages when they're in WordPress.</span>
 			</label>
 			<label>
 				<input type="checkbox" name="remove_img" value="yes"<?php if ( formGet('remove_img') === "yes" ) { ?> checked="checked"<?php } ?> />
 				Remove all images from the code (you'll upload them again in WordPress anyway because of re-design)?
+				<span class="help-block">Will also remove "fix"-tagged images from the first setting.</span>
 			</label>
 			<br />
 
-			<input type="submit" name="save_finalize" value="Save Finalize" class="btn btn-primary" />
+			<input type="submit" name="save_finalize" value="Run Finalize" class="btn btn-primary" />
 
 			<input type="submit" name="save_finalize" value="Test Finalize" class="btn" />
 
