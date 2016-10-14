@@ -177,6 +177,11 @@ EOT;
 
 					$stop = true;
 
+					// FFU specific: title starts with --- or === then don't publish this post
+					if ( mb_substr( $title, 0, 3) == "===" || mb_substr( $title, 0, 3) == "---" ) {
+						$stop = false;
+					}
+
 				}
 
 				if ( !$stop ) {
