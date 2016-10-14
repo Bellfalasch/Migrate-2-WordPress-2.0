@@ -17,7 +17,7 @@
 	if (ISPOST)
 	{
 
-		// Get all pages that has been connected to a Wordpress page, these will get transfered now
+		// Get all pages
 		$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
@@ -27,7 +27,7 @@
 
 				$stop = false;
 
-				// Waterfall-choose the best (cleanest) html from the database depending on which is available
+				// Waterfall-choose the best (cleanest) html from the database depending on what is available
 				if ( !is_null($row->ready) ) {
 
 					$content = $row->ready;
@@ -56,7 +56,7 @@
 
 				if ( !$stop ) {
 
-					// Tag code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
+					// Tagged code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
 					if ( formGet("fix") === "yes" ) {
 						$content = str_replace('<img ', '<img class="imgfix" ', $content);
 						$content = str_replace('<a href="', '<a class="fix" href="', $content);
@@ -68,12 +68,9 @@
 						$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
 					}
 
-//						echo "<p>";
 					echo "<strong>Updating:</strong> \"<span class=\"text-info\">" . str_replace( $PAGE_siteurl, "/", $row->page ) . "</span>\"";
 //						echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $newlink ) . "\"";
 					echo " <span class=\"label label-success\">OK</span>";
-//						echo "</p>";
-//						echo "<br />";
 
 					// Remove all images
 					if ( formGet("remove_img") === "yes" ) {
@@ -81,25 +78,24 @@
 																								 // "i" = Match upper and lower case!
 						echo " (<strong>" . $count . "</strong> images removed.) ";
 					}
-						if (formGet("save_finalize") != "Test Finalize") {
 
-							echo " <strong>Result:</strong> <span class=\"label label-success\">Saved</span>";
+					if (formGet("save_finalize") != "Test Finalize") {
 
-							// Do some saving
-							db_setReadyCode( array(
-								'ready' => $content,
-								'id' => $row->id
-							) );
+						echo " <strong>Result:</strong> <span class=\"label label-success\">Saved</span>";
 
-						} else {
+						// Do some saving
+						db_setReadyCode( array(
+							'ready' => $content,
+							'id' => $row->id
+						) );
 
-							echo " <strong>Result:</strong> <span class=\"label label-important\">Not saved</span>";
+					} else {
 
-						}
+						echo " <strong>Result:</strong> <span class=\"label label-important\">Not saved</span>";
 
-						echo "<br />";
+					}
 
-//					}
+					echo "<br />";
 
 				}
 
