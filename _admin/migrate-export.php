@@ -206,6 +206,7 @@ EOT;
 					$id = $row->id;
 					$parent = $row->page_parent;
 					$sort = $row->page_sort;
+					if ( $sort == 0 ) { $sort = $i; } // Handle child pages
 					$status = "publish";
 
 					// FFU specific: title starts with --- or === then don't publish this post
