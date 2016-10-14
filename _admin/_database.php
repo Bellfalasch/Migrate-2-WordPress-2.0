@@ -291,7 +291,7 @@
 	// Also used in export step
 	function db_getContentDataFromSite($in) { cleanup($in);
 		return db_MAIN("
-			SELECT c.`id`, c.`page`, c.`title`, c.`crawled`, c.`content`, c.`wash`, c.`tidy`, c.`clean`, c.`ready`, c.`page_parent`, c.`page_slug`, cc.`page_slug` AS `parent_slug`
+			SELECT c.`id`, c.`page`, c.`title`, c.`crawled`, c.`content`, c.`wash`, c.`tidy`, c.`clean`, c.`ready`, c.`page_parent`, c.`page_slug`, c.`page_sort`, cc.`page_slug` AS `parent_slug`
 			FROM `migrate_content` c
 			LEFT OUTER JOIN `migrate_content` cc
 			ON c.`page_parent` = cc.`id`

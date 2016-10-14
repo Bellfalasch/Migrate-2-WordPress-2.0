@@ -112,7 +112,7 @@ EOT;
 			$XML_content = <<< EOT
 
 	<item>
-		<title>|||TITLE|||</title>
+		<title><![CDATA[|||TITLE|||]]></title>
 		<link>|||URL|||</link>
 		<pubDate>{$fn( date(DATE_RSS, $now) )}</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
@@ -205,6 +205,7 @@ EOT;
 					$slug = $row->page_slug;
 					$id = $row->id;
 					$parent = $row->page_parent;
+					$sort = $row->page_sort;
 					$status = "publish";
 
 					// FFU specific: title starts with --- or === then don't publish this post
@@ -224,7 +225,7 @@ EOT;
 					$this_content = str_replace("|||CONTENT|||", $content, $this_content);
 					$this_content = str_replace("|||ID|||",      $id,      $this_content);
 					$this_content = str_replace("|||PARENT|||",  $parent,  $this_content);
-					$this_content = str_replace("|||I|||",       $i,       $this_content);
+					$this_content = str_replace("|||I|||",       $sort,    $this_content);
 					$this_content = str_replace("|||STATUS|||",  $status,  $this_content);
 
 					$this_content = htmlspecialchars($this_content, ENT_QUOTES, "UTF-8");
