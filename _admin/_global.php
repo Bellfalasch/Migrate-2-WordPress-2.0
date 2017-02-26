@@ -111,6 +111,13 @@
 			$PAGE_sitenewurl = $row->new_url;
 			$PAGE_sitestep = $row->step;
 			$PAGE_sitename = $row->name;
+		} else {
+			// Project was deleted after it was selected, reset variables
+			$PAGE_siteurl = null;
+			$PAGE_sitenewurl = null;
+			$PAGE_sitestep = 0;
+			$PAGE_sitename = null;
+			$PAGE_siteid = 0;
 		}
 	}
 
