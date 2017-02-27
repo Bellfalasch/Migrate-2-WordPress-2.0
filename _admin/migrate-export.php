@@ -217,6 +217,13 @@ EOT;
 						$status = "draft";
 					}
 
+					// Make sure we serve WP unique titles (no matter on which level!) since it will skip duplicate titles! (facepalm)
+					// db_getDuplicateTitle($in)
+					// `title` LIKE {$in['title']}
+					// `site` = {$in['site']}
+					// `id` <> {$in['id']}
+					
+
 					// Add row for the SQL-redirect statement we'll add att the end so you can redirect old page URL's to the correct new ones.
 					if ( $row->crawled ) {
 						array_push( $crawled, "(" . $PAGE_siteid . ", '" . $row->page . "', '" . $newlink . "')" );

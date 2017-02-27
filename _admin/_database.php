@@ -309,6 +309,19 @@
 		");
 	}
 
+	/* EXPORT */
+	/* **************************************************************************** */
+	function db_getDuplicateTitle($in) { cleanup($in);
+		return db_MAIN("
+			SELECT `id`, `title`
+			FROM `migrate_content`
+			WHERE `title` LIKE {$in['title']}
+			AND `site` = {$in['site']}
+			AND `id` <> {$in['id']}
+			LIMIT 1
+		");
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// PROJECTS
