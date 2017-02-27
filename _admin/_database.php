@@ -318,6 +318,7 @@
 			WHERE `title` LIKE {$in['title']}
 			AND `site` = {$in['site']}
 			AND `id` <> {$in['id']}
+			AND `deleted` = 0
 			LIMIT 1
 		");
 	}
