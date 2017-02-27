@@ -13,10 +13,8 @@
 // The actual code
 // ****************************************************************************
 
-	if (ISPOST)
-	{
+	if (ISPOST) {
 
-		// Get all pages that has been connected to a Wordpress page, these will get transfered now
 		$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
