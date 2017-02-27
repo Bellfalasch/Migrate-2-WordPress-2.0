@@ -218,27 +218,16 @@ EOT;
 					}
 
 					// Make sure we serve WP unique titles (no matter on which level!) since it will skip duplicate titles! (facepalm)
-					$foundUniqueTitle = false;
-					$u = 1;
-					while (!$foundUniqueTitle) {
-						$newTitle = $title;
-						$newId = $id;
-						$duplicateLocator = db_getDuplicateTitle(array(
-							'id' => $newId,
-							'title' => $newTitle,
-							'site' => $PAGE_siteid
-						));
-
-						if (!is_null($duplicateLocator))
-						{
-							$u++;
-							$rowX = $duplicateLocator->fetch_object();
-							$newId = $rowX->id;
-							$newTitle = $rowX->title;
-							$title = $newTitle . ' ' . $u;
-						} else {
-							$foundUniqueTitle = true;
-						}
+					$duplicateLocator = db_getDuplicateTitle(array(
+						'id' => $id,
+						'title' => $title,
+						'site' => $PAGE_siteid
+					));
+					if (!is_null($duplicateLocator))
+					{
+						//$rowX = $duplicateLocator->fetch_object();
+						//$newId = $rowX->id;
+						$title = $title . ' (' . $id . ')';
 					}
 
 					// Add row for the SQL-redirect statement we'll add att the end so you can redirect old page URL's to the correct new ones.
