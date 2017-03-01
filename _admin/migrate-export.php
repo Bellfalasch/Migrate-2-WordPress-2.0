@@ -7,11 +7,7 @@
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
 
-
 <?php
-
-// The actual code
-// ****************************************************************************
 
 	if (ISPOST) {
 

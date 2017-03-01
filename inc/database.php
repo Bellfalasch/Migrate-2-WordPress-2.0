@@ -192,7 +192,7 @@
 	{
 		global $mysqli;
 		
-		if ( get_magic_quotes_gpc() && !is_null($value) ) {
+		if ( !is_null($value) ) {
 			$value = stripslashes($value);
 		}
 		if ( is_numeric($value) && strpos($value,',') !== false ) {
@@ -203,6 +203,7 @@
 		}
 		elseif ( !is_numeric($value) ) {
 			$value = "'" . $mysqli->real_escape_string($value) . "'";
+			$value = str_replace('\"', '"', $value); // Having problem with searches on things containing " after escaping
 		}
 		return $value;
 	}

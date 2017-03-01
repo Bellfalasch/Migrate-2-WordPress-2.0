@@ -282,13 +282,15 @@
 	/* STEP 8 */
 	/* **************************************************************************** */
 	function db_updateContentLinks($in) { cleanup($in);
-		return db_MAIN("
+		$sql = "
 			UPDATE `migrate_content`
 			SET `ready` = REPLACE(`clean`, {$in['oldlink']}, {$in['newlink']})
 			WHERE `site` = {$in['site']}
 			AND `deleted` = 0
 			AND `crawled` = 1
-		");
+		";
+		echo $sql;
+		return db_MAIN($sql);
 	}
 	// Also used in export step
 	function db_getContentDataFromSite($in) { cleanup($in);
