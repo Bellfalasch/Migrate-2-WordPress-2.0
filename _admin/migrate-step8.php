@@ -140,12 +140,8 @@
 							$separator = "";
 						}
 						$newlink = $PAGE_sitenewurl . $separator . $newlink;
-	/*
-	TODO: Get this working?
-						// Replace all the old href URLs with the new one in the current text
-						$content = str_replace( " href=\"" . $fil, " href=\"" . $newlink, $content, $counter );
-	*/
 
+						// Replace all the old href URLs with the new one in the current text
 						if (formGet("save_finalize") != "Test Finalize") {
 
 							// Update all the Links on ALL the pages on this site
@@ -159,33 +155,22 @@
 							$fixLinks = "???";
 						}
 
-						// Output a counter if we got any hits
-						//echo "<strong>" . $oldlink . "</strong> removed <span class=\"badge badge-success\">" . $fixLinks . "</span> times<br />";
-						//echo "<p>";
 						echo "<strong>Update old links:</strong> \"" . str_replace( $PAGE_siteurl, "/", $oldlink ) . "\" ";
 						echo "<strong>to Wordpress links:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $newlink ) . "\" ";
 						echo "<span class=\"label label-success\">" . $fixLinks . "</span>";
-						//echo "</p>";
 						echo "<br />";
-
 					}
-
 				}
-
 			}
-
 			echo "<br />";
-
 		}
 
 		// Update Step data
 		if (formGet("save_finalize") != "Test Finalize") {
-
 			db_updateStepValue( array(
 				'step' => $PAGE_step,
 				'id' => $PAGE_siteid
 			) );
-
 		}
 
 	}
