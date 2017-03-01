@@ -17,91 +17,87 @@
 	if (ISPOST)
 	{
 
-		// Get all pages
-		$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
-		if ( isset( $result ) )
-		{
+		// Only run through content here if we actually want to update any of it
+		if (
+			formGet("fix") === "yes" ||
+			formGet("remove_img") === "yes" ||
+			formGet("flag") === "yes"
+		) {
 
-			while ( $row = $result->fetch_object() )
+			// Get all pages
+			$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
+			if ( isset( $result ) )
 			{
 
-				$stop = false;
+				while ( $row = $result->fetch_object() )
+				{
 
-				// Waterfall-choose the best (cleanest) html from the database depending on what is available
-				if ( !is_null($row->ready) ) {
+					$stop = false;
 
-					$content = $row->ready;
-
-				} elseif ( !is_null($row->clean) ) {
-
-					$content = $row->clean;
-
-				} elseif ( !is_null($row->tidy) ) {
-
-					$content = $row->tidy;
-
-				} elseif ( !is_null($row->wash) ) {
-
-					$content = $row->wash;
-
-				} elseif ( !is_null($row->content) ) {
-
-					$content = $row->content;
-
-				} else {
-
-					$stop = true;
-
-				}
-
-				if ( !$stop ) {
-
-					// Tagged code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
-					if ( formGet("fix") === "yes" ) {
-						$content = str_replace('<img ', '<img class="imgfix" ', $content);
-						$content = str_replace('<a href="', '<a class="fix" href="', $content);
-					}
-
-					// Add the review page flag
-					if ( formGet("flag") === "yes" ) {
-
-						$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
-					}
-
-					echo "<strong>Updating:</strong> \"<span class=\"text-info\">" . str_replace( $PAGE_siteurl, "/", $row->page ) . "</span>\"";
-//						echo " <strong>to Wordpress page:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $newlink ) . "\"";
-					echo " <span class=\"label label-success\">OK</span>";
-
-					// Remove all images
-					if ( formGet("remove_img") === "yes" ) {
-						$content = preg_replace( '/<img .*?\/?>/is', '', $content, -1, $count ); // "s" = If this modifier is set, a dot metacharacter in the pattern matches all characters, including newlines. Without it, newlines are excluded.
-																								 // "i" = Match upper and lower case!
-						echo " (<strong>" . $count . "</strong> images removed.) ";
-					}
-
-					if (formGet("save_finalize") != "Test Finalize") {
-
-						echo " <strong>Result:</strong> <span class=\"label label-success\">Saved</span>";
-
-						// Do some saving
-						db_setReadyCode( array(
-							'ready' => $content,
-							'id' => $row->id
-						) );
-
+					// Waterfall-choose the best (cleanest) html from the database depending on what is available
+					if ( !is_null($row->ready) ) {
+						$content = $row->ready;
+					} elseif ( !is_null($row->clean) ) {
+						$content = $row->clean;
+					} elseif ( !is_null($row->tidy) ) {
+						$content = $row->tidy;
+					} elseif ( !is_null($row->wash) ) {
+						$content = $row->wash;
+					} elseif ( !is_null($row->content) ) {
+						$content = $row->content;
 					} else {
-
-						echo " <strong>Result:</strong> <span class=\"label label-important\">Not saved</span>";
-
+						$stop = true;
 					}
 
-					echo "<br />";
+					if ( !$stop ) {
+
+						// Tagged code that will stick out a bit in Wordpress admin afterwards so you manually can validate everything easier
+						if ( formGet("fix") === "yes" ) {
+							$content = str_replace('<img ', '<img class="imgfix" ', $content);
+							$content = str_replace('<a href="', '<a class="fix" href="', $content);
+						}
+
+						// Add the review page flag
+						if ( formGet("flag") === "yes" ) {
+							$content = "<div class=\"infobox warning\"><p>This content needs to be reviewed manually before publishing (after that, remove this box!)</p></div>" . $content;
+						}
+
+						// Remove all images
+						if ( formGet("remove_img") === "yes" ) {
+							$content = preg_replace( '/<img .*?\/?>/is', '', $content, -1, $count ); // "s" = If this modifier is set, a dot metacharacter in the pattern matches all characters, including newlines. Without it, newlines are excluded.
+																									 // "i" = Match upper and lower case!
+							echo " (<strong>" . $count . "</strong> images removed.) ";
+						}
+
+						echo "<strong>Updating:</strong> \"<span class=\"text-info\">" . str_replace( $PAGE_siteurl, "/", $row->page ) . "</span>\"";
+						echo " <span class=\"label label-success\">OK</span>";
+
+						if (formGet("save_finalize") != "Test Finalize") {
+
+							echo " <strong>Result:</strong> <span class=\"label label-success\">Saved</span>";
+
+							// Do some saving
+							db_setReadyCode( array(
+								'ready' => $content,
+								'id' => $row->id
+							) );
+
+						} else {
+
+							echo " <strong>Result:</strong> <span class=\"label label-important\">Not saved</span>";
+
+						}
+
+						echo "<br />";
+
+					}
 
 				}
 
 			}
 
 		}
+
 
 		echo "
 			<br />
