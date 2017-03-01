@@ -8,11 +8,7 @@
 <?php require('_global.php'); ?>
 <?php include('_header.php'); ?>
 
-
 <?php
-
-// The actual code
-// ****************************************************************************
 
 	if (ISPOST)
 	{
@@ -91,16 +87,11 @@
 						echo "<br />";
 
 					}
-
 				}
-
 			}
-
 		}
 
-
-		echo "
-			<br />
+		echo "<br />
 			<p>
 				<strong>Now updating all the old links on all the pages:</strong>
 			</p>";
@@ -109,10 +100,8 @@
 		$result = db_getContentDataFromSite( array( 'site' => $PAGE_siteid ) );
 		if ( isset( $result ) )
 		{
-
 			while ( $row = $result->fetch_object() )
 			{
-
 				// Don't bother updating links to pages this tool created as there can't be any links to them yet
 				if ( $row->crawled == 1 ) {
 
@@ -155,7 +144,7 @@
 							$fixLinks = "???";
 						}
 
-						echo "<strong>Update old links:</strong> \"" . str_replace( $PAGE_siteurl, "/", $oldlink ) . "\" ";
+						echo "<strong>Update old links:</strong> \"" . $oldlink . "\" ";
 						echo "<strong>to Wordpress links:</strong> \"" . str_replace( $PAGE_sitenewurl, "/", $newlink ) . "\" ";
 						echo "<span class=\"label label-success\">" . $fixLinks . "</span>";
 						echo "<br />";
@@ -178,10 +167,8 @@
 ?>
 
 <form class="well form" action="" method="post">
-
 	<div class="row">
 		<div class="span11">
-
 			<p>
 				This is the end, the last step before we'll hand you that final XML export that you can import into WordPress.
 			</p>
@@ -210,12 +197,10 @@
 			<br />
 
 			<input type="submit" name="save_finalize" value="Run Finalize" class="btn btn-primary" />
-
 			<input type="submit" name="save_finalize" value="Test Finalize" class="btn" />
 
 		</div>
 	</div>
-
 </form>
 
 

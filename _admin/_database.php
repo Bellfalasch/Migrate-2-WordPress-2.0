@@ -286,6 +286,8 @@
 			UPDATE `migrate_content`
 			SET `ready` = REPLACE(`clean`, {$in['oldlink']}, {$in['newlink']})
 			WHERE `site` = {$in['site']}
+			AND `deleted` = 0
+			AND `crawled` = 1
 		");
 	}
 	// Also used in export step

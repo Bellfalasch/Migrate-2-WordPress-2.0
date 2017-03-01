@@ -152,27 +152,16 @@ EOT;
 
 				// Waterfall-choose the best (cleanest) html from the database depending on which is available
 				if ( !is_null($row->ready) ) {
-
 					$content = $row->ready;
-
 				} elseif ( !is_null($row->clean) ) {
-
 					$content = $row->clean;
-
 				} elseif ( !is_null($row->tidy) ) {
-
 					$content = $row->tidy;
-
 				} elseif ( !is_null($row->wash) ) {
-
 					$content = $row->wash;
-
 				} elseif ( !is_null($row->content) ) {
-
 					$content = $row->content;
-
 				} else {
-
 					$stop = true;
 
 					// FFU specific: title starts with --- or === then don't publish this post
