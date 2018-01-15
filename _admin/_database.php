@@ -287,9 +287,8 @@
 			SET `ready` = REPLACE(`clean`, {$in['oldlink']}, {$in['newlink']})
 			WHERE `site` = {$in['site']}
 			AND `deleted` = 0
-			AND `crawled` = 1
+			AND `crawled` = 1;
 		";
-		echo $sql;
 		return db_MAIN($sql);
 	}
 	// Also used in export step
