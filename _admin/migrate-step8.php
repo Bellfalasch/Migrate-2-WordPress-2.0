@@ -135,8 +135,8 @@
 
 							// Update all the Links on ALL the pages on this site
 							$fixLinks = db_updateContentLinks( array(
-												'oldlink' => ' href="' . $oldlink,
-												'newlink' => ' href="' . $newlink,
+												'oldlink' => 'href="' . $oldlink,
+												'newlink' => 'href="' . $newlink,
 												'site' => $PAGE_siteid
 										) );
 
