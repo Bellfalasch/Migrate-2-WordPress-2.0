@@ -1,22 +1,8 @@
+<?php include('../config.php'); ?>
 <?php
 // Database setup (MySQL)
-// ****************************************************************************	
-	
-	// Set constants for db-access after environment
-	if ($_SERVER['SERVER_NAME'] == 'localhost')
-	{	// LOCAL
-		DEFINE('DB_USER', 'root');				// Username for database
-		DEFINE('DB_PASS', '');					// Password for database
-		DEFINE('DB_HOST', 'localhost');			// Server for database
-		DEFINE('DB_NAME', 'test');				// Select database on server
-	} else {
-		// LIVE (change to your settings)
-		DEFINE('DB_USER', 'xxx');
-		DEFINE('DB_PASS', 'xxx');
-		DEFINE('DB_HOST', 'localhost');
-		DEFINE('DB_NAME', 'test');
-	}
-	
+// ****************************************************************************
+
 	// Set up database class
 	global $mysqli;
 	$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
@@ -44,7 +30,7 @@
 
 
 // Database main functions (does all the talking to the database class and handling of errors)
-// ****************************************************************************	
+// ****************************************************************************
 
 	// Simple bridge that will choose which database-function to use based on the SQL you sent in.
 	// Doesn't support mixing of types (SELECT INTO for example is not supported).
@@ -66,7 +52,7 @@
 				return db_EXEC($sql);
 				break;
 
-			case "INSERT": 
+			case "INSERT":
 				return db_INSERT($sql);
 				break;
 
@@ -149,7 +135,7 @@
 
 
 // Helper functions for SQL
-// ****************************************************************************	
+// ****************************************************************************
 
 	// Activate transaction-handling
 	function db_doBeginTran()
@@ -171,7 +157,7 @@
 			$mysqli->rollback();
 		}
 		$mysqli->commit();
-		
+
 		// Reset autocommit to true (only the SQL's just before needed transaction support)
 		$mysqli->autocommit(true);
 
@@ -179,7 +165,7 @@
 	}
 
 	// db_EXEC-functions sends in an array that is to be laundried with quote_smart
-	function cleanup(&$in) 
+	function cleanup(&$in)
 	{
 		foreach($in as $key => $value) {
 			$in[$key] = quote_smart($value);
@@ -191,7 +177,7 @@
 	function quote_smart($value)
 	{
 		global $mysqli;
-		
+
 		if ( !is_null($value) ) {
 			$value = stripslashes($value);
 		}
