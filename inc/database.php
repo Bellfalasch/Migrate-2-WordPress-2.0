@@ -9,7 +9,7 @@ else
 $SYS_root = '/' . $TMP_foldersArr[count($TMP_foldersArr) - 3];
 $SYS_incroot = rtrim($_SERVER['DOCUMENT_ROOT'],"/") . $SYS_root;
 */
-	require_once(dirname(__FILE__) . '/config.php');
+	require_once(dirname(__FILE__) . '/../config.php');
 ?>
 <?php
 // Database setup (MySQL)
