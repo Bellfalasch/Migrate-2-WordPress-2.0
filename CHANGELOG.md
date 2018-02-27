@@ -4,6 +4,10 @@ BETA
 Updates / Changes
 ----------------
 
+### Beta 0.8.1
+
+Using a config.php file in root, it is now possible to run this project on a server much easier. Just `git clone [this]` and keep doing `git pull origin master` when you need the latest updates. With your custom `config.php` you're sure to always be rolling.
+
 ### Beta 0.8
 
 Finally we have sorting of pages (only parents). This is a Step 7 functionality. You hit a button and can then drag and drop to reorder the pages. When pressing the "save" button, an ajax call will store the pages in the background and then redirect you back. This sort order is respected in both step 3 and 7 when listing pages. This is yet another pretty huge function that makes great improvements to this project. We use RubaXa's Sortable.js to get this type of functionality.

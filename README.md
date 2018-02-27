@@ -4,61 +4,72 @@ Migrate 2 WordPress, 2.0 - BETA
 Migrate your static files to Wordpress
 ------------------
 
-*This repo is loosely based on "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)", which is in development (basically just a simple CRUD-system to generate forms for the database).*
+*This repo is loosely based on "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)", which is not in development but works for the needs of this project (it's basically just a simple CRUD-system to generate forms for the database, with validation).*
 
-The main function of Migrate 2 WordPress is to first crawl/scrape an old site (perhaps built with static html-files), then clean up / tidy the html code, and end it all by handing you a downloadable XML-file that can be imported straight into Wordpress.
+The main function of Migrate 2 WordPress (or M2WP for short) is to first crawl/scrape an old website (perhaps built with static html-files), then clean up / tidy the html code, and end it all by handing you a downloadable XML-file that can be imported straight into Wordpress.
 
-This project is in Alpha/Beta stage until we'll reach the "Beta 1.0"-version. Check the CHANGELOG.md for more details. It's highly recommended to use proper backups of your database before using this code, and expect big changes between each beta release, and no upgrade models.
+This project is currently in open beta, until we'll reach the "Beta 1.0"-version. Check the [CHANGELOG.md](CHANGELOG.md) for more details.
+
+It's highly recommended to use proper backups of your database before using this code, and expect big changes between each beta release, and no upgrade models.
 
 
 Disclaimer
 ----------------
 
-This project is not made to be working universally on every setup there is. I made it to assist myself in porting some old code from about 10 different sites. Don't expect it to automagically work on every kind of weird old setup. It's only tested to work on WordPress 3.6 to 4.1 and doesn't take into account that WordPress export format might change in the future.
+This project is not made to be working on every setup out there. I made it to assist myself in porting some old code from about 10 different sites. Don't expect it to automagically work on every kind of weird old setup. It's tested to work on WordPress 3.6 to 4.9, but doesn't take into account that WordPress export format might change in the future.
 
-It won't handle URL's based on folders, as it expects a file ending to validate a file as crawlable. It doesn't handle JavaScript (or Ajax) at all, or Flash.
+Currently it cannot handle URL's based on "folder"-style URLs (`mysite/mypage/`), as it expects a file ending to validate a file as crawlable. It doesn't handle JavaScript (or Ajax) at all, or Flash.
 
 Also, don't expect it to produce perfect result from old code. It will do the best it can. You won't get away from having to manually editing some pages in the end anyway, but the amount of work is greatly reduced.
 
-Migrate 2 WordPress doesn't create any pages inside WordPress, that is up to you! And it does not create Menus, Images, or other fancy things. It's just for crawling, formatting, and exporting.
+M2WP doesn't create any Posts, Menus, Images, or other "complex" things inside Wordpress. The export file you'll get in the end will only generate the page structure with its contents.
 
 It won't support content spread into many different "blocks" / areas on a single page. It only supports one starting point, and then one ending point. Everything between them will be counted as content.
 
-It's based on a somewhat slow fopen-crawl, this might be changed in the future. We had no clue about Curl when we started the project.
+It's also currently based on a somewhat slow fopen-crawl, this might be changed in the future. We had no clue about Curl when we started the project.
 
 
 Installation:
 ----------------
 
-Look at the list of dependencies after this section. Make sure all is set up. Open phpMyAdmin (or similiar), create a database called "test" and execute everything in the included file "/DATABASE.sql". Now upload all the files to your server (or localhost). It *should* work in any folder structure.
+Look at the list of dependencies after this section. Make sure all is set up on the server. Open phpMyAdmin (or similiar), create a database called "m2wp" (or similar) and execute everything in the included file "/DATABASE.sql". Now upload all the files to your server (or localhost). It *should* work in any folder structure.
 
-Log in with "admin@example.com" and "password" in the login form (you should be redirected automatically when you open the projects root folder).
+Log in with "admin@example.com" and "password" in the login form (you should be redirected automatically when you open the projects root folder). Be sure to change this password on public hosting.
 
+* Fork project
+* Create MySQL database
+* Run `DATABASE.sql` in it
+* Rename `config-example.php` to `config.php`
+* Edit `config.php` with your database details
+* Upload files to server
+* Login with `admin@example.com` and `password`
+* Change password
 
 Dependencies:
 ----------------
 
-This admin is based and tested on: 
+This projects needs the following to run (and is tested on):
 
 ### PHP
 * Version 4.3.10
-* Settings: short open tags = true
-* Settings: allow url fopen = true
-* Extensions: php_mysqli = ON
-* Extensions: php_tidy = ON
+* *Settings*: short open tags = true
+* *Settings*: allow url fopen = true
+* *Extensions*: php_mysqli = ON
+* *Extensions*: php_tidy = ON
 
 ### MySQL
 * Version 5.5.20
 * InnoDB used as engine
 
-### JavaScript
-* RubaXa's Sortable.js - version 1.4.2 - https://github.com/RubaXa/Sortable
+### Bundled
 
-### Bobby CMS
-* Version 0.9.2.1
-* Developed by me =)
-* https://github.com/Bellfalasch/Bobby-CMS
-* Used as included files
+These bundles are in use (among others):
+
+### JavaScript
+* [RubaXa's Sortable.js](https://github.com/RubaXa/Sortable) - version 1.4.2
+* jQuery - version 2.1.3
+* Bootstrap - version 2.3.1
+* "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)" - version 0.9.2.1 (forked)
 
 Bobby CMS uses Bootstrap 2.3.1 (because I started the project when that was the latest and greatest, and I have not changed because I don't like the new flat style of Boostrap 3), TinyMCE, and jQuery 2.1.3. All included. Update/remove at own risk!
 
