@@ -18,7 +18,7 @@
 		<div class="span4 offset1">
 
 			<h4>Need more projects?</h4>
-			<p>Just go to the <a href="<?= $SYS_pageroot ?>project.php">Projects-page</a> and create some more then =)</p>
+			<p>Just go to the <a href="<?= $SYS_pageroot ?>project.php?create=new">Projects-page</a> and create some more then =)</p>
 
 		</div>
 	</div>
@@ -49,7 +49,7 @@
 						</h3>
 						<p><a href="<?= $row->url ?>" target="_blank"><em><?= $row->url ?></em></a></p>
 						<p>
-							Step: <span class="badge badge-inverse"><?= $row->step ?></span><br />
+							Step: <span class="badge <?php if ($row->step == 8) { echo 'badge-success'; } else if ($row->step > 0 && $row->step < 8) { echo 'badge-inverse'; } ?>"><?= $row->step ?></span><br />
 							Pages: <span class="badge badge-inverse"><?= $row->pages ?></span>
 						</p>
 					</div>
