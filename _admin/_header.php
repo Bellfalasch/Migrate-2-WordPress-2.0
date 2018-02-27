@@ -52,7 +52,7 @@
 						<li<?php flagAsActiveOn("index") ?>><a href="<?= $SYS_pageroot ?>index.php">Start</a></li>
 						<?php if ($SYS_adminlvl > 0) { ?>
 							<li<?php flagAsActiveOn("project") ?>><a href="<?= $SYS_pageroot ?>project.php">Projects</a></li>
-							<li<?php flagAsActiveOn("migrate") ?>><a href="<?= $SYS_pageroot ?>migrate.php">Migrate</a></li>
+							<li<?php flagAsActiveOn("migrate") ?>><a href="<?= $SYS_pageroot ?>migrate-select.php">Migrate</a></li>
 							<?php if ($SYS_adminlvl == 2) { ?>
 							<li<?php flagAsActiveOn("users") ?>><a href="<?= $SYS_pageroot ?>users.php">Users</a></li>
 							<?php } ?>
