@@ -201,10 +201,10 @@
 
 		if ( qsGet("saved") != "" ) {
 			if ( qsGet("saved") == "true" ) {
-				fn_infobox("Save successful", "Data updated",'');
+				fn_infobox("Save successful", "Project was successfully updated!",'');
 
 			} elseif ( qsGet("saved") !== "" ) {
-				fn_infobox("Save successful", "New data saved, id: " . qsGet("saved"),'');
+				fn_infobox("Save successful", "New project created - <a href=\"" . $SYS_pageroot . "migrate-select.php?project=" . qsGet("saved"). "\">start migrating it</a>!",'');
 			}
 		}
 
