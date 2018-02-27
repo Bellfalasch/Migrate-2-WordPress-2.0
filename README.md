@@ -51,27 +51,27 @@ Dependencies:
 This projects needs the following to run (and is tested on):
 
 ### PHP
-* Version 4.3.10
-* *Settings*: short open tags = true
-* *Settings*: allow url fopen = true
-* *Extensions*: php_mysqli = ON
-* *Extensions*: php_tidy = ON
+* Version *4.3.10*
+* Settings: `short open tags = true`
+* Settings: `allow url fopen = true`
+* Extensions: `php_mysqli = ON`
+* Extensions: `php_tidy = ON`
 
 ### MySQL
-* Version 5.5.20
+* Version *5.5.20*
 * InnoDB used as engine
 
 ### Bundled
 
-These bundles are in use (among others):
+These bundles are in use (among others), all included in the project itself:
 
-### JavaScript
-* [RubaXa's Sortable.js](https://github.com/RubaXa/Sortable) - version 1.4.2
-* jQuery - version 2.1.3
-* Bootstrap - version 2.3.1
-* "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)" - version 0.9.2.1 (forked)
+* [RubaXa's Sortable.js](https://github.com/RubaXa/Sortable) *1.4.2*
+* jQuery *2.1.3*
+* Bootstrap *2.3.1*
+* "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)" *0.9.2.1* (forked)
+* TinyMCE *3.5b3*
 
-Bobby CMS uses Bootstrap 2.3.1 (because I started the project when that was the latest and greatest, and I have not changed because I don't like the new flat style of Boostrap 3), TinyMCE, and jQuery 2.1.3. All included. Update/remove at own risk!
+I use Bootstrap 2.x mainly because I started the project when that was the latest and greatest, and I have not changed because I don't like the new flat style of Boostrap 3.
 
 
 Basic file structure and form-generation:
