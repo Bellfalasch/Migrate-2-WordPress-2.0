@@ -1,6 +1,6 @@
 <?php
 	/* Set up template variables */
-	$PAGE_name  = 'Project';
+	$PAGE_name  = 'Projects';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 	$PAGE_desc = 'create and manage your projects';
 ?>
@@ -97,6 +97,8 @@
 				pushError("Delete of data failed, please try again.");
 			}
 		}
+
+		$create_new = (qsGet("create") === "new");
 
 		////////////////////////////////////////////////////////
 		// HANDLE POST AND SAVE CHANGES
@@ -217,6 +219,7 @@
 
 ?>
 
+<?php if ( $PAGE_dbid > 0 || $create_new ) { ?>
 <form class="form-horizontal" action="" method="post">
 
 	<div class="row">
@@ -236,18 +239,18 @@
 
 		<div class="span4 offset1">
 
-			<?php if ( $PAGE_dbid >= 0 ) { ?>
-
-				<a class="btn btn-success" href="<?= $SYS_pageself ?>"><i class="icon-plus-sign icon-white"></i> Add new Project</a>
-
-				<hr />
-
-			<?php } ?>
-
+			<?php if ($PAGE_dbid >= 0) { ?>
 			<p>
-				<strong>Ready to Crawl, Clean, and Export?</strong> Then <a href="<?= $SYS_pageroot ?>migrate-select.php">head on over the
-				Migration starting point</a> and select your first migration project!
+				<strong>Ready to Crawl, Clean, and Export?</strong> Then
+				<a href="<?= $SYS_pageroot ?>migrate-select.php?project=<?= $PAGE_dbid; ?>">head on over the Migration starting point</a>
+				and start migrating this site! But don't forget to save any changes first =)
 			</p>
+		<?php } else { ?>
+			<p>
+				<strong>Creating a new porject</strong>
+				Fill this form in to be able to add a new crawlable project.
+			</p>
+		<?php } ?>
 
 			<hr />
 
@@ -263,6 +266,7 @@
 				Create project
 			<?php } ?>
 		</button>
+		<a href="<?= $SYS_pageself ?>" class="muted" style="margin-left:20px;">Cancel</a>
 
 		<?php if ($PAGE_dbid > 0) { ?>
 			<a href="<?= $SYS_pageself ?>?del=<?= $PAGE_dbid ?>" class="btn btn-mini btn-danger"><strong>Delete data AND project</strong></a>
@@ -272,7 +276,10 @@
 		<?php } ?>
 	</div>
 
+</form>
+
 	<p>&nbsp;</p>
+<?php } ?>
 
 	<div class="row">
 		<div class="span12">
@@ -287,6 +294,13 @@
 			?>
 
 			<ul class="thumbnails">
+				<?php if ( !$create_new ) { ?>
+					<li class="span4">
+						<div class="thumbnail" style="height:140px;">
+							<a class="btn btn-success" href="<?= $SYS_pageself ?>?create=new"><i class="icon-plus-sign icon-white"></i> Add new Project</a>
+						</div>
+					</li>
+				<?php } ?>
 
 				<?php
 					while ( $row = $result->fetch_object() )
@@ -322,8 +336,6 @@
 
 		</div>
 	</div>
-
-</form>
 
 
 <?php require('_footer.php'); ?>
