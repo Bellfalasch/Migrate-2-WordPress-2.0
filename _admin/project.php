@@ -210,6 +210,15 @@
 
 	?>
 
+<?php if ( qsGet("saved") === "" && $PAGE_dbid === 0 && qsGet("truncate") === "" && qsGet("truncate") === "" && qsGet("create") === "" ) { ?>
+	<p>
+		To work with Migrate 2 WordPress you need to have a project (or more). The projects are then later crawled and washed in the "Migrate"-section, and later exported into a XML-file that Wordpress can import.
+	</p>
+	<p>
+		So, what are you waiting for - <a href="<?= $SYS_pageself ?>?create=new">let's create a project</a>!
+	</p>
+<?php } ?>
+
 <?php
 
 	// Now that we are just before the form starts, we can output any errors we might have pushed into the error-array.
@@ -247,8 +256,8 @@
 			</p>
 		<?php } else { ?>
 			<p>
-				<strong>Creating a new porject</strong>
-				Fill this form in to be able to add a new crawlable project.
+				<strong>Creating a new project</strong>
+				Fill out this form to be able to add a new crawlable project.
 			</p>
 		<?php } ?>
 
