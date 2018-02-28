@@ -3,13 +3,14 @@
 	$PAGE_name = 'Login';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 	$PAGE_desc = 'sign in to your account';
-
-	if (isset($_SESSION['id'])) {
-		$PAGE_name = 'Your in!';
-		$PAGE_desc = 'access granted to M2WP';
-	}
 ?>
 <?php require('_global.php'); ?>
+<?php
+if (isset($_SESSION['id'])) {
+	$PAGE_name = "You're in!";
+	$PAGE_desc = 'access granted to M2WP';
+}
+?>
 <?php require('_header.php'); ?>
 
 
