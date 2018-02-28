@@ -323,7 +323,7 @@
 				}
 				else
 				{
-					echo "<p>No projects found</p>";
+					echo '<li class="span4"><div class="thumbnail"><p>No projects found!</p></div></li>';
 				}
 				?>
 
