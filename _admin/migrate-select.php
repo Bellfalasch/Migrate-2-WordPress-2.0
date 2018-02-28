@@ -65,7 +65,7 @@
 				}
 				else
 				{
-					echo "<p>No projects found (<a href=\"" . $SYS_pageroot . "project.php\">create one</a>!)</p>";
+					echo "<p>No projects found (<a href=\"" . $SYS_pageroot . "project.php?create=new\">create one</a>!)</p>";
 				}
 			?>
 

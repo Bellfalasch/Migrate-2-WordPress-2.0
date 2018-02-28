@@ -286,12 +286,6 @@
 
 			<h2>My projects</h2>
 
-			<?php
-				$result = db_getSites();
-
-				if (!is_null($result))
-				{
-			?>
 
 			<ul class="thumbnails">
 				<?php if ( !$create_new ) { ?>
@@ -303,6 +297,10 @@
 				<?php } ?>
 
 				<?php
+				$result = db_getSites();
+
+				if (!is_null($result))
+				{
 					while ( $row = $result->fetch_object() )
 					{
 				?>
@@ -322,17 +320,14 @@
 
 				<?php
 					}
-				?>
-
-			</ul>
-
-			<?php
 				}
 				else
 				{
 					echo "<p>No projects found</p>";
 				}
-			?>
+				?>
+
+			</ul>
 
 		</div>
 	</div>
