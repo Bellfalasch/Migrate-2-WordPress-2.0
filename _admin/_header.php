@@ -98,20 +98,24 @@
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">1: Eat</a></li>
 					<?php } ?>
-
-					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 1 || ($PAGE_sitestep === 1 && ISPOST)) { ?>
+<?php
+	$openStepsAfter1 = ($PAGE_sitestep === 1 && formGet("save_crawl") === "Run crawl");
+	$openStepsAfter2 = ($PAGE_sitestep === 2 && formGet("save_needle") === "Run needles");
+	$openStepsAfter3 = ($PAGE_sitestep === 3 && formGet("save_wash") === "Run wash");
+?>
+					<?php if ($PAGE_siteid > 0 && ($PAGE_sitestep >= 1 || $openStepsAfter1)) { ?>
 						<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_pageroot ?>migrate-step2.php">2: Strip</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">2: Strip</a></li>
 					<?php } ?>
 
-					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2 || ($PAGE_sitestep === 2 && ISPOST)) { ?>
+					<?php if ($PAGE_siteid > 0 && ($PAGE_sitestep >= 2 || $openStepsAfter2)) { ?>
 						<li<?php flagAsActiveOn("step3") ?>><a href="<?= $SYS_pageroot ?>migrate-step3.php">3: Manage</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">3: Manage</a></li>
 					<?php } ?>
 
-					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2 || ($PAGE_sitestep === 2 && ISPOST)) { ?>
+					<?php if ($PAGE_siteid > 0 && ($PAGE_sitestep >= 2 || $openStepsAfter2)) { ?>
 						<li<?php flagAsActiveOn("step4") ?>><a href="<?= $SYS_pageroot ?>migrate-step4.php">4: Wash</a></li>
 						<li<?php flagAsActiveOn("step5") ?>><a href="<?= $SYS_pageroot ?>migrate-step5.php">5: Tidy</a></li>
 						<li<?php flagAsActiveOn("step6") ?>><a href="<?= $SYS_pageroot ?>migrate-step6.php">6: Clean</a></li>
@@ -121,19 +125,19 @@
 						<li class="disabled"><a href="#0">6: Clean</a></li>
 					<?php } ?>
 
-					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2 || ($PAGE_sitestep === 2 && ISPOST)) { ?>
+					<?php if ($PAGE_siteid > 0 && ($PAGE_sitestep >= 2 || $openStepsAfter2)) { ?>
 						<li<?php flagAsActiveOn("step7") ?>><a href="<?= $SYS_pageroot ?>migrate-step7.php">7: Structure</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">7: Structure</a></li>
 					<?php } ?>
 
-					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep >= 2 || ($PAGE_sitestep === 2 && ISPOST)) { ?>
+					<?php if ($PAGE_siteid > 0 && ($PAGE_sitestep >= 2 || $openStepsAfter2)) { ?>
 						<li<?php flagAsActiveOn("step8") ?>><a href="<?= $SYS_pageroot ?>migrate-step8.php">8: Finalize</a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0">8: Finalize</a></li>
 					<?php } ?>
 
-					<?php if ($PAGE_siteid > 0 && $PAGE_sitestep > 2 || ($PAGE_sitestep === 2 && ISPOST)) { ?>
+					<?php if ($PAGE_siteid > 0 && ($PAGE_sitestep >= 3 || $openStepsAfter3)) { ?>
 						<li<?php flagAsActiveOn("export") ?>><a href="<?= $SYS_pageroot ?>migrate-export.php"><strong>Export</strong></a></li>
 					<?php } else { ?>
 						<li class="disabled"><a href="#0"><strong>Export</strong></a></li>
