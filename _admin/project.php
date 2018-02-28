@@ -279,7 +279,7 @@
 </form>
 <p>&nbsp;</p>
 
-<?php } else { ?>
+<?php } elseif (qsGet("saved") == "") { ?>
 	<p>
 		To work with Migrate 2 WordPress you need to have a project (or more). The projects are then later crawled and washed in the "Migrate"-section, and later exported into a XML-file that Wordpress can import.
 	</p>
