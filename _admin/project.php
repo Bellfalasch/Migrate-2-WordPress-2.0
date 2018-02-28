@@ -319,7 +319,7 @@
 							</h3>
 							<p><a href="<?= $row->url ?>" target="_blank"><em><?= $row->url ?></em></a></p>
 							<p>
-								Step: <span class="badge badge-inverse"><?= $row->step ?></span><br />
+								Step: <span class="badge <?php if ($row->step == 8) { echo 'badge-success'; } else if ($row->step > 0 && $row->step < 8) { echo 'badge-inverse'; } ?>"><?= $row->step ?></span><br />
 								Pages: <span class="badge badge-inverse"><?= $row->pages ?></span>
 							</p>
 						</div>
