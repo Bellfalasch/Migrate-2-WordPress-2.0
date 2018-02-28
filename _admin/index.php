@@ -3,13 +3,18 @@
 	$PAGE_name = 'Login';
 	$PAGE_title = 'Admin/' . $PAGE_name;
 	$PAGE_desc = 'sign in to your account';
+
+	if (isset($_SESSION['id'])) {
+		$PAGE_name = 'Your in!';
+		$PAGE_desc = 'access granted to M2WP';
+	}
 ?>
 <?php require('_global.php'); ?>
 <?php require('_header.php'); ?>
 
 
 	<?php
-		
+
 		if (ISPOST)
 		{
 			$formMail = formGet('cms_mail');
@@ -23,11 +28,11 @@
 				$row = $result->fetch_object();
 				$dbPass = $row->password;
 				//$dbPass = 'hej';
-				
+
 				if ($formPass === $dbPass )
 				{
 					$loggedin = true;
-					
+
 					$_SESSION['username'] = $row->username;
 					$_SESSION['password'] = $row->password;
 					$_SESSION['mail'] = $row->mail;
@@ -78,9 +83,9 @@
 			<?php
 				if (!isset($_SESSION['id'])) {
 			?>
-			
+
 			<form class="well form-inline" action="" method="post">
-				
+
 				<input type="text" name="cms_mail" class="input-large" placeholder="E-mail" autocomplete="false" />
 				<input type="password" name="cms_pass" class="input-medium" placeholder="Password" autocomplete="false" />
 
@@ -92,7 +97,17 @@
 				} else {
 			?>
 
-			<p>Signed in: <?= $_SESSION['mail'] ?> - <a href="?do=logout">Sign out</a></p>
+			<p>
+				Let's get started migrating your old static sites!
+			</p>
+			<p>
+				Head to the <a href="<?= $SYS_pageroot ?>project.php">"Projects"-section</a> to create and manage your projects.
+			</p>
+			<p>
+				Or, go straight to the <a href="<?= $SYS_pageroot ?>migrate-select.php">"Migrate"-section</a> to work with existing migration data!
+			</p>
+
+			<p><em>Signed in as <strong><?= $_SESSION['mail'] ?></strong> - <a href="?do=logout">Sign out</a></em></p>
 
 			<?php
 				}
