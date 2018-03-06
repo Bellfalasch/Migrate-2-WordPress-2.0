@@ -3,7 +3,7 @@
 	$PAGE_step  = 3;
 	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'guess parent-child relationships';
+	$PAGE_desc = 'guess parent-child relationship';
 ?>
 <?php require('_global.php'); ?>
 
@@ -12,9 +12,9 @@
 	// Form generator
 	addField( array(
 		"label" => "Regex for finding titles:",
-		"id" => "splitcode",
+		"id" => "titleregex",
 		"type" => "area(10*7)",
-		"description" => "Enter any chunk of HTML-code here (use the output bellow as a guide). Use '[*]' as a wildcard, and use '[?]' as the 'locator' (the page will be saved with that name). Only use one 'locator' (but any amount of wildcards).",
+		"description" => "Write your Regex pattern here. Use it to locate and capture what is to be used as page titles. Only use one capturing group. Example: '&lt;h1&gt;(.*)&lt;/h1&gt;' will find all h2-tags and use the contents of those as titles.",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -23,14 +23,6 @@
 
 ?>
 <?php include('_header.php'); ?>
-
-<?php
-
-	// Don't display all the messages while in split mode
-	$split_id = qsGet("split");
-	if ( $split_id === "" ) $split_id = 0;
-
-?>
 
 <?php
 
@@ -50,65 +42,20 @@
 	// Handle posted split form setting/value
 	///////////////////////////////////////////////////
 
-	if ( $split_id > 0 ) {
+	if (ISPOST)
+	{
+		validateForm();
 
-		if (ISPOST)
-		{
-			validateForm();
-
-			if (empty($SYS_errors)) {
-
-				// Stupid way of getting all the form data into variables for use to save the data.
-				$splitcode = $PAGE_form[0]["content"];
-				$split_ORG = $splitcode;
-
-				if ( substr_count( $splitcode, "[?]" ) == 1 ) {
-
-					// I owe a lot to http://regex101.com/ for getting this correct! #regex_noob
-
-					// Escape these chars (because they have special meaning in regex)
-					$splitcode = str_replace('\\', '\\\\', $splitcode);
-					$splitcode = str_replace('.', '\.', $splitcode);
-					$splitcode = str_replace('*', '\*', $splitcode);
-					$splitcode = str_replace('?', '\?', $splitcode);
-					$splitcode = str_replace('+', '\+', $splitcode);
-					$splitcode = str_replace('$', '\$', $splitcode);
-					$splitcode = str_replace('^', '\^', $splitcode);
-					$splitcode = str_replace('{', '\{', $splitcode);
-					$splitcode = str_replace('}', '\}', $splitcode);
-					$splitcode = str_replace('(', '\(', $splitcode);
-					$splitcode = str_replace(')', '\)', $splitcode);
-
-					// Our magic placeholders
-					$splitcode = str_replace('[\*]', '.*', $splitcode);
-					$splitcode = str_replace('[\?]', '(.*?)', $splitcode);
-
-					$splitcode = str_replace('[', '\[', $splitcode);
-					$splitcode = str_replace(']', '\]', $splitcode);
-
-					// Other replacements
-					//$splitcode = str_replace('&', '\&', $splitcode);
-					$splitcode = str_replace('/', '\/', $splitcode);
-					//$splitcode = str_replace('\'', '', $splitcode);
-
-				} else {
-
-					pushError("No [?] added (or more than one), and we need that to find names for the new pages!");
-
-				}
-
-				$PAGE_form[0]["content"] = $split_ORG;
-
-			}
-
+		// If we get no errors, extract the form values.
+		if (empty($SYS_errors)) {
+			$splitcode = $PAGE_form[0]["content"];
 		}
 
 	}
 
 ?>
 
-		<?php if ( $split_id > 0 ) { ?>
-
+<h2>Structure guesser</h2>
 <form class="well form" action="" method="post">
 
 	<div class="row">
@@ -125,26 +72,23 @@
 
 			<h3>Settings</h3>
 
-			<label class="checkbox">
-				<input type="checkbox" name="keep" value="yes"<?php if (formGet('keep') == "yes") { ?> checked="checked"<?php } ?> />
-				Keep the entire matched html-area in the new pages
-			</label>
-
-			<hr />
-
-			<h4>Not in use ...</h4>
-			<p>Normally the first match on a page is a bit down from the top on that page's text. What do you want to do with all the text before this first match (if any)?</p>
+			<p>What data to find the titles in?</p>
 			<label class="radio">
-				<input type="radio" name="prematch" value="parent"<?php if (formGet('prematch') == "parent") { ?> checked="checked"<?php } ?> />
-				Use it for the Parent-page content
+				<input type="radio" name="target" value="full"<?php if (formGet('target') == "full" || formGet('target') === '') { ?> checked="checked"<?php } ?> />
+				Full crawled HTML
 			</label>
 			<label class="radio">
-				<input type="radio" name="prematch" value="sub"<?php if (formGet('prematch') == "sub") { ?> checked="checked"<?php } ?> />
-				Use it as a subpage too
+				<input type="radio" name="target" value="stripped"<?php if (formGet('target') == "stripped") { ?> checked="checked"<?php } ?> />
+				Stripped HTML
 			</label>
 			<br />
 
-			<input type="submit" name="titles" value="Find titles" class="btn btn-primary" />
+			<p>
+				After pressing "Guess structure" we'll show you the result but nothing is actually saved until
+				after you verify it.
+			</p>
+
+			<input type="submit" name="titles" value="Guess structure" class="btn btn-primary" />
 
 			<a href="<?= $SYS_pageroot ?>migrate-step3.php" class="btn">Cancel</a>
 
@@ -154,8 +98,6 @@
 
 </form>
 
-		<?php } ?>
-
 
 <?php
 
@@ -163,7 +105,7 @@
 	// Handle splitting of pages (database-part)
 	///////////////////////////////////////////////////
 
-	if ($split_id > 0) {
+	if (ISPOST) {
 
 		$result = db_getHtmlFromPage( array(
 						'site' => $PAGE_siteid,
@@ -323,10 +265,76 @@
 
 	}
 
+
+	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
+
+	if ( isset( $result ) )
+	{
 ?>
 
-		</div>
+<h3>Current structure</h3>
+<table id="pageTable">
+	<thead>
+		<th>Title</th>
+		<th>Slug</th>
+		<th>URL</th>
+	</thead>
+	<tbody>
+
+<?php
+
+$i = 1; // Used for tabindexing on the input fields, so not a normal row incrementor
+while ( $row = $result->fetch_object() )
+{
+	$addclass = "";
+
+	// Add child-class to children so you see it visually
+	if ( $row->page_parent > 0 ) {
+		$addclass = "child";
+	}
+
+	// Deleted page?
+	if ( $row->deleted ) {
+		$addclass .= " hidden";
+	}
+
+	echo "<tr";
+	if ( trim($addclass) != "" ) {
+		echo " class=\"" . trim( $addclass ) . "\"";
+	}
+	echo ">";
+
+	$page = $row->page;
+	$url = str_replace( $PAGE_siteurl, "/", $page );
+
+	$title = $row->title;
+	if ( is_null($title) ) {
+		$title = "<em>- Unknown -</em>";
+	}
+
+	echo "<td>" . $title . "</td>";
+	echo "<td>" . $row->page_slug . "</td>";
+
+	echo "<td>";
+	if ( $row->crawled == "1" ) {
+		echo "<a href=\"" . $page . "\" target=\"_blank\" title=\"Click to open the original crawled page\">";
+		echo $url;
+		echo "</a>";
+	} else {
+		echo $url;
+	}
+	echo "</td>";
+
+	echo '</tr>';
+}
+
+?>
+	</tbody>
+</table>
+
+<?php } ?>
 	</div>
+</div>
 
 
 <?php require('_footer.php'); ?>
