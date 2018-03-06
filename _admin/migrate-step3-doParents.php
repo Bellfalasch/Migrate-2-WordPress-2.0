@@ -1,7 +1,7 @@
 <?php
 	// Set up template variables
 	$PAGE_step  = 3;
-	$PAGE_name  = 'Step ' . $PAGE_step . ' - Guess Parent/childs';
+	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
 	$PAGE_desc = 'guess parent-child relationships';
 ?>

@@ -1,9 +1,9 @@
 <?php
 	// Set up template variables
 	$PAGE_step  = 3;
-	$PAGE_name  = 'Step ' . $PAGE_step . ' - Guess Titles';
+	$PAGE_name  = 'Step ' . $PAGE_step;
 	$PAGE_title = 'Admin/' . $PAGE_name;
-	$PAGE_desc = 'guess titles';
+	$PAGE_desc = 'guess titles based on crawled html-code';
 ?>
 <?php require('_global.php'); ?>
 
@@ -12,9 +12,9 @@
 	// Form generator
 	addField( array(
 		"label" => "Regex for finding titles:",
-		"id" => "splitcode",
+		"id" => "titleregex",
 		"type" => "area(10*7)",
-		"description" => "Enter any chunk of HTML-code here (use the output bellow as a guide). Use '[*]' as a wildcard, and use '[?]' as the 'locator' (the page will be saved with that name). Only use one 'locator' (but any amount of wildcards).",
+		"description" => "Write your Regex pattern here. Use it to locate and capture what is to be used as page titles. Only use one capturing group. Example: '<h2>(.*)</h2>' will find all h2-tags and use the contents of those as titles.",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -23,14 +23,6 @@
 
 ?>
 <?php include('_header.php'); ?>
-
-<?php
-
-	// Don't display all the messages while in split mode
-	$split_id = qsGet("split");
-	if ( $split_id === "" ) $split_id = 0;
-
-?>
 
 <?php
 
@@ -50,64 +42,58 @@
 	// Handle posted split form setting/value
 	///////////////////////////////////////////////////
 
-	if ( $split_id > 0 ) {
+	if (ISPOST)
+	{
+		validateForm();
 
-		if (ISPOST)
-		{
-			validateForm();
+		if (empty($SYS_errors)) {
 
-			if (empty($SYS_errors)) {
+			// Stupid way of getting all the form data into variables for use to save the data.
+			$splitcode = $PAGE_form[0]["content"];
+			$split_ORG = $splitcode;
 
-				// Stupid way of getting all the form data into variables for use to save the data.
-				$splitcode = $PAGE_form[0]["content"];
-				$split_ORG = $splitcode;
+			if ( substr_count( $splitcode, "[?]" ) == 1 ) {
 
-				if ( substr_count( $splitcode, "[?]" ) == 1 ) {
+				// I owe a lot to http://regex101.com/ for getting this correct! #regex_noob
 
-					// I owe a lot to http://regex101.com/ for getting this correct! #regex_noob
+				// Escape these chars (because they have special meaning in regex)
+				$splitcode = str_replace('\\', '\\\\', $splitcode);
+				$splitcode = str_replace('.', '\.', $splitcode);
+				$splitcode = str_replace('*', '\*', $splitcode);
+				$splitcode = str_replace('?', '\?', $splitcode);
+				$splitcode = str_replace('+', '\+', $splitcode);
+				$splitcode = str_replace('$', '\$', $splitcode);
+				$splitcode = str_replace('^', '\^', $splitcode);
+				$splitcode = str_replace('{', '\{', $splitcode);
+				$splitcode = str_replace('}', '\}', $splitcode);
+				$splitcode = str_replace('(', '\(', $splitcode);
+				$splitcode = str_replace(')', '\)', $splitcode);
 
-					// Escape these chars (because they have special meaning in regex)
-					$splitcode = str_replace('\\', '\\\\', $splitcode);
-					$splitcode = str_replace('.', '\.', $splitcode);
-					$splitcode = str_replace('*', '\*', $splitcode);
-					$splitcode = str_replace('?', '\?', $splitcode);
-					$splitcode = str_replace('+', '\+', $splitcode);
-					$splitcode = str_replace('$', '\$', $splitcode);
-					$splitcode = str_replace('^', '\^', $splitcode);
-					$splitcode = str_replace('{', '\{', $splitcode);
-					$splitcode = str_replace('}', '\}', $splitcode);
-					$splitcode = str_replace('(', '\(', $splitcode);
-					$splitcode = str_replace(')', '\)', $splitcode);
+				// Our magic placeholders
+				$splitcode = str_replace('[\*]', '.*', $splitcode);
+				$splitcode = str_replace('[\?]', '(.*?)', $splitcode);
 
-					// Our magic placeholders
-					$splitcode = str_replace('[\*]', '.*', $splitcode);
-					$splitcode = str_replace('[\?]', '(.*?)', $splitcode);
+				$splitcode = str_replace('[', '\[', $splitcode);
+				$splitcode = str_replace(']', '\]', $splitcode);
 
-					$splitcode = str_replace('[', '\[', $splitcode);
-					$splitcode = str_replace(']', '\]', $splitcode);
+				// Other replacements
+				//$splitcode = str_replace('&', '\&', $splitcode);
+				$splitcode = str_replace('/', '\/', $splitcode);
+				//$splitcode = str_replace('\'', '', $splitcode);
 
-					// Other replacements
-					//$splitcode = str_replace('&', '\&', $splitcode);
-					$splitcode = str_replace('/', '\/', $splitcode);
-					//$splitcode = str_replace('\'', '', $splitcode);
+			} else {
 
-				} else {
-
-					pushError("No [?] added (or more than one), and we need that to find names for the new pages!");
-
-				}
-
-				$PAGE_form[0]["content"] = $split_ORG;
+				pushError("No [?] added (or more than one), and we need that to find names for the new pages!");
 
 			}
+
+			$PAGE_form[0]["content"] = $split_ORG;
 
 		}
 
 	}
 
 ?>
-
-		<?php if ( $split_id > 0 ) { ?>
 
 <form class="well form" action="" method="post">
 
@@ -154,8 +140,6 @@
 
 </form>
 
-		<?php } ?>
-
 
 <?php
 
@@ -163,7 +147,7 @@
 	// Handle splitting of pages (database-part)
 	///////////////////////////////////////////////////
 
-	if ($split_id > 0) {
+	if (ISPOST) {
 
 		$result = db_getHtmlFromPage( array(
 						'site' => $PAGE_siteid,
