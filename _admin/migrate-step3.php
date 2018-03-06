@@ -32,7 +32,7 @@
 	// Don't display all the messages while in split mode
 	$split_id = qsGet("split");
 	if ( $split_id === "" ) $split_id = 0;
-	
+
 	if ( $split_id === 0 ) {
 ?>
 	<div class="alert">
@@ -52,18 +52,38 @@
 			</p>
 		</div>
 
-		<div class="span3 offset1">
+		<div class="span3">
 			<h4>Split pages!</h4>
 			<p>
 				This function is extremely powerful when changing your site structure. You select one page to the left, and after that
 				get to write a small "needle"-code that we will look for in the code. For each match we will create a new sub-page of the
 				selected page. Brilliant for splitting long long pages into sub-pages instead.
 			</p>
+		</div>
+		<div class="span3">
 			<h4>Duplicate pages</h4>
 			<p>
 				This will make a copy of that page, just adding something differantiating to the URL. You would normally use this function when you have
 				an old page you want to have in more than one new WordPress page. Or if you later want to change, cut, or rewrite some of that original
 				content on two or more WordPress pages.
+			</p>
+		</div>
+		<div class="span3">
+			<h4>Guess titles</h4>
+			<p>
+				TODO ...
+			</p>
+			<p>
+				<a class="btn btn-success" href="<?= $SYS_pageself ?>?do=titles"><i class="icon-plus-sign icon-white"></i> Guess!</a>
+			</p>
+		</div>
+		<div class="span3">
+			<h4>Guess parent/child</h4>
+			<p>
+				TODO ...
+			</p>
+			<p>
+				<a class="btn btn-success" href="<?= $SYS_pageself ?>?do=children"><i class="icon-plus-sign icon-white"></i> Guess!</a>
 			</p>
 		</div>
 
