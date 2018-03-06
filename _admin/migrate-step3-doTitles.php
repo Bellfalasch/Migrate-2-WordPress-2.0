@@ -338,6 +338,7 @@ while ( $row = $result->fetch_object() )
 	</tbody>
 </table>
 
+<?php } ?>
 	</div>
 </div>
 
