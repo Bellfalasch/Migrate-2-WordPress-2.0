@@ -292,9 +292,6 @@ while ( $row = $result->fetch_object() )
 	if ( $row->page_parent > 0 ) {
 		$addclass = "child";
 	}
-	if ($row->id == $split_id || $row->id == $makeparent_id ) {
-		$addclass = " selected";
-	}
 
 	// Deleted page?
 	if ( $row->deleted ) {
@@ -309,19 +306,16 @@ while ( $row = $result->fetch_object() )
 
 	$page = $row->page;
 	$url = str_replace( $PAGE_siteurl, "/", $page );
-	$title = $row->title;
 
-	// Title is not set in the database
+	$title = $row->title;
 	if ( is_null($title) ) {
 		$title = "<em>- Unknown -</em>";
 	}
 
-	//echo "<td>" . $title . "</td>";
-	echo "<td class=\"control-group\"><input type=\"text\" name=\"" . $row->id . "_title\" data-original-value=\"" . $title . "\" value=\"" . $title . "\" tabindex=\"" . $i++ . "\" /></td>";
-	//echo "<td>" . $row->page_slug . "</td>";
-	echo "<td class=\"control-group\"><input type=\"text\" name=\"" . $row->id . "_slug\" data-original-value=\"" . $row->page_slug . "\" value=\"" . $row->page_slug . "\" tabindex=\"" . $i++ . "\" /></td>";
-	echo "<td>";
+	echo "<td>" . $title . "</td>";
+	echo "<td>" . $row->page_slug . "</td>";
 
+	echo "<td>";
 	if ( $row->crawled == "1" ) {
 		echo "<a href=\"" . $page . "\" target=\"_blank\" title=\"Click to open the original crawled page\">";
 		echo $url;
@@ -329,8 +323,8 @@ while ( $row = $result->fetch_object() )
 	} else {
 		echo $url;
 	}
-
 	echo "</td>";
+
 	echo '</tr>';
 }
 
