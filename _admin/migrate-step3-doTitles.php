@@ -14,7 +14,7 @@
 		"label" => "Regex for finding titles:",
 		"id" => "titleregex",
 		"type" => "area(10*7)",
-		"description" => "Write your Regex pattern here. Use it to locate and capture what is to be used as page titles. Only use one capturing group. Example: '&lt;h2&gt;(.*)&lt;/h2&gt;' will find all h2-tags and use the contents of those as titles.",
+		"description" => "Write your Regex pattern here. Use it to locate and capture what is to be used as page titles. Only use one capturing group. Example: '&lt;h1&gt;(.*)&lt;/h1&gt;' will find all h2-tags and use the contents of those as titles.",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -46,49 +46,9 @@
 	{
 		validateForm();
 
+		// If we get no errors, extract the form values.
 		if (empty($SYS_errors)) {
-
-			// Stupid way of getting all the form data into variables for use to save the data.
 			$splitcode = $PAGE_form[0]["content"];
-			$split_ORG = $splitcode;
-
-			if ( substr_count( $splitcode, "[?]" ) == 1 ) {
-
-				// I owe a lot to http://regex101.com/ for getting this correct! #regex_noob
-
-				// Escape these chars (because they have special meaning in regex)
-				$splitcode = str_replace('\\', '\\\\', $splitcode);
-				$splitcode = str_replace('.', '\.', $splitcode);
-				$splitcode = str_replace('*', '\*', $splitcode);
-				$splitcode = str_replace('?', '\?', $splitcode);
-				$splitcode = str_replace('+', '\+', $splitcode);
-				$splitcode = str_replace('$', '\$', $splitcode);
-				$splitcode = str_replace('^', '\^', $splitcode);
-				$splitcode = str_replace('{', '\{', $splitcode);
-				$splitcode = str_replace('}', '\}', $splitcode);
-				$splitcode = str_replace('(', '\(', $splitcode);
-				$splitcode = str_replace(')', '\)', $splitcode);
-
-				// Our magic placeholders
-				$splitcode = str_replace('[\*]', '.*', $splitcode);
-				$splitcode = str_replace('[\?]', '(.*?)', $splitcode);
-
-				$splitcode = str_replace('[', '\[', $splitcode);
-				$splitcode = str_replace(']', '\]', $splitcode);
-
-				// Other replacements
-				//$splitcode = str_replace('&', '\&', $splitcode);
-				$splitcode = str_replace('/', '\/', $splitcode);
-				//$splitcode = str_replace('\'', '', $splitcode);
-
-			} else {
-
-				pushError("No [?] added (or more than one), and we need that to find names for the new pages!");
-
-			}
-
-			$PAGE_form[0]["content"] = $split_ORG;
-
 		}
 
 	}
@@ -114,7 +74,7 @@
 
 			<p>What data to find the titles in?</p>
 			<label class="radio">
-				<input type="radio" name="target" value="full"<?php if (formGet('target') == "full") { ?> checked="checked"<?php } ?> />
+				<input type="radio" name="target" value="full"<?php if (formGet('target') == "full" || formGet('target') === '') { ?> checked="checked"<?php } ?> />
 				Full crawled HTML
 			</label>
 			<label class="radio">
@@ -122,6 +82,11 @@
 				Stripped HTML
 			</label>
 			<br />
+
+			<p>
+				After pressing "Find titles" we'll show you the result but nothing is actually saved until
+				after you verify it. So keep tuning that Regex until it's perfect!
+			</p>
 
 			<input type="submit" name="titles" value="Find titles" class="btn btn-primary" />
 
@@ -302,8 +267,71 @@
 
 ?>
 
-		</div>
-	</div>
+<h3>Current structure</h3>
+<table id="pageTable">
+	<thead>
+		<th>Title</th>
+		<th>Slug</th>
+		<th>URL</th>
+	</thead>
+	<tbody>
+
+<?php
+
+$i = 1; // Used for tabindexing on the input fields, so not a normal row incrementor
+while ( $row = $result->fetch_object() )
+{
+	$addclass = "";
+
+	// Add child-class to children so you see it visually
+	if ( $row->page_parent > 0 ) {
+		$addclass = "child";
+	}
+	if ($row->id == $split_id || $row->id == $makeparent_id ) {
+		$addclass = " selected";
+	}
+
+	// Deleted page?
+	if ( $row->deleted ) {
+		$addclass .= " hidden";
+	}
+
+	echo "<tr";
+	if ( trim($addclass) != "" ) {
+		echo " class=\"" . trim( $addclass ) . "\"";
+	}
+	echo ">";
+
+	$page = $row->page;
+	$url = str_replace( $PAGE_siteurl, "/", $page );
+	$title = $row->title;
+
+	// Title is not set in the database
+	if ( is_null($title) ) {
+		$title = "<em>- Unknown -</em>";
+	}
+
+	//echo "<td>" . $title . "</td>";
+	echo "<td class=\"control-group\"><input type=\"text\" name=\"" . $row->id . "_title\" data-original-value=\"" . $title . "\" value=\"" . $title . "\" tabindex=\"" . $i++ . "\" /></td>";
+	//echo "<td>" . $row->page_slug . "</td>";
+	echo "<td class=\"control-group\"><input type=\"text\" name=\"" . $row->id . "_slug\" data-original-value=\"" . $row->page_slug . "\" value=\"" . $row->page_slug . "\" tabindex=\"" . $i++ . "\" /></td>";
+	echo "<td>";
+
+	if ( $row->crawled == "1" ) {
+		echo "<a href=\"" . $page . "\" target=\"_blank\" title=\"Click to open the original crawled page\">";
+		echo $url;
+		echo "</a>";
+	} else {
+		echo $url;
+	}
+
+	echo "</td>";
+	echo '</tr>';
+}
+
+?>
+	</tbody>
+</table>
 
 
 <?php require('_footer.php'); ?>
