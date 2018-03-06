@@ -72,7 +72,7 @@
 				Titles are tricky, the Crawl-function takes it from the filename. That doesn't always work, so this function let's you run a custom Regex finding patterns in your HTML to use for Titles instead! If the suggestions doesn't suit you, you can just cancel and do it manually.
 			</p>
 			<p>
-				<a class="btn btn-success" href="<?= $SYS_pageself ?>?do=titles"><i class="icon-th-list icon-white"></i> Guess!</a>
+				<a class="btn btn-success" href="<?= $SYS_pageroot ?>migrate-step3-doTitle.php"><i class="icon-th-list icon-white"></i> Guess!</a>
 			</p>
 		</div>
 		<div class="span3">
