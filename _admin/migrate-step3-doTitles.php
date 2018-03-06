@@ -14,7 +14,7 @@
 		"label" => "Regex for finding titles:",
 		"id" => "titleregex",
 		"type" => "area(10*7)",
-		"description" => "Write your Regex pattern here. Use it to locate and capture what is to be used as page titles. Only use one capturing group. Example: '<h2>(.*)</h2>' will find all h2-tags and use the contents of those as titles.",
+		"description" => "Write your Regex pattern here. Use it to locate and capture what is to be used as page titles. Only use one capturing group. Example: '&lt;h2&gt;(.*)&lt;/h2&gt;' will find all h2-tags and use the contents of those as titles.",
 		"min" => "2",
 		"errors" => array(
 						"min" => "Please keep number of character's on at least [MIN].",
@@ -95,6 +95,7 @@
 
 ?>
 
+<h2>Title guesser</h2>
 <form class="well form" action="" method="post">
 
 	<div class="row">
@@ -111,22 +112,14 @@
 
 			<h3>Settings</h3>
 
-			<label class="checkbox">
-				<input type="checkbox" name="keep" value="yes"<?php if (formGet('keep') == "yes") { ?> checked="checked"<?php } ?> />
-				Keep the entire matched html-area in the new pages
-			</label>
-
-			<hr />
-
-			<h4>Not in use ...</h4>
-			<p>Normally the first match on a page is a bit down from the top on that page's text. What do you want to do with all the text before this first match (if any)?</p>
+			<p>What data to find the titles in?</p>
 			<label class="radio">
-				<input type="radio" name="prematch" value="parent"<?php if (formGet('prematch') == "parent") { ?> checked="checked"<?php } ?> />
-				Use it for the Parent-page content
+				<input type="radio" name="target" value="full"<?php if (formGet('target') == "full") { ?> checked="checked"<?php } ?> />
+				Full crawled HTML
 			</label>
 			<label class="radio">
-				<input type="radio" name="prematch" value="sub"<?php if (formGet('prematch') == "sub") { ?> checked="checked"<?php } ?> />
-				Use it as a subpage too
+				<input type="radio" name="target" value="stripped"<?php if (formGet('target') == "stripped") { ?> checked="checked"<?php } ?> />
+				Stripped HTML
 			</label>
 			<br />
 
