@@ -265,6 +265,11 @@
 
 	}
 
+
+	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
+
+	if ( isset( $result ) )
+	{
 ?>
 
 <h3>Current structure</h3>
@@ -332,6 +337,9 @@ while ( $row = $result->fetch_object() )
 ?>
 	</tbody>
 </table>
+
+	</div>
+</div>
 
 
 <?php require('_footer.php'); ?>
