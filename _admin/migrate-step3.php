@@ -41,7 +41,7 @@
 	</div>
 
 	<div class="row">
-		<div class="span8">
+		<div class="span12">
 			<h2>Manage pages</h2>
 			<p>
 				Here you can manage your pages that you crawled in Step 1. The reason you didn't get to this step right after is because the pages are easier to work with here if reduntant html-code
@@ -53,7 +53,7 @@
 		</div>
 
 		<div class="span3">
-			<h4>Split pages!</h4>
+			<h4>Split!</h4>
 			<p>
 				This function is extremely powerful when changing your site structure. You select one page to the left, and after that
 				get to write a small "needle"-code that we will look for in the code. For each match we will create a new sub-page of the
@@ -61,29 +61,27 @@
 			</p>
 		</div>
 		<div class="span3">
-			<h4>Duplicate pages</h4>
+			<h4>Duplicate</h4>
 			<p>
-				This will make a copy of that page, just adding something differantiating to the URL. You would normally use this function when you have
-				an old page you want to have in more than one new WordPress page. Or if you later want to change, cut, or rewrite some of that original
-				content on two or more WordPress pages.
+				This will make a copy of that page (with new unique slug/url). You'd normally use this function when you have an old page you want to cut up in some unique ways that "Split" can't help you with.
 			</p>
 		</div>
 		<div class="span3">
 			<h4>Guess titles</h4>
 			<p>
-				TODO ...
+				Titles are tricky, the Crawl-function takes it from the filename. That doesn't always work, so this function let's you run a custom Regex finding patterns in your HTML to use for Titles instead! If the suggestions doesn't suit you, you can just cancel and do it manually.
 			</p>
 			<p>
-				<a class="btn btn-success" href="<?= $SYS_pageself ?>?do=titles"><i class="icon-plus-sign icon-white"></i> Guess!</a>
+				<a class="btn btn-success" href="<?= $SYS_pageself ?>?do=titles"><i class="icon-th-list icon-white"></i> Guess!</a>
 			</p>
 		</div>
 		<div class="span3">
 			<h4>Guess parent/child</h4>
 			<p>
-				TODO ...
+				We will try to analyze the URLs to figure out a two-dimensional herarki of items. You'll be suggested a new site structure with parent+child combinations of your pages. If you whish, you can store that with the click of just one button. You still can adjust this manually afterwards.
 			</p>
 			<p>
-				<a class="btn btn-success" href="<?= $SYS_pageself ?>?do=children"><i class="icon-plus-sign icon-white"></i> Guess!</a>
+				<a class="btn btn-success" href="<?= $SYS_pageself ?>?do=children"><i class="icon-indent-left icon-white"></i> Guess!</a>
 			</p>
 		</div>
 
@@ -483,7 +481,7 @@ if ( $split_id === 0 ) {
 	{
 
 ?>
-		<h4>Updating pages</h4>
+		<h2>Updating pages</h2>
 		<p>
 			To update the title (and/or slug) of a page, you can just edit the Title-field and
 			the slug field will update automatically.<br />
