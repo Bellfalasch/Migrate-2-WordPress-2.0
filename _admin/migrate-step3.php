@@ -72,7 +72,7 @@
 				Titles are tricky, the Crawl-function takes it from the filename. That doesn't always work, so this function let's you run a custom Regex finding patterns in your HTML to use for Titles instead! If the suggestions doesn't suit you, you can just cancel and do it manually.
 			</p>
 			<p>
-				<a class="btn btn-success" href="<?= $SYS_pageroot ?>migrate-step3-doTitle.php"><i class="icon-th-list icon-white"></i> Guess!</a>
+				<a class="btn btn-success" href="<?= $SYS_pageroot ?>migrate-step3-doTitles.php"><i class="icon-th-list icon-white"></i> Guess!</a>
 			</p>
 		</div>
 		<div class="span3">
@@ -81,7 +81,7 @@
 				We will try to analyze the URLs to figure out a two-dimensional herarki of items. You'll be suggested a new site structure with parent+child combinations of your pages. If you whish, you can store that with the click of just one button. You still can adjust this manually afterwards.
 			</p>
 			<p>
-				<a class="btn btn-success" href="<?= $SYS_pageself ?>?do=children"><i class="icon-indent-left icon-white"></i> Guess!</a>
+				<a class="btn btn-success" href="<?= $SYS_pageroot ?>migrate-step3-doParents.php"><i class="icon-indent-left icon-white"></i> Guess!</a>
 			</p>
 		</div>
 
