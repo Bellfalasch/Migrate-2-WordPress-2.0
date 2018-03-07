@@ -369,10 +369,10 @@ $(function() {
 
 
  	if ( $("body.migrate-step3-doTitles") ) {
-		hljs.initHighlightingOnLoad();
+		//hljs.initHighlightingOnLoad();
 
  		// On the fly
- 		$('.btn.lightcaseHtml').click(function (event) {
+ 		$('.btn.lightcaseHtml').click(function(event) {
  			event.preventDefault();
 
  			lightcase.start({
