@@ -7,10 +7,27 @@
 ?>
 <?php require('_global.php'); ?>
 
+<?php
+
+	// Form generator
+	addField( array(
+		"label" => "Regex for finding titles:",
+		"id" => "titleregex",
+		"type" => "area(10*7)",
+		"description" => "Write your Regex pattern here. Use it to locate and capture what is to be used as page titles. Only use one capturing group. Example: '&lt;h1&gt;(.*)&lt;/h1&gt;' will find all h2-tags and use the contents of those as titles.",
+		"min" => "2",
+		"errors" => array(
+						"min" => "Please keep number of character's on at least [MIN].",
+					)
+	) );
+
+?>
+<?php include('_header.php'); ?>
+
 <link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/highlight/default.css">
-<link rel="stylesheet" type="text/css" href="<?= $SYS_pageroot ?>assets/css/lightcase.css">
-<script type="text/javascript" src="<?= $SYS_pageroot ?>assets/highlight/highlight.pack.js"></script>
-<script type="text/javascript" src="<?= $SYS_pageroot ?>assets/lightcase/js/lightcase.js"></script>
+<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/css/lightcase.css">
+<script src="<?= $SYS_pageroot ?>assets/highlight/highlight.pack.js"></script>
+<script src="<?= $SYS_pageroot ?>assets/lightcase/js/lightcase.js"></script>
 <script>
   hljs.initHighlightingOnLoad();
 
@@ -39,23 +56,6 @@
 	});
 </script>
 
-
-<?php
-
-	// Form generator
-	addField( array(
-		"label" => "Regex for finding titles:",
-		"id" => "titleregex",
-		"type" => "area(10*7)",
-		"description" => "Write your Regex pattern here. Use it to locate and capture what is to be used as page titles. Only use one capturing group. Example: '&lt;h1&gt;(.*)&lt;/h1&gt;' will find all h2-tags and use the contents of those as titles.",
-		"min" => "2",
-		"errors" => array(
-						"min" => "Please keep number of character's on at least [MIN].",
-					)
-	) );
-
-?>
-<?php include('_header.php'); ?>
 
 <?php
 
