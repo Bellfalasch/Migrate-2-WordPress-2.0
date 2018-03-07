@@ -9,14 +9,14 @@
 
 <link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/highlight/default.css">
 <link rel="stylesheet" type="text/css" href="<?= $SYS_pageroot ?>assets/css/lightcase.css">
-<script src="<?= $SYS_pageroot ?>assets/highlight/highlight.pack.js"></script>
+<script type="text/javascript" src="<?= $SYS_pageroot ?>assets/highlight/highlight.pack.js"></script>
 <script type="text/javascript" src="<?= $SYS_pageroot ?>assets/lightcase/js/lightcase.js"></script>
 <script>
   hljs.initHighlightingOnLoad();
 
 	jQuery(document).ready(function($) {
 		// On the fly
-		$('.lightcaseHtml').click(function (event) {
+		$('.btn.lightcaseHtml').click(function (event) {
 			event.preventDefault();
 
 			lightcase.start({
