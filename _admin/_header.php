@@ -31,10 +31,15 @@
 	<title><?= $PAGE_title ?> - Migrate 2 WordPress, 2.0 BETA</title>
 	<!--<link rel="shortcut icon" href="<?= $SYS_root ?>/favicon.ico">-->
 	<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/bootstrap.min.css" />
+	<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/highlight/default.css">
+	<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/lightcase/css/lightcase.css">
 	<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/admin.css?v=<?php if (DEV_ENV) echo rand(); ?>" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="<?= $SYS_pageroot ?>assets/bootstrap.min.js"></script>
 	<script src="<?= $SYS_pageroot ?>assets/sortable-1.4.2-min.js"></script>
+	<script src="<?= $SYS_pageroot ?>assets/highlight/highlight.pack.js"></script>
+	<script src="<?= $SYS_pageroot ?>assets/lightcase/js/lightcase.js"></script>
+
 	<script src="<?= $SYS_pageroot ?>assets/admin.js"></script>
 </head>
 <body class="<?= $SYS_script ?>">

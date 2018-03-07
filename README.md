@@ -70,6 +70,8 @@ These bundles are in use (among others), all included in the project itself:
 * Bootstrap *2.3.1*
 * "[Bobby CMS](https://github.com/Bellfalasch/Bobby-CMS)" *0.9.2.1* (forked)
 * TinyMCE *3.5b3*
+* Highlight.js *9.12.0*
+* Lightcase *2.4.4*
 
 I use Bootstrap 2.x mainly because I started the project when that was the latest and greatest, and I have not changed because I don't like the new flat style of Boostrap 3.
 

@@ -24,39 +24,6 @@
 ?>
 <?php include('_header.php'); ?>
 
-<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/highlight/default.css">
-<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/lightcase/css/lightcase.css">
-<script src="<?= $SYS_pageroot ?>assets/highlight/highlight.pack.js"></script>
-<script src="<?= $SYS_pageroot ?>assets/lightcase/js/lightcase.js"></script>
-<script>
-  hljs.initHighlightingOnLoad();
-
-	jQuery(document).ready(function($) {
-		// On the fly
-		$('.btn.lightcaseHtml').click(function (event) {
-			event.preventDefault();
-
-			lightcase.start({
-				href: '#',
-				maxWidth: 640,
-				maxHeight: 400,
-				onFinish: {
-					injectContent: function () {
-						var content = '<div style="text-align: center;"><h4>On the fly!</h4><p>Yes, right! This popup was called without any DOM object and initialization before by using the tag attributes or so. A common use case for using this could be to automatically invoke a popup after few time, or if lightcase not plays the lead but for instance just needs to show a note, accepting or refusing policy etc.<br><br>Important for this is to set <b>href: \'#\'</b> in your options to open a blank box which you can fill with content afterwards by using the <b>onFinish hook</b>.</p></div>';
-
-						// Find the innermost element and feed with content.
-						// Can be different according to the media type!
-						lightcase.get('contentInner').children().html(content);
-						// Do a resize now after filling in the content
-						lightcase.resize();
-					}
-				}
-			});
-		});
-	});
-</script>
-
-
 <?php
 
 	// Now that we are just before the form starts, we can output any errors we might have pushed into the error-array.
