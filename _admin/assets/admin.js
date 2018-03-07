@@ -372,7 +372,7 @@ $(function() {
 		//hljs.initHighlightingOnLoad();
 
  		// On the fly
- 		$('.btn.lightcaseHtml').click(function(event) {
+ 		$('a[data-rel=lightcase]').click(function(event) {
  			event.preventDefault();
 
  			lightcase.start({
