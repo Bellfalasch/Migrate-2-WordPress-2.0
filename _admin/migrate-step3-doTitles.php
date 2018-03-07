@@ -25,7 +25,7 @@
 <?php include('_header.php'); ?>
 
 <link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/highlight/default.css">
-<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/css/lightcase.css">
+<link rel="stylesheet" href="<?= $SYS_pageroot ?>assets/lightcase/css/lightcase.css">
 <script src="<?= $SYS_pageroot ?>assets/highlight/highlight.pack.js"></script>
 <script src="<?= $SYS_pageroot ?>assets/lightcase/js/lightcase.js"></script>
 <script>
