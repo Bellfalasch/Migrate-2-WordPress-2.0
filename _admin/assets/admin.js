@@ -305,7 +305,7 @@ $(function() {
 	});
 
 	// Make table sortable
-	if ( $("body.migrate-step7") ) {
+	if ( $("body.migrate-step7").length ) {
 		// List with handle
 		var pageTable = document.getElementById("pageTableBody");
 		var sortable = Sortable.create(pageTable, {
@@ -368,7 +368,7 @@ $(function() {
 	});
 
 
- 	if ( $("body.migrate-step3-doTitles") ) {
+ 	if ( $("body.migrate-step3-doTitles").length ) {
 		//hljs.initHighlightingOnLoad();
 
  		// On the fly
