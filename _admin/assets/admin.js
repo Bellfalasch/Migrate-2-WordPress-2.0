@@ -372,14 +372,15 @@ $(function() {
 		// On the fly
  		$('a[data-rel=lightcase]').click(function(event) {
  			event.preventDefault();
+			var button = this;
 
 			var post_to = $('#pageTable').attr("data-ajax-html");
 			var html = "";
 			$.post(
 				post_to,
 				{
-					type: this.attr('data-type'),
-					id: this.attr('data-id')
+					type: button.attr('data-type'),
+					id: button.attr('data-id')
 				}
 			)
 			.done(function(res) {
