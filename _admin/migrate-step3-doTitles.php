@@ -273,7 +273,7 @@
 ?>
 
 <h3>Current structure</h3>
-<table id="pageTable">
+<table id="pageTable" data-ajax-html="<?= $SYS_sysroot ?>_admin/ajax/getHtml.php">
 	<thead>
 		<th>Title</th>
 		<th>Slug</th>
@@ -326,12 +326,11 @@ while ( $row = $result->fetch_object() )
 		echo $url;
 	}
 	echo "</td>";
-	echo "<td><a href=\"#\" class=\"lightcaseHtml btn btn-mini\" data-id=\"" . $row->id . "\" data-rel=\"lightcase\" title=\"Full HTML for '" . $title . "'\">See full HTML</a></td>";
-	echo "<td><a href=\"#\" class=\"btn btn-mini\">See stripped</a></td>";
+	echo "<td><a href=\"#\" class=\"lightcaseHtml btn btn-mini\" data-type=\"full\" data-id=\"" . $row->id . "\" data-rel=\"lightcase\" title=\"Full HTML for '" . $title . "'\">See full HTML</a></td>";
+	echo "<td><a href=\"#\" class=\"btn btn-mini\" data-type=\"stripped\" data-id=\"" . $row->id . "\" data-rel=\"lightcase\" title=\"Stripped down HTML for '" . $title . "'\">See stripped</a></td>";
 
 	echo '</tr>';
 }
-//<pre><code class="html">...</code></pre>
 ?>
 	</tbody>
 </table>

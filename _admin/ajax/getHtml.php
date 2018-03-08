@@ -2,7 +2,7 @@
 	header('content-type: text/html; charset: utf-8');
 	/* PAGE CALLED WITH AJAX - ONLY */
 ?>
-<?php require('_global.php'); ?>
+<?php require_once('../_global.php'); ?>
 <?php
 
 	////////////////////////////////////////////////////////
@@ -11,7 +11,7 @@
 	if (ISPOST)
 	{
 		$PAGE_dbid = formget("id"); // page id
-		$field = formget("field");
+		$type = formget("type");
 
 		// If no errors:
 		if ( $PAGE_dbid > 0 ) {
@@ -26,11 +26,12 @@
 			{
 				$row = $result->fetch_object();
 
-				if ( $field === "full" ) {
-					echo $row->html;
+				if ( $type === "full" ) {
+					$html = $row->html;
 				} else {
-					echo $row->content;
+					$html = $row->content;
 				}
+				echo htmlentities( $html, ENT_COMPAT, 'UTF-8', false );
 
 			} else {
 				echo "Couldn't find the page!";

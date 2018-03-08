@@ -369,11 +369,25 @@ $(function() {
 
 
  	if ( $("body.migrate-step3-doTitles").length ) {
-		//hljs.initHighlightingOnLoad();
-
- 		// On the fly
+		// On the fly
  		$('a[data-rel=lightcase]').click(function(event) {
  			event.preventDefault();
+
+			var post_to = $('#pageTable').attr("data-ajax-html");
+			var html = "";
+			$.post(
+				post_to,
+				{
+					type: this.attr('data-type'),
+					id: this.attr('data-id')
+				}
+			)
+			.done(function(res) {
+				html = res;
+			})
+			.fail(function() {
+				html = "Failed to retreive the HTML you where looking for =/"
+			});
 
  			lightcase.start({
  				href: '#',
@@ -381,13 +395,16 @@ $(function() {
  				maxHeight: 400,
  				onFinish: {
  					injectContent: function () {
- 						var content = '<div style="text-align: center;"><h4>On the fly!</h4><p>Yes, right! This popup was called without any DOM object and initialization before by using the tag attributes or so. A common use case for using this could be to automatically invoke a popup after few time, or if lightcase not plays the lead but for instance just needs to show a note, accepting or refusing policy etc.<br><br>Important for this is to set <b>href: \'#\'</b> in your options to open a blank box which you can fill with content afterwards by using the <b>onFinish hook</b>.</p></div>';
+ 						var content = '<pre><code class="html">' . html . '</code></pre>';
 
  						// Find the innermost element and feed with content.
  						// Can be different according to the media type!
  						lightcase.get('contentInner').children().html(content);
  						// Do a resize now after filling in the content
  						lightcase.resize();
+
+						// Syntax highlighting
+						hljs.initHighlightingOnLoad();
  					}
  				}
  			});
