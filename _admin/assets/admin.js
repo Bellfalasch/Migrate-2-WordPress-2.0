@@ -386,7 +386,7 @@ $(function() {
 				html = res;
 			})
 			.fail(function() {
-				html = "Failed to retreive the HTML you where looking for =/"
+				html = "Failed to retreive the HTML you where looking for =/";
 			});
 
  			lightcase.start({
@@ -395,7 +395,7 @@ $(function() {
  				maxHeight: 400,
  				onFinish: {
  					injectContent: function () {
- 						var content = '<pre><code class="html">' . html . '</code></pre>';
+ 						var content = '<pre><code class="html">' + html + '</code></pre>';
 
  						// Find the innermost element and feed with content.
  						// Can be different according to the media type!
