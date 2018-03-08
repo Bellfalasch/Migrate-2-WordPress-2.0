@@ -273,7 +273,7 @@
 ?>
 
 <h3>Current structure</h3>
-<table id="pageTable" data-ajax-html="<?= $SYS_pageroot ?>_admin/ajax/getHtml.php">
+<table id="pageTable" data-ajax-html="<?= $SYS_pageroot ?>ajax/getHtml.php">
 	<thead>
 		<th>Title</th>
 		<th>Slug</th>
