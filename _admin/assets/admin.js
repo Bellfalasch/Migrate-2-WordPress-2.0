@@ -372,10 +372,12 @@ $(function() {
 		// On the fly
  		$('a[data-rel=lightcase]').click(function(event) {
  			event.preventDefault();
-			var button = this;
 
+			var button = $(this);
 			var post_to = $('#pageTable').attr("data-ajax-html");
 			var html = "";
+
+			// Let's fetch the HTML we're after
 			$.post(
 				post_to,
 				{
