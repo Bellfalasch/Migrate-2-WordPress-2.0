@@ -49,7 +49,7 @@
 		// If we get no errors, extract the form values.
 		if (empty($SYS_errors)) {
 			$regex = $PAGE_form[0]["content"];
-			$regex = str_replace('/', '\/', $regex);
+			//$regex = str_replace('/', '\/', $regex);
 			$target = formGet('target') === "stripped" ? 'content' : 'html';
 		}
 
