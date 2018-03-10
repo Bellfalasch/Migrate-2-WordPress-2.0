@@ -48,7 +48,8 @@
 
 		// If we get no errors, extract the form values.
 		if (empty($SYS_errors)) {
-			$splitcode = $PAGE_form[0]["content"];
+			$regex = $PAGE_form[0]["content"];
+			$target = formGet('target') === "stripped" ? 'content' : 'html';
 		}
 
 	}
@@ -106,7 +107,7 @@
 	///////////////////////////////////////////////////
 
 	if (ISPOST) {
-
+/*
 		$result = db_getHtmlFromPage( array(
 						'site' => $PAGE_siteid,
 						'id' => $split_id
@@ -262,7 +263,7 @@
 			}
 
 		}
-
+*/
 	}
 
 
@@ -272,16 +273,17 @@
 	{
 ?>
 
-<h3>Current structure</h3>
-<table id="pageTable" data-ajax-html="<?= $SYS_pageroot ?>ajax/getHtml.php">
-	<thead>
-		<th>Title</th>
-		<th>Slug</th>
-		<th>URL</th>
-		<th>-</th>
-		<th>-</th>
-	</thead>
-	<tbody>
+<h3><?php if (ISPOST) { ?>Suggested<?php } else { ?>Current<?php } ?> structure</h3>
+<form method="post" action="">
+	<table id="pageTable" data-ajax-html="<?= $SYS_pageroot ?>ajax/getHtml.php">
+		<thead>
+			<th>Title</th>
+			<th>Slug</th>
+			<th>URL</th>
+			<th>-</th>
+			<th>-</th>
+		</thead>
+		<tbody>
 
 <?php
 
@@ -314,8 +316,40 @@ while ( $row = $result->fetch_object() )
 		$title = "<em>- Unknown -</em>";
 	}
 
-	echo "<td>" . $title . "</td>";
-	echo "<td>" . $row->page_slug . "</td>";
+	if (ISPOST) {
+		$thisPage = db_getHtmlFromPage( array(
+				'site' => $PAGE_siteid,
+				'id' => $row->id
+		));
+		if (!is_null($thisPage))
+		{
+			$rows = $thisPage->fetch_object();
+
+			if ( $target === "html" ) {
+				$html = $rows->html;
+			} else {
+				$html = $rows->content;
+			}
+		}
+		// TODO: perform regex on the $html variable.
+//		$regex
+//		$arr_content = preg_split( "/" . $splitcode . "/Ui", $codeoutput ); // Find the content
+//		preg_match_all( "/" . $splitcode . "/Ui", $codeoutput, $arr_titles ); // Find the names//titles
+
+		$newTitle = "Not Implemented Yet";
+		$newSlug = fn_getSlugFromTitle($newTitle);
+	}
+
+	echo "<td>";
+	if (ISPOST) { echo '<input type="text" name="title-' . $row->id . '" value="' . $newTitle . '" /> <span class="muted" style="text-decoration:line-through;">'; }
+	echo $title;
+	if (ISPOST) { echo '</span>'; }
+	echo "</td>";
+	echo "<td>";
+	if (ISPOST) { echo '<input type="text" name="slug-' . $row->id . '" value="' . $newSlug . '" /> <span class="muted" style="text-decoration:line-through;">'; }
+	echo $row->page_slug;
+	if (ISPOST) { echo '</span>'; }
+	echo "</td>";
 
 	echo "<td>";
 	if ( $row->crawled == "1" ) {
@@ -332,8 +366,13 @@ while ( $row = $result->fetch_object() )
 	echo '</tr>';
 }
 ?>
-	</tbody>
-</table>
+		</tbody>
+	</table>
+<?php if (ISPOST) { ?>
+	<input type="submit" name="titles" value="Save changes" class="btn btn-primary" />
+	<a href="<?= $SYS_pageroot ?>migrate-step3-doTitles.php" class="btn">Cancel</a>
+<?php } ?>
+</form>
 
 <?php } ?>
 	</div>
