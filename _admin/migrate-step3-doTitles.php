@@ -49,6 +49,7 @@
 		// If we get no errors, extract the form values.
 		if (empty($SYS_errors)) {
 			$regex = $PAGE_form[0]["content"];
+			$regex = str_replace('/', '\/', $regex);
 			$target = formGet('target') === "stripped" ? 'content' : 'html';
 		}
 
@@ -331,12 +332,10 @@ while ( $row = $result->fetch_object() )
 				$html = $rows->content;
 			}
 		}
-		// TODO: perform regex on the $html variable.
-//		$regex
-//		$arr_content = preg_split( "/" . $splitcode . "/Ui", $codeoutput ); // Find the content
-//		preg_match_all( "/" . $splitcode . "/Ui", $codeoutput, $arr_titles ); // Find the names//titles
 
-		$newTitle = "Not Implemented Yet";
+		preg_match( "/" . $regex . "/Ui", $html, $matches ); // Find the names//titles
+
+		$newTitle = $matches[1];
 		$newSlug = fn_getSlugFromTitle($newTitle);
 	}
 
