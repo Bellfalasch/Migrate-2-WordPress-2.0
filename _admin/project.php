@@ -314,6 +314,7 @@
 
 					<li class="span4">
 						<div class="thumbnail">
+							<a href="<?= $SYS_pageself ?>?id=<?= $row->id ?>" class="edit"><i class="icon-edit"></i> Edit</a>
 							<h3>
 								<a href="<?= $SYS_pageself ?>?id=<?= $row->id ?>"><?= $row->name ?></a>
 							</h3>
@@ -322,6 +323,7 @@
 								Step: <span class="badge <?php if ($row->step == 8) { echo 'badge-success'; } else if ($row->step > 0 && $row->step < 8) { echo 'badge-inverse'; } ?>"><?= $row->step ?></span><br />
 								Pages: <span class="badge badge-inverse"><?= $row->pages ?></span>
 							</p>
+							<a href="<?= $SYS_pageroot ?>migrate-select.php?project=<?= $row->id ?>" class="select">Work with this project</a>
 						</div>
 					</li>
 

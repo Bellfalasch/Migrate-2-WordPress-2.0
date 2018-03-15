@@ -118,7 +118,7 @@ textarea.large {
 
 
 
-/* Navbar från bootstrap på github */
+/* Navbar frÃ¥n bootstrap pÃ¥ github */
 .navbar-fixed-top .brand {
   padding-right: 0;
   padding-left: 0;
@@ -482,4 +482,16 @@ td.move-handle {
 }
 .centered {
 	text-align: center;
+}
+/* Custom buttons/toggles on thumbnail elements/boxes */
+.thumbnail .edit {
+	float: right;
+}
+.thumbnail .select {
+	display: block;
+	background-color: #52c54b;
+	margin: -4px;
+	padding: 12px;
+	color: white;
+	font-weight: bold;
 }
