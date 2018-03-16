@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <?php
 
+	if (!isset($PAGE_sitestep)) {
+		$PAGE_sitestep = -1;
+	}
+
 	// Push some debugging data to the footer:
 	pushDebug("
 			SYS_folder: $SYS_folder -
 			SYS_root: $SYS_root -
 			SYS_incroot: $SYS_incroot -
-			SYS_script: $SYS_script
+			SYS_script: $SYS_script -
+			PAGE_sitestep: $PAGE_sitestep -
+			ISPOST: " . ISPOST . "
 			");
 
 	if (isset($_SESSION['username'])) {
@@ -21,9 +27,6 @@
 				");
 	}
 
-	if (!isset($PAGE_sitestep)) {
-		$PAGE_sitestep = -1;
-	}
 
 ?><html>
 <head>
