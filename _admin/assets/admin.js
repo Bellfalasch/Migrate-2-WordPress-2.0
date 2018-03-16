@@ -394,8 +394,8 @@ $(function() {
 
  			lightcase.start({
  				href: '#',
- 				maxWidth: 640,
- 				maxHeight: 400,
+ 				maxWidth: 960,
+ 				maxHeight: 600,
  				onFinish: {
  					injectContent: function () {
  						var content = '<pre><code class="html">' + html + '</code></pre>';
