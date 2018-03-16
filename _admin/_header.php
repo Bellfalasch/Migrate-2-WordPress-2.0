@@ -114,6 +114,11 @@
 	$openStepsAfter1 = ($PAGE_sitestep === 0 && formGet("save_crawl") === "Run crawl");
 	$openStepsAfter2 = ($PAGE_sitestep === 1 && formGet("save_needle") === "Run needles");
 	$openStepsAfter8 = ($PAGE_sitestep === 7 && formGet("save_finalize") === "Run Finalize");
+	pushDebug("
+			openStepsAfter1: $openStepsAfter1 -
+			openStepsAfter2: $openStepsAfter2 -
+			openStepsAfter8: $openStepsAfter8
+			");
 ?>
 					<?php if ($PAGE_siteid > 0 && ($PAGE_sitestep >= 1 || $openStepsAfter1)) { ?>
 						<li<?php flagAsActiveOn("step2") ?>><a href="<?= $SYS_pageroot ?>migrate-step2.php">2: Strip</a></li>
