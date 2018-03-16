@@ -16,7 +16,7 @@
 		{
 //			$date = new DateTime();
 			$now = time() - 2 * 60 * 60;
-			
+
 			$fullurl = rtrim( $PAGE_sitenewurl, "/" );
 			$folders = explode("/", $fullurl);
 			array_pop($folders); // Remove last
@@ -304,69 +304,68 @@ $XML_footer</pre>";
 	<h2>Recommended WordPress plugins</h2>
 	<p>
 		After you've added all your content to WordPress, a huge task remains: to get it production ready.
-		To aid you in this task WordPress has many good plugins you can use. Here's a list of a few of them that
-		I use to add thumbnails, change page templates, etc, in a jiffy.
+		To aid you in this task WordPress has many good plugins you can use. Here's a list of a few of them that I've depended a lot on to get my sites production ready. This recommendations are purely based on getting the finishing touches on your site, loads of other plugins are also needed for generally running a WP-site.
 	</p>
 
 	<ul class="thumbnails">
-		<li class="span4">
-			<a href="#" class="thumbnail">
-				<img src="" alt="Image" />
-			</a>
-			<h4>Thumbnail label</h4>
-			<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+		<!--<li class="span4">
+			<h4>Advanced Custom Fields</h4>
 			<p class="text-center">
-				<a href="#" class="btn btn-small" target="_blank">Check it out!</a>
+				<a href="https://wordpress.org/plugins/advanced-custom-fields/" class="btn btn-small" target="_blank">Check it out!</a>
+			</p>
+		</li>-->
+		<li class="span4">
+			<h4>Featured Image Admin Thumb</h4>
+			<p class="text-center">
+				<a href="https://wordpress.org/plugins/featured-image-admin-thumb-fiat/" class="btn btn-small" target="_blank">Check it out!</a>
+			</p>
+		</li><!--
+		<li class="span4">
+			<h4>HTML Editor Syntax Highlighter</h4>
+			<p class="text-center">
+				<a href="https://wordpress.org/plugins/html-editor-syntax-highlighter/" class="btn btn-small" target="_blank">Check it out!</a>
+			</p>
+		</li>-->
+		<li class="span4">
+			<h4>New Blog Defaults (CETS)</h4>
+			<p class="text-center">
+				<a href="https://wordpress.org/plugins/wpmu-new-blog-defaults/" class="btn btn-small" target="_blank">Check it out!</a>
 			</p>
 		</li>
 		<li class="span4">
-			<a href="#" class="thumbnail">
-				<img src="" alt="Image" />
-			</a>
-			<h4>Thumbnail label</h4>
-			<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+			<h4>Redirection</h4>
 			<p class="text-center">
-				<a href="#" class="btn btn-small" target="_blank">Check it out!</a>
+				<a href="https://wordpress.org/plugins/redirection/" class="btn btn-small" target="_blank">Check it out!</a>
 			</p>
 		</li>
 		<li class="span4">
-			<a href="#" class="thumbnail">
-				<img src="" alt="Image" />
-			</a>
-			<h4>Thumbnail label</h4>
-			<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+			<h4>Simple Page Ordering</h4>
 			<p class="text-center">
-				<a href="#" class="btn btn-small" target="_blank">Check it out!</a>
+				<a href="https://wordpress.org/plugins/simple-page-ordering/" class="btn btn-small" target="_blank">Check it out!</a>
 			</p>
 		</li>
 		<li class="span4">
-			<a href="#" class="thumbnail">
-				<img src="" alt="Image" />
-			</a>
-			<h4>Thumbnail label</h4>
-			<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+			<h4>Swifty Page Manager</h4>
 			<p class="text-center">
-				<a href="#" class="btn btn-small" target="_blank">Check it out!</a>
+				<a href="https://wordpress.org/plugins/swifty-page-manager/" class="btn btn-small" target="_blank">Check it out!</a>
 			</p>
 		</li>
 		<li class="span4">
-			<a href="#" class="thumbnail">
-				<img src="" alt="Image" />
-			</a>
-			<h4>Thumbnail label</h4>
-			<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+			<h4>WordPress Importer</h4>
 			<p class="text-center">
-				<a href="#" class="btn btn-small" target="_blank">Check it out!</a>
+				<a href="https://wordpress.org/plugins/wordpress-importer/" class="btn btn-small" target="_blank">Check it out!</a>
 			</p>
 		</li>
 		<li class="span4">
-			<a href="#" class="thumbnail">
-				<img src="" alt="Image" />
-			</a>
-			<h4>Thumbnail label</h4>
-			<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+			<h4>Search & Replace</h4>
 			<p class="text-center">
-				<a href="#" class="btn btn-small" target="_blank">Check it out!</a>
+				<a href="https://wordpress.org/plugins/search-and-replace/" class="btn btn-small" target="_blank">Check it out!</a>
+			</p>
+		</li>
+		<li class="span4">
+			<h4>Regex Search</h4>
+			<p class="text-center">
+				<a href="https://wordpress.org/plugins/search-regex/" class="btn btn-small" target="_blank">Check it out!</a>
 			</p>
 		</li>
 	</ul>
