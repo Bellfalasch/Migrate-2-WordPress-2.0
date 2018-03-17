@@ -116,6 +116,7 @@
 			$slug = null;
 			$updTitle = false;
 			$updSlug = false;
+			$return = 0;
 			if (isset($_POST['page-title'][$key])) {
 				$title = $_POST['page-title'][$key];
 				$updTitle = true;
@@ -137,7 +138,7 @@
 					'id' => $id,
 					'site' => $PAGE_siteid
 				));
-			} else if (!$updTitle && !$updSlug) {
+			} else if (!$updTitle && $updSlug) {
 				$return = db_setOnlySlug( array(
 					'slug' => $slug,
 					'id' => $id,
@@ -145,7 +146,7 @@
 				));
 			}
 			if ($return > 0) {
-				echo "<strong>Saved:</strong>" . $id . " - " . $title . " - " . $slug . "<br />";
+				echo "<strong>Saved:</strong> " . $id . " - " . $title . " - " . $slug . "<br />";
 			}
 		}
 	}
