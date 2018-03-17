@@ -176,16 +176,15 @@ if (qsGet("do") !== "save") {
 $i = 1; // Used for tabindexing on the input fields, so not a normal row incrementor
 while ( $row = $result->fetch_object() )
 {
-	$addclass = "";
+	// Deleted page?
+	if ( $row->deleted ) {
+		continue;
+	}
 
+	$addclass = "";
 	// Add child-class to children so you see it visually
 	if ( $row->page_parent > 0 ) {
 		$addclass = "child";
-	}
-
-	// Deleted page?
-	if ( $row->deleted ) {
-		$addclass .= " hidden";
 	}
 
 	echo "<tr";
