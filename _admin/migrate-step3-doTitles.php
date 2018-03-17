@@ -124,26 +124,28 @@
 				$slug = $_POST['page-slug'][$key];
 				$updSlug = true;
 			}
-			echo $id . " - " . $title . " - " . $slug . "<br />";
 			if ($updTitle && $updSlug) {
-				$return = db_setTitleAndSlug({
+				$return = db_setTitleAndSlug( array(
 					'title' => $title,
 					'slug' => $slug,
 					'id' => $id,
 					'site' => $PAGE_siteid
-				});
+				));
 			} else if ($updTitle && !$updSlug) {
-				$return = db_setOnlyTitle({
+				$return = db_setOnlyTitle( array(
 					'title' => $title,
 					'id' => $id,
 					'site' => $PAGE_siteid
-				});
+				));
 			} else if (!$updTitle && !$updSlug) {
-				$return = db_setOnlySlug({
+				$return = db_setOnlySlug( array(
 					'slug' => $slug,
 					'id' => $id,
 					'site' => $PAGE_siteid
-				});
+				));
+			}
+			if ($return > 0) {
+				echo "<strong>Saved:</strong>" . $id . " - " . $title . " - " . $slug . "<br />";
 			}
 		}
 	}
