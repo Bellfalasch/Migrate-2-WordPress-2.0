@@ -58,6 +58,7 @@
 ?>
 
 <h2>Title guesser</h2>
+<?php if (qsGet("do") !== "save") { ?>
 <form class="well form" action="" method="post">
 
 	<div class="row">
@@ -99,6 +100,7 @@
 	</div>
 
 </form>
+<?php } ?>
 
 
 <?php
@@ -109,13 +111,44 @@
 
 	if (ISPOST && qsGet("do") === "save") {
 		foreach($_POST['page-id'] as $key => $val) {
-			$id  = $val;
-			$title = $_POST['page-title'][$key];
-			$slug = $_POST['page-slug'][$key];
+			$id = $val;
+			$title = null;
+			$slug = null;
+			$updTitle = false;
+			$updSlug = false;
+			if (isset($_POST['page-title'][$key])) {
+				$title = $_POST['page-title'][$key];
+				$updTitle = true;
+			}
+			if (isset($_POST['page-slug'][$key])) {
+				$slug = $_POST['page-slug'][$key];
+				$updSlug = true;
+			}
 			echo $id . " - " . $title . " - " . $slug . "<br />";
+			if ($updTitle && $updSlug) {
+				$return = db_setTitleAndSlug({
+					'title' => $title,
+					'slug' => $slug,
+					'id' => $id,
+					'site' => $PAGE_siteid
+				});
+			} else if ($updTitle && !$updSlug) {
+				$return = db_setOnlyTitle({
+					'title' => $title,
+					'id' => $id,
+					'site' => $PAGE_siteid
+				});
+			} else if (!$updTitle && !$updSlug) {
+				$return = db_setOnlySlug({
+					'slug' => $slug,
+					'id' => $id,
+					'site' => $PAGE_siteid
+				});
+			}
 		}
 	}
 
+if (qsGet("do") !== "save") {
 
 	$result = db_getPagesFromSite( array('site'=>$PAGE_siteid) );
 
@@ -224,6 +257,7 @@ while ( $row = $result->fetch_object() )
 </form>
 
 <?php } ?>
+<?php } /* QS do = save */ ?>
 	</div>
 </div>
 
