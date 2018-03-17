@@ -39,7 +39,7 @@
 <?php
 
 	///////////////////////////////////////////////////
-	// Handle posted split form setting/value
+	// Handle posted regex
 	///////////////////////////////////////////////////
 
 	if (ISPOST)
@@ -104,167 +104,16 @@
 <?php
 
 	///////////////////////////////////////////////////
-	// Handle splitting of pages (database-part)
+	// Handle saving of the suggested names.
 	///////////////////////////////////////////////////
 
-	if (ISPOST) {
-/*
-		$result = db_getHtmlFromPage( array(
-						'site' => $PAGE_siteid,
-						'id' => $split_id
-					) );
-
-		if ( isset( $result ) )
-		{
-
-			$row = $result->fetch_object();
-
-			// Waterfall-choose the best (cleanest) html from the database depending on which is available
-			if ( !is_null($row->clean) ) {
-
-				$codeoutput = $row->clean;
-
-			} elseif ( !is_null($row->tidy) ) {
-
-				$codeoutput = $row->tidy;
-
-			} elseif ( !is_null($row->wash) ) {
-
-				$codeoutput = $row->wash;
-
-			} else {
-
-				$codeoutput = $row->content;
-
-			}
-
-			$baseurl    = $row->page;
-			$baseid     = $row->id;
-
-			if (isset($splitcode)) {
-
-				$arr_content = array();
-				$arr_titles  = array();
-
-				$arr_content = preg_split( "/" . $splitcode . "/Ui", $codeoutput ); // Find the content
-				preg_match_all( "/" . $splitcode . "/Ui", $codeoutput, $arr_titles ); // Find the names//titles
-
-				echo "<h3>We found these sub pages:</h3>";
-
-				// Did we match anything?
-				if ( $arr_content !== false && $arr_titles !== false ) {
-
-					$length_arr = count($arr_content);
-					$length_title = count($arr_titles[1]);
-
-					$last_title = "";
-					$title = "";
-					$slug = "";
-
-					for ($i = 0; $i < $length_arr; $i++ ) {
-
-						$show_output = true;
-
-						if ($i <= $length_title && $i+1 < $length_arr) {
-
-							$title   = $arr_titles[1][$i];
-							$last_title = $title;
-
-							$content = $arr_content[$i+1];
-
-							// Setting tells us to keep the entire match inside the content of new page
-							if ( formGet('keep') == "yes") {
-								$content = $arr_titles[0][$i] . $content;
-							}
-
-							// Convert page title into something more URL friendly
-							$slug = fn_getSlugFromTitle($title);
-
-							$content_db = trim( $content );
-
-							if (formGet("split") == "Run split") {
-
-								$result = db_setNewPage( array(
-											'site' => $PAGE_siteid,
-											'html' => 'CREATED BY SPLIT-FUNCTION - not from crawl!',
-											'page' => $baseurl . '/' . $slug,
-											'content' => $content_db,
-											'page_slug' => $slug,
-											'page_parent' => $baseid,
-											'crawled' => 0,
-											'title' => $title
-										) );
-
-								if ( $result > 0 ) {
-
-									//echo '<div class="alert alert-success"><h4>Save successful</h4><p>New page for ' . $title . ' created, id: ' . $result . '</p></div>';
-									fn_infobox("Save successful", 'New page for ' . $title . ' created, id: ' . $result,'');
-
-								}
-							} else {
-
-							}
-
-						} else {
-
-							// Code for handling EOF on the page when split matches has been found earlier
-							if ( $last_title == $title && $title != "" ) {
-								$show_output = false;
-								fn_infobox("No more matches!", "That's all the possible matching subpages we could find on the page you submitted. Tweak your 'split-code' if this isn't what you wanted.", ' alert-info');
-								// Output a button so the user can return to the main table with all data
-								if (formGet("split") == "Run split") {
-									echo "<p class=\"text-center\"><a href=\"" . $SYS_pageself . "\" class=\"btn btn-primary btn-large\">Cool, return to page list!</a></p>";
-								}
-							}
-
-							$title = "NO MATCHING TITLE FOR THIS PAGE!!!"; // This should skip the split
-							$content = "no matching content for this page!";
-
-							// Error message for when we found zero hits of that string on this page
-							if ( $show_output ) {
-								//fn_infobox("Couldn't save", "New page for following code could not be created!<br />If this error appears at the end of a list of new, splitted, pages then it just means we didn't find any more pages.", 'error');
-								$show_output = false;
-								fn_infobox("Nothing found", "The 'split-code' you submitted didn't exist anywhere on the current page. Try again!", 'error');
-							}
-
-						}
-
-						if ( $show_output ) {
-							echo "<h4>" . $title . "</h4>";
-							echo "<p><span class=\"text-info\">" . $baseurl . '/<strong>' . $slug . "</strong></span></p>";
-							echo "<pre>";
-
-							$content = htmlspecialchars($content, ENT_QUOTES, "UTF-8");
-							$content = trim( $content );
-
-							echo $content;
-							echo "</pre>";
-							if (formGet("split") == "Run split") {
-								//echo "<p><strong>Result:</strong> <span class=\"label label-success\">Saved</span></p>";
-							} else {
-								echo "<p><strong>Result:</strong> <span class=\"label label-important\">Not saved</span></p>";
-							}
-							echo "<hr />";
-						}
-
-					}
-
-				} else {
-					fn_infobox("Nothing found", "The 'split-code' you submitted didn't exist anywhere on the current page. Try again!", 'error');
-				}
-
-			} else {
-
-				$codeoutput = htmlspecialchars($codeoutput, ENT_QUOTES, "UTF-8");
-
-				echo "
-					<h4>Source code</h4>
-					<pre>" . $codeoutput . "</pre>";
-
-			}
-
+	if (ISPOST && qsGet("do") === "save") {
+		foreach($_POST['page-id'] as $key => $val) {
+			$id  = $val;
+			$title = $_POST['page-title'][$key];
+			$slug = $_POST['page-slug'][$key];
+			echo $id . " - " . $title . " - " . $slug . "<br />";
 		}
-*/
 	}
 
 
@@ -275,7 +124,7 @@
 ?>
 
 <h3><?php if (ISPOST) { ?>Suggested<?php } else { ?>Current<?php } ?> structure</h3>
-<form method="post" action="">
+<form method="post" action="?do=save">
 	<table id="pageTable" data-ajax-html="<?= $SYS_pageroot ?>ajax/getHtml.php">
 		<thead>
 			<th>Title</th>
@@ -340,12 +189,13 @@ while ( $row = $result->fetch_object() )
 	}
 
 	echo "<td>";
-	if (ISPOST) { echo '<input type="text" name="title-' . $row->id . '" value="' . $newTitle . '" /> <span class="muted" style="text-decoration:line-through;">'; }
+	if (ISPOST) { echo '<input type="hidden" name="page-id[]" value="' . $row->id . '" />'; }
+	if (ISPOST && $newTitle != $title) { echo '<input type="text" name="page-title[]" value="' . $newTitle . '" /> <span class="muted" style="text-decoration:line-through;">'; }
 	echo $title;
 	if (ISPOST) { echo '</span>'; }
 	echo "</td>";
 	echo "<td>";
-	if (ISPOST) { echo '<input type="text" name="slug-' . $row->id . '" value="' . $newSlug . '" /> <span class="muted" style="text-decoration:line-through;">'; }
+	if (ISPOST && $newSlug != $row->page_slug) { echo '<input type="text" name="page-slug[]" value="' . $newSlug . '" /> <span class="muted" style="text-decoration:line-through;">'; }
 	echo $row->page_slug;
 	if (ISPOST) { echo '</span>'; }
 	echo "</td>";
