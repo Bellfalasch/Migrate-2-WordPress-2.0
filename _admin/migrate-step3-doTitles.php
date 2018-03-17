@@ -117,11 +117,11 @@
 			$updTitle = false;
 			$updSlug = false;
 			$return = 0;
-			if (isset($_POST['page-title'][$key])) {
+			if (!empty($_POST['page-title'][$key])) {
 				$title = $_POST['page-title'][$key];
 				$updTitle = true;
 			}
-			if (isset($_POST['page-slug'][$key])) {
+			if (!empty($_POST['page-slug'][$key])) {
 				$slug = $_POST['page-slug'][$key];
 				$updSlug = true;
 			}
