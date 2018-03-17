@@ -197,15 +197,17 @@
 			  AND `site` = {$in['site']}
 			LIMIT 1
 		");
+	}
 
-		function db_setOnlySlug($in) { cleanup($in);
-			return db_MAIN("
-				UPDATE `migrate_content`
-				SET `page_slug` = {$in['slug']}
-				WHERE `id` = {$in['id']}
-				  AND `site` = {$in['site']}
-				LIMIT 1
-			");
+	function db_setOnlySlug($in) { cleanup($in);
+		return db_MAIN("
+			UPDATE `migrate_content`
+			SET `page_slug` = {$in['slug']}
+			WHERE `id` = {$in['id']}
+			  AND `site` = {$in['site']}
+			LIMIT 1
+		");
+	}
 
 	/* STEP 4 */
 	/* **************************************************************************** */
