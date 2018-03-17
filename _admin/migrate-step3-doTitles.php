@@ -132,13 +132,13 @@
 					'id' => $id,
 					'site' => $PAGE_siteid
 				));
-			} else if ($updTitle && !$updSlug) {
+			} elseif ($updTitle && !$updSlug) {
 				$return = db_setOnlyTitle( array(
 					'title' => $title,
 					'id' => $id,
 					'site' => $PAGE_siteid
 				));
-			} else if (!$updTitle && $updSlug) {
+			} elseif (!$updTitle && $updSlug) {
 				$return = db_setOnlySlug( array(
 					'slug' => $slug,
 					'id' => $id,
