@@ -254,7 +254,7 @@ while ( $row = $result->fetch_object() )
 	</table>
 <?php if (ISPOST) { ?>
 	<input type="submit" name="titles" value="Save changes" class="btn btn-primary" />
-	<a href="<?= $SYS_pageroot ?>migrate-step3-doTitles.php" class="btn">Cancel</a>
+	<a href="<?= $SYS_pageroot ?>migrate-step3-doTitles.php" class="muted" style="margin-left:20px;">Cancel</a>
 <?php } ?>
 </form>
 
