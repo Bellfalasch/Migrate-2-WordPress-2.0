@@ -284,8 +284,8 @@
 				$arr_content = array();
 				$arr_titles  = array();
 
-				$arr_content = preg_split( "/" . $splitcode . "/gmui", $codeoutput ); // Find the content
-				preg_match_all( "/" . $splitcode . "/gmui", $codeoutput, $arr_titles ); // Find the names//titles
+				$arr_content = preg_split( "/" . $splitcode . "/mui", $codeoutput ); // Find the content
+				preg_match_all( "/" . $splitcode . "/mui", $codeoutput, $arr_titles ); // Find the names//titles
 
 				//var_dump( $arr_content );
 				//var_dump( $arr_titles );
