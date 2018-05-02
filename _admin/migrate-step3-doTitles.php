@@ -93,7 +93,7 @@
 
 			<input type="submit" name="titles" value="Find titles" class="btn btn-primary" />
 
-			<a href="<?= $SYS_pageroot ?>migrate-step3.php" class="btn">Cancel</a>
+			<a href="<?= $SYS_pageroot ?>migrate-step3.php" class="muted" style="margin-left:20px;">Cancel</a>
 
 		</div>
 

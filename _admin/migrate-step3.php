@@ -226,7 +226,7 @@
 
 			<input type="submit" name="split" value="Test split" class="btn" />
 
-			<a href="<?= $SYS_pageself ?>" class="btn">Cancel split</a>
+			<a href="<?= $SYS_pageself ?>" class="muted" style="margin-left:20px;">Cancel split</a>
 
 		</div>
 
