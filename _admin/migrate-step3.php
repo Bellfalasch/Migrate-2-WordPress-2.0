@@ -458,14 +458,14 @@
 					fn_infobox("Nothing found", "The 'split-code' you submitted didn't exist anywhere on the current page. Try again!", 'error');
 				}
 
-			} else {
+			}
 
+			// Show the page's original HTML (handy for "debugging")
+			if (!$show_output) {
 				$codeoutput = htmlspecialchars($codeoutput, ENT_QUOTES, "UTF-8");
-
 				echo "
 					<h4>Source code</h4>
 					<pre>" . $codeoutput . "</pre>";
-
 			}
 
 		}
