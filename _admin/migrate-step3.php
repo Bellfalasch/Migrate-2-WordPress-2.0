@@ -271,6 +271,7 @@
 			} else {
 
 				$codeoutput = $row->content;
+				echo "using row->content";
 
 			}
 
