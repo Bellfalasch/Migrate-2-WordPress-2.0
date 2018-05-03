@@ -288,7 +288,11 @@
 				$arr_content = preg_split( "/" . $splitcode . "/u", $codeoutput ); // Find the content
 				preg_match_all( "/" . $splitcode . "/u", $codeoutput, $arr_titles ); // Find the names//titles
 
+				echo '<h2>$splitcode:</h2>';
+				var_dump( $splitcode );
+				echo '<h2>$arr_content:</h2>';
 				var_dump( $arr_content );
+				echo '<h2>$arr_titles:</h2>';
 				var_dump( $arr_titles );
 
 				// Pseudo:
