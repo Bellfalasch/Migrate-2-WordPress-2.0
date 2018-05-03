@@ -287,8 +287,8 @@
 				$arr_content = preg_split( "/" . $splitcode . "/mui", $codeoutput ); // Find the content
 				preg_match_all( "/" . $splitcode . "/mui", $codeoutput, $arr_titles ); // Find the names//titles
 
-				//var_dump( $arr_content );
-				//var_dump( $arr_titles );
+				var_dump( $arr_content );
+				var_dump( $arr_titles );
 
 				// Pseudo:
 				// arr_titles(1) innehåller match-array, början på 0.
