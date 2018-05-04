@@ -287,14 +287,14 @@
 
 				$arr_content = preg_split( "/" . $splitcode . "/u", $codeoutput ); // Find the content
 				preg_match_all( "/" . $splitcode . "/u", $codeoutput, $arr_titles ); // Find the names//titles
-
+/*
 				echo '<h2>$splitcode:</h2>';
 				var_dump( $splitcode );
 				echo '<h2>$arr_content:</h2>';
 				var_dump( $arr_content );
 				echo '<h2>$arr_titles:</h2>';
 				var_dump( $arr_titles );
-
+*/
 				// Pseudo:
 				// arr_titles(1) innehåller match-array, början på 0.
 				// arr_content(0) är all kod innan första match, arr_content(1) och upp alla matcher
