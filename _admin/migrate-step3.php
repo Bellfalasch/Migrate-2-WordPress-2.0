@@ -147,6 +147,8 @@
 					$splitcode = str_replace('/', '\/', $splitcode);
 					//$splitcode = str_replace('\'', '', $splitcode);
 
+					//echo htmlspecialchars($splitcode, ENT_QUOTES, "UTF-8");
+
 				} else {
 
 					pushError("No [?] added (or more than one), and we need that to find names for the new pages!");
